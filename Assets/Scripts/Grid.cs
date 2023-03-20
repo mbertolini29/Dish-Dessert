@@ -45,8 +45,5 @@ public class Grid : MonoBehaviour
         //como centramos la grilla?
 
         cell.name = string.Format("Dish[{0}][{1}]", x, z);
-
-
-
     }
 }
