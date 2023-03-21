@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Grid : MonoBehaviour
 {
-
     [Header("Grid Construction")]
     Cell[] cells; //conjunto de celdas
     public Cell cellPrefab; //celda individual
