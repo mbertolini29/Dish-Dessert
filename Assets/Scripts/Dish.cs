@@ -5,30 +5,35 @@ using UnityEngine;
 
 public class Dish : MonoBehaviour
 {
-    //cant de piezas
+    //Num de postre
     [SerializeField] int numCake;
+    //Cant de piezas del postre
     [SerializeField] int amountPiece; 
 
-    //tipo de postre
+    //Todos los tipos de postres
     [SerializeField] Cake[] cakePrefab;
 
-    //lista de postres a instanciar.
-    //public List<GameObject> createdDesserts;
-
+    //lista de postres a instanciar en cada plato
     public List<GameObject> createdCake;
+
+    [Header("Drag & Drog")]
+    public bool selected = false;
+    public Vector3 posInicial = new Vector3();
+
+    Vector3 mousePos;
 
     private void Start()
     {
-        //CreateDessert();
+
     }
 
     public void CreatedCake() //crea el postre.
     {
-        //elije el postre q quiere instanciar, al azar
+        //Elije el postre q quiere instanciar, al azar
         //UnityEngine.Random.Range(0, 2);
         numCake = UnityEngine.Random.Range(0, Enum.GetValues(typeof(typeCake)).Length);
 
-        //cuantas piezas
+        //Cuantas piezas
         //numPiece = UnityEngine.Random.Range(0, Enum.GetValues(typeof(AmountPiece)).Length);
         switch (numCake)
         {
@@ -43,17 +48,12 @@ public class Dish : MonoBehaviour
                 break;
         }
 
-        ////cada plato tiene que tener su lista de postres
+        //Cada plato tiene que tener su lista de postres
         createdCake = new List<GameObject>();
 
         for (int i = 0; i < amountPiece; i++)
         {
             //instanciar cada postre en su plato
-
-
-
-            //Cake cake = Instantiate(cakePrefab[numCake]);
-
             GameObject pieceCake = Instantiate<GameObject>(cakePrefab[numCake].pieceCake[i]);
 
             pieceCake.transform.SetParent(transform, false);
@@ -62,52 +62,32 @@ public class Dish : MonoBehaviour
                                                        transform.position.z);
             createdCake.Add(pieceCake);
         }
-
-
-        ////y lo instancia, por cada plato tal postre.
-        //foreach (var item in DishManager.instance.dishes)
-        //{
-        //    //obtener el postre
-        //    //Dessert postre1 = item.dessertPrefab[item.numDessert];
-
-        //    //cada plato tiene que tener su lista de postres
-        //    createdDesserts = new List<GameObject>();
-
-        //    //podria hacer una lista de postres.
-        //    for (int i = 0; i < item.amountPiece; i++)
-        //    {
-
-        //        //instanciar cada postre en su plato
-        //        //Dessert dessert = Instantiate<Dessert>(item.dessertPrefab[item.numDessert].desserts[i]);
-        //        GameObject dessert = item.dessertPrefab[item.numDessert].desserts[i];
-
-        //        this.transform.SetParent(transform, false);
-        //        //dessert.transform.position = 
-
-        //        Instantiate(dessert);
-
-        //        createdDesserts.Add(dessert);
-
-
-
-        //        //Dish dish = Instantiate<Dish>(dishPrefab);
-
-        //        ////en su posicion, y los haces hijo para mejor orden
-        //        //dish.transform.SetParent(transform, false);
-        //        //dish.transform.position = posDishes[i].position;
-
-        //        //postre1.desserts[i]                    
-        //    }
-
-
-        //obtenes la cant de porciones
-
-        //instanciar el postre en su plato correspondiente
-
-
-
-
     }
 
+    private void OnMouseOver()
+    {
+        //cuando presionas el objeto
+        if (Input.GetMouseButtonDown(0))
+        {
+            //sonido
+            //
+            selected = true;
+        }
+    }
+
+    Vector3 GetMousePos()
+    {
+        return Camera.main.WorldToScreenPoint(transform.position);
+    }
+
+    private void OnMouseDown()
+    {
+        mousePos = Input.mousePosition - GetMousePos();
+    }
+
+    private void OnMouseDrag()
+    {
+        transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition - mousePos);
+    }
 
 }

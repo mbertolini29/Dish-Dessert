@@ -45,4 +45,9 @@ public class Grid : MonoBehaviour
 
         cell.name = string.Format("Dish[{0}][{1}]", x, z);
     }
+
+    void SavePosGrid(Vector3 pos, int x, int z, int i)
+    {
+
+    }
 }

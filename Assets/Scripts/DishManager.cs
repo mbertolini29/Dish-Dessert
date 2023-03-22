@@ -8,7 +8,10 @@ public class DishManager : MonoBehaviour
 
     [SerializeField] Dish dishPrefab;
 
-    public List<Dish> dishes;
+    //lista total de platos instanciados.
+    public List<Dish> dishes; 
+
+    //posicion de platos de la parte inferior
     public Transform[] posDishes;
     //public int amountDish = 4;
 
@@ -20,35 +23,28 @@ public class DishManager : MonoBehaviour
     private void Start()
     {
         //tenes que instanciar 4 platos
-        //dish = new Dish();
+        CreateDish();    
+    }
 
+    void CreateDish()
+    {
         for (int i = 0; i < posDishes.Length; i++)
         {
             //instancias cada plato
             Dish dish = Instantiate<Dish>(dishPrefab);
 
-            //en su posicion, y los haces hijo para mejor orden
+            //los haces hijo para mejor orden
             dish.transform.SetParent(transform, false);
+            
+            //posicion del plato
             dish.transform.position = posDishes[i].position;
+            dish.posInicial = dish.transform.position;
 
+            //
             dish.CreatedCake();
 
             //guardas el postre
             dishes.Add(dish);
         }
-        
-        //en sus posiciones correctas.
-
-        //esos platos tiene que elegir, que tipo de postre quieren
-
-        //y cuando elegis el tipo de postre, tenes que elegir la cant de porciones.
-
-        //luego instanciarlo
-
-        //en orden a los platos, 1, 2, 3, 4
-
-        //luego cada plato, tiene su drag and drog, para mover, y empezar a jugar.
-
-        // cada celda de la grilla tiene su posicion, y su lugar para que el plato quede.
     }
 }
