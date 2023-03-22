@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5125520615779116534}
   - component: {fileID: 5125520615779116532}
   - component: {fileID: 5125520615779116535}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cylinder (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5125520615888579701}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Rosquilla (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 5125520617128166728}
   - component: {fileID: 5125520617128166726}
   - component: {fileID: 5125520617128166729}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cylinder (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

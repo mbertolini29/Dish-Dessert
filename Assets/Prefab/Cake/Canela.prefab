@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4828560947486270061}
   - component: {fileID: 5832672474446144251}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Canela
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -66,6 +66,10 @@ PrefabInstance:
       value: Canela (3)
       objectReference: {fileID: 0}
     - target: {fileID: 6468475361355564438, guid: 9e6fcb762d4a2fd48a4e8014f222b3c0, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6468475361355564438, guid: 9e6fcb762d4a2fd48a4e8014f222b3c0, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -113,6 +117,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6468475362021350113, guid: 9e6fcb762d4a2fd48a4e8014f222b3c0, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9e6fcb762d4a2fd48a4e8014f222b3c0, type: 3}
 --- !u!4 &4828560946847900614 stripped
@@ -130,6 +138,10 @@ PrefabInstance:
     - target: {fileID: 8249725040718284990, guid: 8be3961162886e344be1b411e3229540, type: 3}
       propertyPath: m_Name
       value: Canela (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8249725040718284990, guid: 8be3961162886e344be1b411e3229540, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8249725040718284990, guid: 8be3961162886e344be1b411e3229540, type: 3}
       propertyPath: m_IsActive
@@ -179,6 +191,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8249725040899832774, guid: 8be3961162886e344be1b411e3229540, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8be3961162886e344be1b411e3229540, type: 3}
 --- !u!4 &4828560947164237897 stripped
@@ -196,6 +212,10 @@ PrefabInstance:
     - target: {fileID: 3913617058830612524, guid: b20517856444a0d4caee477e8107e499, type: 3}
       propertyPath: m_Name
       value: Canela (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3913617058830612524, guid: b20517856444a0d4caee477e8107e499, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3913617058830612524, guid: b20517856444a0d4caee477e8107e499, type: 3}
       propertyPath: m_IsActive
@@ -245,6 +265,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3913617058987928754, guid: b20517856444a0d4caee477e8107e499, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b20517856444a0d4caee477e8107e499, type: 3}
 --- !u!4 &4828560946784054553 stripped
@@ -262,6 +286,10 @@ PrefabInstance:
     - target: {fileID: 4339394559091929376, guid: b7872e67e1d3fe245a846b1749798fb5, type: 3}
       propertyPath: m_Name
       value: Canela (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4339394559091929376, guid: b7872e67e1d3fe245a846b1749798fb5, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4339394559091929376, guid: b7872e67e1d3fe245a846b1749798fb5, type: 3}
       propertyPath: m_IsActive
@@ -310,6 +338,10 @@ PrefabInstance:
     - target: {fileID: 4339394559091929377, guid: b7872e67e1d3fe245a846b1749798fb5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4339394559586136530, guid: b7872e67e1d3fe245a846b1749798fb5, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7872e67e1d3fe245a846b1749798fb5, type: 3}

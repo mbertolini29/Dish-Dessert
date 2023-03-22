@@ -88,6 +88,12 @@ public class Dish : MonoBehaviour
     private void OnMouseDrag()
     {
         transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition - mousePos);
+
+        Vector3 pos;
+        pos.x = transform.position.x; 
+        pos.y = 2f; 
+        pos.z = transform.position.z;
+        transform.position = pos;
     }
 
 }

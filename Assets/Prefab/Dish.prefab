@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1737169475693640681}
   - component: {fileID: 7848514361945639682}
   - component: {fileID: 3285186886244161441}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Dish
   m_TagString: Untagged
   m_Icon: {fileID: 0}

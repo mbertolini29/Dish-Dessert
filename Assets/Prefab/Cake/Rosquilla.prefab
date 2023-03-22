@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6922219314238164794}
   - component: {fileID: -2188237222983897226}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Rosquilla
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,9 +59,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6922219314238164794}
     m_Modifications:
+    - target: {fileID: 5125520615779116537, guid: f9ae23814af859b4ab14ae3e8749a3a8, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 5125520615888579700, guid: f9ae23814af859b4ab14ae3e8749a3a8, type: 3}
       propertyPath: m_Name
       value: Rosquilla (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5125520615888579700, guid: f9ae23814af859b4ab14ae3e8749a3a8, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5125520615888579700, guid: f9ae23814af859b4ab14ae3e8749a3a8, type: 3}
       propertyPath: m_IsActive
@@ -111,6 +119,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5125520617128166731, guid: f9ae23814af859b4ab14ae3e8749a3a8, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f9ae23814af859b4ab14ae3e8749a3a8, type: 3}
 --- !u!4 &6922219312983758464 stripped
@@ -125,9 +137,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6922219314238164794}
     m_Modifications:
+    - target: {fileID: 6399067234792897047, guid: 82e196f5b462d41419d1cdc6c3cc5933, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 6399067235295882864, guid: 82e196f5b462d41419d1cdc6c3cc5933, type: 3}
       propertyPath: m_Name
       value: Rosquilla (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6399067235295882864, guid: 82e196f5b462d41419d1cdc6c3cc5933, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6399067235295882864, guid: 82e196f5b462d41419d1cdc6c3cc5933, type: 3}
       propertyPath: m_IsActive
@@ -177,6 +197,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6399067236274287151, guid: 82e196f5b462d41419d1cdc6c3cc5933, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82e196f5b462d41419d1cdc6c3cc5933, type: 3}
 --- !u!4 &6922219313448331918 stripped
@@ -194,6 +218,10 @@ PrefabInstance:
     - target: {fileID: 6497870874301077561, guid: c098d92928737094c8f11262a1c8848c, type: 3}
       propertyPath: m_Name
       value: Rosquilla (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6497870874301077561, guid: c098d92928737094c8f11262a1c8848c, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6497870874301077561, guid: c098d92928737094c8f11262a1c8848c, type: 3}
       propertyPath: m_IsActive
@@ -242,6 +270,14 @@ PrefabInstance:
     - target: {fileID: 6497870874301077562, guid: c098d92928737094c8f11262a1c8848c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6497870875088884014, guid: c098d92928737094c8f11262a1c8848c, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6497870875158316544, guid: c098d92928737094c8f11262a1c8848c, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c098d92928737094c8f11262a1c8848c, type: 3}

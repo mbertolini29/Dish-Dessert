@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4028381837589207964}
   - component: {fileID: 4028381837589207966}
   - component: {fileID: 4028381837589207967}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cylinder (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 4028381837964074283}
   - component: {fileID: 4028381837964074293}
   - component: {fileID: 4028381837964074282}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cylinder (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -173,7 +173,7 @@ GameObject:
   - component: {fileID: 3757718339062146806}
   - component: {fileID: 2478317844383155330}
   - component: {fileID: 859966368427248152}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -252,7 +252,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8040636299377335084}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Magdalena (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

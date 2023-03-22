@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8249725040718284991}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Canela (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 8249725040899832775}
   - component: {fileID: 8249725040899832825}
   - component: {fileID: 8249725040899832824}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cylinder (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
