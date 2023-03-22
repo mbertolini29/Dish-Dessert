@@ -23,9 +23,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6497870874301077561}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.016125023, y: 0, z: -0.18022108}
-  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6497870875158316545}
   - {fileID: 6497870875088884015}
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 6497870875088884009}
   - component: {fileID: 6497870875088884008}
   m_Layer: 0
-  m_Name: Cylinder (1)
+  m_Name: Cylinder (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -57,13 +57,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6497870875088884014}
-  m_LocalRotation: {x: 0.61237246, y: -0.3535534, z: 0.3535534, w: 0.61237246}
-  m_LocalPosition: {x: 0.378, y: 0, z: 0.242}
-  m_LocalScale: {x: 100, y: 100, z: 40}
+  m_LocalRotation: {x: 0.64861715, y: -0.28052315, z: 0.2827811, w: 0.64856565}
+  m_LocalPosition: {x: 0.17752, y: 1, z: -0.1704}
+  m_LocalScale: {x: 45.968, y: 45.968, z: 18.3872}
   m_Children: []
   m_Father: {fileID: 6497870874301077562}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 89.817, y: 67.833, z: 114.779}
 --- !u!33 &6497870875088884009
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 6497870875158316547}
   - component: {fileID: 6497870875158316546}
   m_Layer: 0
-  m_Name: Cylinder
+  m_Name: Cylinder (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -138,13 +138,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6497870875158316544}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.018, y: 0, z: 0.02}
-  m_LocalScale: {x: 100, y: 100, z: 40}
+  m_LocalRotation: {x: 0.7025614, y: 0.080046766, z: -0.080046766, w: 0.7025614}
+  m_LocalPosition: {x: -0.0228, y: 1, z: -0.232}
+  m_LocalScale: {x: 45.968, y: 45.968, z: 18.3872}
   m_Children: []
   m_Father: {fileID: 6497870874301077562}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: -13}
 --- !u!33 &6497870875158316547
 MeshFilter:
   m_ObjectHideFlags: 0

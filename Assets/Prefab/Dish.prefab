@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3285186886244161452}
   - component: {fileID: 3285186886244161453}
   - component: {fileID: 3285186886244161442}
-  - component: {fileID: 3285186886244161454}
   - component: {fileID: 3285186886244161441}
   m_Layer: 0
   m_Name: Dish
@@ -30,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 3285186886244161443}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 0.1, z: 1}
+  m_LocalScale: {x: 1.2, y: 0.1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -98,20 +97,6 @@ CapsuleCollider:
   m_Height: 19.000004
   m_Direction: 1
   m_Center: {x: -0.0071827993, y: 0, z: 0.02531737}
---- !u!114 &3285186886244161454
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3285186886244161443}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15233eac7db51334c972043403a1139a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  width: 1.5
-  height: 1.5
 --- !u!114 &3285186886244161441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,11 +109,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80beaa01dfec76b4f8a1c26b6ab61191, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numAletorio: 0
-  dessert:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  numCake: 0
+  amountPiece: 0
+  cakePrefab:
+  - {fileID: -5756123967269625335, guid: a85baafbf1c947b4095673e37eceeb1f, type: 3}
+  - {fileID: -2188237222983897226, guid: 06c32a9e63a4bca418b5718ad4bd2eca, type: 3}
+  - {fileID: 5832672474446144251, guid: b124cff4afa2aa94185f3ff6f8f3c853, type: 3}
+  createdCake: []

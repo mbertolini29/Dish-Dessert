@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4828560947486270061}
-  - component: {fileID: 8964845432140190270}
+  - component: {fileID: 5832672474446144251}
   m_Layer: 0
   m_Name: Canela
   m_TagString: Untagged
@@ -35,7 +35,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8964845432140190270
+--- !u!114 &5832672474446144251
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -49,7 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameDessert: Canela
   amountPieces: 4
-  desserts:
+  pieceCake:
   - {fileID: 4339394559091929376, guid: b7872e67e1d3fe245a846b1749798fb5, type: 3}
   - {fileID: 8249725040718284990, guid: 8be3961162886e344be1b411e3229540, type: 3}
   - {fileID: 6468475361355564438, guid: 9e6fcb762d4a2fd48a4e8014f222b3c0, type: 3}

@@ -154,7 +154,7 @@ Transform:
   - {fileID: 1236200069}
   - {fileID: 1329765231}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &102435729
 PrefabInstance:
@@ -529,7 +529,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1095621956}
   - component: {fileID: 1095621958}
-  - component: {fileID: 1095621957}
   m_Layer: 0
   m_Name: DishManager
   m_TagString: Untagged
@@ -549,25 +548,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1095621957
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1095621955}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80beaa01dfec76b4f8a1c26b6ab61191, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  randomNum: 0
-  dessert:
-  - {fileID: -5756123967269625335, guid: a85baafbf1c947b4095673e37eceeb1f, type: 3}
-  - {fileID: -2188237222983897226, guid: 06c32a9e63a4bca418b5718ad4bd2eca, type: 3}
-  - {fileID: 8964845432140190270, guid: b124cff4afa2aa94185f3ff6f8f3c853, type: 3}
 --- !u!114 &1095621958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -580,6 +562,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d24fdb5672df55a4cbe89c283a9cd22f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dishPrefab: {fileID: 3285186886244161441, guid: 318e844826bb9fc488fd8a6a3871bc8e, type: 3}
+  dishes: []
+  posDishes:
+  - {fileID: 1169825843}
+  - {fileID: 1404198493}
+  - {fileID: 328642805}
+  - {fileID: 1135331365}
 --- !u!1 &1135331364
 GameObject:
   m_ObjectHideFlags: 0
@@ -984,7 +973,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6922219314238164794, guid: 06c32a9e63a4bca418b5718ad4bd2eca, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6922219314238164794, guid: 06c32a9e63a4bca418b5718ad4bd2eca, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1062,7 +1051,7 @@ PrefabInstance:
     - target: {fileID: 3285186886244161441, guid: 318e844826bb9fc488fd8a6a3871bc8e, type: 3}
       propertyPath: dessert.Array.data[2]
       value: 
-      objectReference: {fileID: 8964845432140190270, guid: b124cff4afa2aa94185f3ff6f8f3c853, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 3285186886244161443, guid: 318e844826bb9fc488fd8a6a3871bc8e, type: 3}
       propertyPath: m_Name
       value: Dish
@@ -1073,11 +1062,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3285186886244161455, guid: 318e844826bb9fc488fd8a6a3871bc8e, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3285186886244161455, guid: 318e844826bb9fc488fd8a6a3871bc8e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.33
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3285186886244161455, guid: 318e844826bb9fc488fd8a6a3871bc8e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1085,7 +1074,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3285186886244161455, guid: 318e844826bb9fc488fd8a6a3871bc8e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 8.21
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3285186886244161455, guid: 318e844826bb9fc488fd8a6a3871bc8e, type: 3}
       propertyPath: m_LocalRotation.w
