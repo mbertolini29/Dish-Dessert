@@ -118,9 +118,12 @@ public class Dish : MonoBehaviour
         if(isTouchingDish)
         {
             DishManager.instance.AmountDish--;
-            
+
+            //plato esta en la celda.
+            onCell = true;
+
             //
-            
+
             //this.gameObject
 
             //this.OnCell?.Invoke();
@@ -133,13 +136,12 @@ public class Dish : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if(other.gameObject.layer == 9 ) // && !onCell) // && !isSelected) //"Cell")
         {
             //Debug.Log("tocaste?");
             isTouchingDish = true;
-            onCell = true;
 
             Vector3 pos;
             pos.x = other.gameObject.transform.position.x;
@@ -153,7 +155,7 @@ public class Dish : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.layer != 9 && isTouchingDish) // && !isSelected) //"Cell")
+        if (other.gameObject.layer != 9) // && !isSelected) //"Cell")
         {
             //Debug.Log("tocaste?");
             isTouchingDish = false;
