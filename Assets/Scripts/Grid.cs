@@ -5,7 +5,7 @@ using UnityEngine;
 public class Grid : MonoBehaviour
 {
     [Header("Grid Construction")]
-    Cell[] cells; //conjunto de celdas
+    [SerializeField] Cell[] cells; //conjunto de celdas
     public Cell cellPrefab; //celda individual
     public int width = 4; //x = fila
     public int height = 4; //z = columna

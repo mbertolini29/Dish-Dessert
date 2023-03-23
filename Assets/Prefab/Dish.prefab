@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3285186886244161453}
   - component: {fileID: 1737169475693640681}
   - component: {fileID: 7848514361945639682}
+  - component: {fileID: 5867155629684301920}
   - component: {fileID: 3285186886244161441}
   m_Layer: 6
   m_Name: Dish
@@ -108,11 +109,25 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3285186886244161443}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
+  m_IsTrigger: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.54476476
   m_Center: {x: 0.007983247, y: 1.2537158, z: -0.021857023}
+--- !u!136 &5867155629684301920
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3285186886244161443}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.4335832
+  m_Height: 104.88384
+  m_Direction: 1
+  m_Center: {x: 0.000000049670536, y: 1.3424015, z: -0.0003376603}
 --- !u!114 &3285186886244161441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,5 +147,5 @@ MonoBehaviour:
   - {fileID: -2188237222983897226, guid: 06c32a9e63a4bca418b5718ad4bd2eca, type: 3}
   - {fileID: 5832672474446144251, guid: b124cff4afa2aa94185f3ff6f8f3c853, type: 3}
   createdCake: []
-  selected: 0
   posInicial: {x: 0, y: 0, z: 0}
+  isSelected: 0

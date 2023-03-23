@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,15 +10,33 @@ public class DishManager : MonoBehaviour
     [SerializeField] Dish dishPrefab;
 
     //lista total de platos instanciados.
-    public List<Dish> dishes; 
+    public List<Dish> dishes;
 
     //posicion de platos de la parte inferior
     public Transform[] posDishes;
-    //public int amountDish = 4;
+
+    [SerializeField] int amountDish = 0;
+
+    public int AmountDish
+    {
+        get { return amountDish; }
+        set
+        {
+            amountDish = value;
+        }            
+    }
 
     private void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+            //DontDestroyOnLoad(sharedInstance);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void Start()
@@ -30,6 +49,8 @@ public class DishManager : MonoBehaviour
     {
         for (int i = 0; i < posDishes.Length; i++)
         {
+            amountDish++;
+
             //instancias cada plato
             Dish dish = Instantiate<Dish>(dishPrefab);
 

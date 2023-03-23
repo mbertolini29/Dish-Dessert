@@ -17,10 +17,15 @@ public class Dish : MonoBehaviour
     public List<GameObject> createdCake;
 
     [Header("Drag & Drog")]
-    public bool selected = false;
     public Vector3 posInicial = new Vector3();
+    public bool isSelected = false;
+    public bool isTouchingDish = false;
+    public bool onCell = false;
 
+    static Dish previousSelected = null;
     Vector3 mousePos;
+
+    //public Action OnCell;
 
     private void Start()
     {
@@ -69,20 +74,30 @@ public class Dish : MonoBehaviour
         //cuando presionas el objeto
         if (Input.GetMouseButtonDown(0))
         {
-            //sonido
-            //
-            selected = true;
+            SelectDish();
         }
     }
 
-    Vector3 GetMousePos()
+    void SelectDish()
     {
-        return Camera.main.WorldToScreenPoint(transform.position);
+        isSelected = true;
+        previousSelected = gameObject.GetComponent<Dish>();
+    }
+
+    void DeselectDish()
+    {
+        isSelected = false;
+        previousSelected = null;
     }
 
     private void OnMouseDown()
     {
         mousePos = Input.mousePosition - GetMousePos();
+    }
+
+    Vector3 GetMousePos()
+    {
+        return Camera.main.WorldToScreenPoint(transform.position);
     }
 
     private void OnMouseDrag()
@@ -94,6 +109,56 @@ public class Dish : MonoBehaviour
         pos.y = 2f; 
         pos.z = transform.position.z;
         transform.position = pos;
+    }
+
+    private void OnMouseUp()
+    {
+        DeselectDish();
+
+        if(isTouchingDish)
+        {
+            DishManager.instance.AmountDish--;
+            
+            //
+            
+            //this.gameObject
+
+            //this.OnCell?.Invoke();
+        }
+        else 
+        {
+            //sino vuelve a la posicion inicial.
+            transform.position = posInicial;
+        }
+
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.layer == 9 ) // && !onCell) // && !isSelected) //"Cell")
+        {
+            //Debug.Log("tocaste?");
+            isTouchingDish = true;
+            onCell = true;
+
+            Vector3 pos;
+            pos.x = other.gameObject.transform.position.x;
+            pos.y = 0.1f;
+            pos.z = other.gameObject.transform.position.z;
+            transform.position = pos;
+
+            //transform.SetParent(other.gameObject.transform, false);            
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.layer != 9 && isTouchingDish) // && !isSelected) //"Cell")
+        {
+            //Debug.Log("tocaste?");
+            isTouchingDish = false;
+            //transform.position = other.gameObject.transform.position;
+        }
     }
 
 }
