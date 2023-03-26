@@ -16,10 +16,14 @@ public class Cake : MonoBehaviour
 {
     //postre
 
+    //public static Cake instance;
+
     //todo esto ya esta completo.
     public string nameDessert;
     public int amountPieces;
     public List<GameObject> pieceCake; //lista de porciones del postre 
+
+
 
     public void GetPieceCake()
     {

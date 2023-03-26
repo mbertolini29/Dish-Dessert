@@ -25,6 +25,8 @@ public class Dish : MonoBehaviour
     static Dish previousSelected = null;
     Vector3 mousePos;
 
+    public Cell currentCell;
+
     //public Action OnCell;
 
     private void Start()
@@ -74,7 +76,7 @@ public class Dish : MonoBehaviour
         //cuando presionas el objeto
         if (Input.GetMouseButtonDown(0))
         {
-            SelectDish();
+            //SelectDish();
         }
     }
 
@@ -102,13 +104,19 @@ public class Dish : MonoBehaviour
 
     private void OnMouseDrag()
     {
-        transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition - mousePos);
+        SelectDish();
 
-        Vector3 pos;
-        pos.x = transform.position.x; 
-        pos.y = 2f; 
-        pos.z = transform.position.z;
-        transform.position = pos;
+        if(!onCell)
+        {
+            transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition - mousePos);
+
+            //esto mueve el plato.
+            Vector3 pos;
+            pos.x = transform.position.x;
+            pos.y = 2f;
+            pos.z = transform.position.z;
+            transform.position = pos;
+        }       
     }
 
     private void OnMouseUp()
@@ -123,6 +131,7 @@ public class Dish : MonoBehaviour
             onCell = true;
 
             //
+            currentCell.isBusy = true;
 
             //this.gameObject
 
@@ -138,16 +147,28 @@ public class Dish : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if(other.gameObject.layer == 9 ) // && !onCell) // && !isSelected) //"Cell")
+        // && !onCell) // && !isSelected) //"Cell")
+        //LayerMask.NameToLayer("Cell")
+        if (other.gameObject.layer == 9 && !onCell)
         {
-            //Debug.Log("tocaste?");
-            isTouchingDish = true;
+            //esto recibe la info de la celda.
+            currentCell = other.gameObject.GetComponent<Cell>();
 
-            Vector3 pos;
-            pos.x = other.gameObject.transform.position.x;
-            pos.y = 0.1f;
-            pos.z = other.gameObject.transform.position.z;
-            transform.position = pos;
+            if(!currentCell.isBusy)
+            {
+                //Debug.Log("tocaste?");
+                isTouchingDish = true;
+
+                Vector3 pos;
+                pos.x = other.gameObject.transform.position.x;
+                pos.y = 0.1f;
+                pos.z = other.gameObject.transform.position.z;
+                transform.position = pos;
+            }
+            else
+            {
+                isTouchingDish = false;
+            }
 
             //transform.SetParent(other.gameObject.transform, false);            
         }
