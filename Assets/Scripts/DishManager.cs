@@ -23,6 +23,12 @@ public class DishManager : MonoBehaviour
         set
         {
             amountDish = value;
+
+            if(amountDish <= 0)
+            {
+                CreateDish();
+            }
+
         }            
     }
 

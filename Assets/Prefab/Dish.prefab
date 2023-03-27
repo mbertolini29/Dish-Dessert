@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 3285186886244161443}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1.2, y: 0.1, z: 1}
+  m_LocalScale: {x: 1.5, y: 0.1, z: 1.5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -149,3 +149,11 @@ MonoBehaviour:
   createdCake: []
   posInicial: {x: 0, y: 0, z: 0}
   isSelected: 0
+  isTouchingDish: 0
+  onCell: 0
+  currentCell: {fileID: 0}
+  hitObject: []
+  collision: {x: 0, y: 0, z: 0}
+  layerToHit:
+    serializedVersion: 2
+    m_Bits: 64
