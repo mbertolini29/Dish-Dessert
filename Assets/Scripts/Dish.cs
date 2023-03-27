@@ -14,7 +14,7 @@ public class Dish : MonoBehaviour
     [SerializeField] Cake[] cakePrefab;
 
     //lista de postres a instanciar en cada plato
-    public List<GameObject> createdCake;
+    public List<GameObject> createdCake; //no seria, la lista de postres instanciado en cada plato.
 
     [Header("Drag & Drog")]
     public Vector3 posInicial = new Vector3();
@@ -93,6 +93,25 @@ public class Dish : MonoBehaviour
         //si algo coincide, debes de limpear.
         //tenes que juntar las porciones que coinciden
 
+        //obtenes una lista de cada objeto que encontraste en el find match.
+        foreach (var item in matchCake)
+        {
+
+        }
+
+        foreach (GameObject dish in matchCake)
+        {
+            //este destruye el plato de al lado..
+            dish.SetActive(false);
+
+            //primero saber cuantas piezas tiene
+            //dish.GetComponentInChildren<Cake>().amountPieces 
+               
+            //segundo, que 
+                
+            //pero como recibe la informacion el instanciado?
+
+        }
 
 
         return true;
@@ -100,76 +119,68 @@ public class Dish : MonoBehaviour
 
     List<GameObject> FindMatch(Vector3 direction)
     {
+        //matchDish == combinacion de platos.
         List<GameObject> matchCake = new List<GameObject>();
 
         Ray ray;
-        float maxDistance = 100f;
-        RaycastHit hit;
+        //RaycastHit hit;
         RaycastHit[] hits;
 
         ray = new Ray(transform.position, direction);
 
         hits = Physics.RaycastAll(ray);
 
-        //foreach (var item in hits)
-        //{
-        //    if (item.collider.gameObject.layer == 6)
-        //    {
-        //        Debug.Log("coincidieron platos");
-        //        //item.collider.GetComponentInChildren<Dish>().numCake =
-        //    }
-        //}
-
-        //if (Physics.Raycast(this.transform.position, direction, out hit, 5, layerDish))
-        if (Physics.Raycast(ray, out hit)) // 0.5f, layerToHit))
+        foreach (var item in hits)
         {
-            if (hit.collider != null)
+            if (item.collider.gameObject.layer == 6)
             {
-                if (hit.transform.gameObject.layer == 6) //celda = 9 , dish = 6
-                {
-                    Debug.Log(hit.collider.gameObject.name);
+                Debug.Log("coincidieron platos");
 
-                    if(numCake == hit.collider.GetComponentInChildren<Dish>().numCake)
+                //el numero de torta que dejaste en la celda,
+                //es igual al numero de torta de la celda de al lado, 
+                //y por lo tanto, tenes que unirlo.?
+
+                if (this.numCake == item.collider.GetComponentInChildren<Dish>().numCake)
+                {
+                    //esto busca el match, para luego eliminarlo
+                    matchCake.Add(item.collider.gameObject);
+
+                    //pero antes de eliminarlo, hay que pasarlo al plato que pusiste
+             
+                    //cantidad de piezas del plato adyacente.
+                    var amountPieceOtherCake = item.collider.GetComponentInChildren<Dish>().amountPiece;
+
+                    //num maximo de cantidad de piezas para ese postre.
+                    if (createdCake.Count < cakePrefab[numCake].amountPieces)
                     {
-                        Debug.Log("misma torta");
+                        //aca tendrias que ponerle al plato instanciado. 
+                        //la cantidad de postres que tenia la torta adjacente.
+                        InstantiatePieceCake(createdCake, numCake, amountPieceOtherCake, matchCake);
+                        //createdCake.Add();
                     }
                 }
             }
-
-
-            //hit.collider.GetComponentInChildren<Dish>().numCake 
-
-            //hit.collider.
-
-            //if (hit.collider != null)
-            //{
-            //    if (hit.transform.gameObject.layer == 6) //celda = 9 , dish = 6
-            //    {
-            //        //si ese vecino tiene el mismo numero de torta..
-            //        if (hit.collider.GetComponent<Dish>().numCake ==
-            //             gameObject.GetComponent<Dish>().numCake)
-            //        {
-            //            //significa que son iguales. 
-            //            matchCake.Add(hit.collider.gameObject);
-            //        }
-            //    }
-            //}
         }
+
         return matchCake;
-        
-        //Debug.DrawRay(transform.position, direction, Color.green);
     }
 
-    private void OnDrawGizmos()
+    void InstantiatePieceCake(List<GameObject> createdCake, int numCake, int amountPieceOtherCake, List<GameObject> matchCake)
     {
-        Gizmos.color = Color.yellow;
-        //Gizmos.DrawLine(transform.position, );
-    }
+        //Cada plato tiene que tener su lista de postres
+        //createdCake = new List<GameObject>();
 
+        for (int i = this.amountPiece; i < this.amountPiece + amountPieceOtherCake; i++)
+        {
+            //instanciar cada postre en su plato
+            GameObject pieceCake = Instantiate<GameObject>(cakePrefab[numCake].pieceCake[i]); //uno mas del que ya hay
 
-    private void Start()
-    {
-
+            pieceCake.transform.SetParent(transform, false);
+            pieceCake.transform.position = new Vector3(transform.position.x,
+                                                        pieceCake.transform.position.y,
+                                                        transform.position.z);
+            createdCake.Add(pieceCake);    
+        }
     }
 
     public void CreatedCake() //crea el postre.
