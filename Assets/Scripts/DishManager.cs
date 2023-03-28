@@ -28,7 +28,6 @@ public class DishManager : MonoBehaviour
             {
                 CreateDish();
             }
-
         }            
     }
 

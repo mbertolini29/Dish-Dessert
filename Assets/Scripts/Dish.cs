@@ -16,13 +16,16 @@ public class Dish : MonoBehaviour
     //lista de postres a instanciar en cada plato
     public List<GameObject> createdCake; //no seria, la lista de postres instanciado en cada plato.
 
-    [Header("Drag & Drog")]
+    public List<GameObject> neighbors;
+
+    [Header("Drag & Drop")]
     public Vector3 posInicial = new Vector3();
     public bool isSelected = false;
     public bool isTouchingDish = false;
     public bool onCell = false;
 
     static Dish previousSelected = null;
+    static Dish neighborsPrefab = null;
     Vector3 mousePos;
 
     public Cell currentCell;
@@ -33,6 +36,191 @@ public class Dish : MonoBehaviour
     public GameObject[] hitObject;
     public Vector3 collision = Vector3.zero;
     public LayerMask layerToHit;
+
+    private void OnMouseDown()
+    {
+        mousePos = Input.mousePosition - GetMousePos();
+    }
+
+    Vector3 GetMousePos()
+    {
+        return Camera.main.WorldToScreenPoint(transform.position);
+    }
+
+    private void OnMouseDrag()
+    {
+        SelectDish();
+
+        if (!onCell)
+        {
+            //esto mueve el plato.
+            transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition - mousePos);
+            transform.position = new Vector3(transform.position.x, 2f, transform.position.z);
+        }
+    }
+
+    void SelectDish()
+    {
+        isSelected = true;
+        previousSelected = gameObject.GetComponent<Dish>();
+    }
+
+    void DeselectDish()
+    {
+        isSelected = false;
+        //previousSelected = null;
+    }
+
+    private void OnMouseUp()
+    {
+        DeselectDish();
+
+        if (isTouchingDish && !this.onCell)
+        {
+            //cant de platos intanciados.
+            GameObject.FindObjectOfType<DishManager>().AmountDish--;
+            
+            //this.OnCell?.Invoke();
+            this.onCell = true; //plato esta en la celda.
+
+            //ocupas la celda donde se instancio el plato.
+            currentCell.isBusy = true;
+
+            transform.position = new Vector3(0f, 1f, 0f);            
+            transform.SetParent(currentCell.gameObject.transform, false);
+            transform.localScale = new Vector3(1f, 1f, 1f);
+
+            //una vez que ocupa la celda.
+            //buscar si coincide con el de al lado o de arriba.
+
+            CanSwipe();
+
+            //if (CanSwipe())
+            //{
+            //    //si encontro un vecino plato, va a devolver true
+            //    //entonces, vas a poder ver, si hay una torta igual
+            //    //y ver si le falta algun porcion.
+            //    //e intercambiar la porcion
+            //    //si no quedan mas porciones en el plato, se destruye el vecino
+            //    //si hay mas porciones, se resta la intercambiada.
+
+            //}
+            //else
+            //{
+            //    Debug.Log("No hay vecinos");
+            //}
+
+            //FindAllMatches();
+        }
+        else
+        {
+            //sino vuelve a la posicion inicial.
+            transform.position = posInicial;
+        }
+
+    }
+
+    void SwapCakePiece(Dish dishClone)
+    {
+
+    }
+
+    //poder intercambiar
+    void CanSwipe()
+    {
+        //si hay vecinos que tengan la misma porcion de torta, se puede intercambiar        
+        //return GetAllNeighbors().Contains(previousSelected.gameObject);
+
+        neighbors = GetAllNeighbors();
+
+        foreach (GameObject neighbor in neighbors)
+        {
+            if (neighbor != null)
+            {
+                //vecino que encontraste
+                neighborsPrefab = neighbor.gameObject.GetComponent<Dish>();
+
+                //plato que recien apoyaste en la grilla, y su tipo de torta
+                if(previousSelected.numCake == neighborsPrefab.numCake)
+                {
+                    void CakeFill()
+                    {
+
+                    }                   
+
+                    //num maximo de cantidad de piezas para ese postre.                    
+                    if (previousSelected.createdCake.Count < cakePrefab[previousSelected.numCake].amountPieces)
+                    {
+                        //llenar torta seleccionada.
+                        for (int i = previousSelected.amountPiece; i < previousSelected.amountPiece + neighborsPrefab.amountPiece; i++)
+                        {
+                            //instanciar porcion de torta del vecino al seleccionado.
+                            InstantiateCakePiece(i);
+
+                            //liberar la celda si se quedo sin porciones de torta.
+                            CellRelease(); //release=liberar
+
+                            //destruir la porcion de torta movida del vecino.
+                            DestroyCakePiece(neighbor);                          
+
+                            //si la torta instanciada en el plato seleccionado, ya esta llena, salir.
+                            if(createdCake.Count >= cakePrefab[previousSelected.numCake].amountPieces)
+                            {
+                                return;
+                            }
+                        }
+                    }
+
+                    
+                }
+            }
+        }
+    }
+
+    void InstantiateCakePiece(int i)
+    {
+        //instanciar cada postre en su plato
+        GameObject pieceCake = Instantiate<GameObject>(cakePrefab[numCake].pieceCake[i]); //uno mas del que ya hay
+
+        pieceCake.transform.SetParent(transform, false);
+        pieceCake.transform.position = new Vector3(transform.position.x,
+                                                    pieceCake.transform.position.y,
+                                                    transform.position.z);
+        createdCake.Add(pieceCake);
+    }
+
+    void CellRelease()
+    {
+        if (previousSelected.createdCake.Count >= cakePrefab[previousSelected.numCake].amountPieces)
+        {
+            //Debug.Log("Plato lleno perri");
+            //sumar puntos!
+
+            //liberas la celda.
+            previousSelected.transform.parent.GetComponent<Cell>().isBusy = false;
+
+            //destruis el objeto.
+            Destroy(previousSelected.gameObject, 1.0f);
+        }
+    }
+
+    void DestroyCakePiece(GameObject neighbor)
+    {
+        int numPieceCake = neighborsPrefab.createdCake.Count - 1;
+
+        //destruye la porcion de la torta del vecino
+        GameObject npc = neighborsPrefab.createdCake[numPieceCake].transform.gameObject;
+        Destroy(npc, 0.5f);
+
+        //lo remueve de la lista de porcion de tortas del vecino.
+        neighborsPrefab.createdCake.RemoveAt(numPieceCake);
+
+        //esto destruye al vecino si se queda sin porcion.
+        if (neighborsPrefab.createdCake.Count == 0)
+        {
+            Destroy(neighbor, 0.25f);
+        }
+    }
 
     //vecinos
     Vector3[] adjecentDirections = new Vector3[]
@@ -45,15 +233,57 @@ public class Dish : MonoBehaviour
 
     List<GameObject> GetAllNeighbors()
     {
+        //lista para todos los vecinos.
         List<GameObject> neighbors = new List<GameObject>();
 
+        //recorre las direcciones adyacentes del plato.
+        //y para cada direccion consulta el vecino, y lo agrega a la lista de todos los vecinos. 
         foreach (Vector3 direction in adjecentDirections)
         {
-            //neighbors.Add(GetNeighbor(direction));
-
+            neighbors.Add(GetNeighbor(direction));
         }
+
         return neighbors;
     }
+
+    GameObject GetNeighbor(Vector3 direction)
+    {
+        Ray ray;
+        ray = new Ray(transform.position, direction);
+
+        RaycastHit[] hits;
+        hits = Physics.RaycastAll(ray);
+
+        //        
+        RaycastHit hit;
+        float maxDistance = 5.0f;
+        Physics.Raycast(ray, out hit, maxDistance, layerToHit);
+
+        //golpear a un vecino con la misma porcion de torta??
+        if (hit.collider != null)
+        {
+            //Debug.Log("Hola, choque con un plato de torta.");
+            //return hit.collider.gameObject;
+
+            //si el padre es igual al padre que colisiono.
+            // destruir. esto no deberia pasar.
+            if (transform.parent == hit.collider.transform.parent)
+            {
+                return null;
+            }
+            else
+            {
+                //Debug.Log("Hola, choque con un plato de torta.");
+                return hit.collider.gameObject;
+            }
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    //de aca para bajo, se borra todo o sirve algo ==> ???
 
     public void FindAllMatches()
     {
@@ -218,90 +448,9 @@ public class Dish : MonoBehaviour
                                                        transform.position.z);
             createdCake.Add(pieceCake);
         }
-    }
+    } 
 
-    private void OnMouseDown()
-    {
-        mousePos = Input.mousePosition - GetMousePos();
-    }
-
-    Vector3 GetMousePos()
-    {
-        return Camera.main.WorldToScreenPoint(transform.position);
-    }
-
-    private void OnMouseDrag()
-    {
-        SelectDish();
-
-        if (!onCell)
-        {
-            transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition - mousePos);
-
-            //esto mueve el plato.
-            Vector3 pos;
-            pos.x = transform.position.x;
-            pos.y = 2f;
-            pos.z = transform.position.z;
-            transform.position = pos;
-        }
-    }
-
-    void SelectDish()
-    {
-        isSelected = true;
-        previousSelected = gameObject.GetComponent<Dish>();
-    }
-
-    void DeselectDish()
-    {
-        isSelected = false;
-        previousSelected = null;
-    }
-
-    private void OnMouseUp()
-    {
-        DeselectDish();
-
-        if (isTouchingDish)
-        {
-            //DishManager.instance.AmountDish--;
-            GameObject.FindObjectOfType<DishManager>().AmountDish--;
-            //int amount = GameObject.FindObjectOfType<DishManager>().AmountDish;
-
-            //plato esta en la celda.
-            onCell = true;
-            //this.OnCell?.Invoke();
-
-            //esto deja el plato cerca de la celda.
-            //Vector3 pos;
-            //pos.x = 0f;
-            //pos.y = 1f;
-            //pos.z = 0f;
-            transform.position = new Vector3(0f, 1f, 0f); ;
-
-            //tmb, hay que hacerlo hijo de la celda/plato de la grilla.
-            transform.SetParent(currentCell.gameObject.transform, false);
-
-            transform.localScale = new Vector3(1f, 1f, 1f);
-
-            //ocupas la celda donde se instancio el plato.
-            currentCell.isBusy = true;
-
-            //una vez que ocupa la celda.
-            //buscar si coincide con el de al lado o de arriba.
-
-            FindAllMatches();
-        }
-        else
-        {
-            //sino vuelve a la posicion inicial.
-            transform.position = posInicial;
-        }
-
-    }
-
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         // && !onCell) // && !isSelected) //"Cell")
         //LayerMask.NameToLayer("Cell")
@@ -314,19 +463,11 @@ public class Dish : MonoBehaviour
             {
                 //Debug.Log("tocaste?");
                 isTouchingDish = true;
-
-                //Vector3 pos;
-                //pos.x = other.gameObject.transform.position.x;
-                //pos.y = 0.1f;
-                //pos.z = other.gameObject.transform.position.z;
-                //transform.position = pos;
             }
             else
             {
                 isTouchingDish = false;
-            }
-
-            //transform.SetParent(other.gameObject.transform, false);            
+            }  
         }
     }
 
@@ -334,9 +475,8 @@ public class Dish : MonoBehaviour
     {
         if (other.gameObject.layer != 9) // && !isSelected) //"Cell")
         {
-            //Debug.Log("tocaste?");
+            //Debug.Log("dejaste de tocar");
             isTouchingDish = false;
-            //transform.position = other.gameObject.transform.position;
         }
     }
 

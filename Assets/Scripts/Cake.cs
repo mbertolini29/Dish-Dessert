@@ -23,8 +23,6 @@ public class Cake : MonoBehaviour
     public int amountPieces;
     public List<GameObject> pieceCake; //lista de porciones del postre 
 
-
-
     public void GetPieceCake()
     {
 
