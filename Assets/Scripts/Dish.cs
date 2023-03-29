@@ -39,6 +39,8 @@ public class Dish : MonoBehaviour
 
     private void OnMouseDown()
     {
+        UIManager.instance.PlaySoundDish();
+
         mousePos = Input.mousePosition - GetMousePos();
     }
 
@@ -85,6 +87,8 @@ public class Dish : MonoBehaviour
             
             //this.OnCell?.Invoke();
             this.onCell = true; //plato esta en la celda.
+
+            UIManager.instance.PlaySoundDish();
 
             //ocupas la celda donde se instancio el plato.
             currentCell.isBusy = true;
