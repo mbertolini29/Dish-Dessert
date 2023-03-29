@@ -124,10 +124,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.4335832
-  m_Height: 104.88384
+  m_Radius: 0.2790669
+  m_Height: 60.58117
   m_Direction: 1
-  m_Center: {x: 0.000000049670536, y: 1.3424015, z: -0.0003376603}
+  m_Center: {x: 0.00000003973643, y: -9.47535, z: -0.00033764046}
 --- !u!114 &3285186886244161441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,6 +147,7 @@ MonoBehaviour:
   - {fileID: -2188237222983897226, guid: 06c32a9e63a4bca418b5718ad4bd2eca, type: 3}
   - {fileID: 5832672474446144251, guid: b124cff4afa2aa94185f3ff6f8f3c853, type: 3}
   createdCake: []
+  neighbors: []
   posInicial: {x: 0, y: 0, z: 0}
   isSelected: 0
   isTouchingDish: 0

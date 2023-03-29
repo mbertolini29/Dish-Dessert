@@ -57,6 +57,9 @@ public class Dish : MonoBehaviour
             transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition - mousePos);
             transform.position = new Vector3(transform.position.x, 2f, transform.position.z);
         }
+
+        Debug.DrawRay(transform.position, new Vector3(0, 0, -2f), Color.white);
+
     }
 
     void SelectDish()
@@ -75,7 +78,7 @@ public class Dish : MonoBehaviour
     {
         DeselectDish();
 
-        if (isTouchingDish && !this.onCell)
+        if (this.isTouchingDish && !this.onCell)
         {
             //cant de platos intanciados.
             GameObject.FindObjectOfType<DishManager>().AmountDish--;
@@ -143,10 +146,10 @@ public class Dish : MonoBehaviour
                 //plato que recien apoyaste en la grilla, y su tipo de torta
                 if(previousSelected.numCake == neighborsPrefab.numCake)
                 {
-                    void CakeFill()
-                    {
+                    //void CakeFill()
+                    //{
 
-                    }                   
+                    //}                   
 
                     //num maximo de cantidad de piezas para ese postre.                    
                     if (previousSelected.createdCake.Count < cakePrefab[previousSelected.numCake].amountPieces)
@@ -157,7 +160,7 @@ public class Dish : MonoBehaviour
                             //instanciar porcion de torta del vecino al seleccionado.
                             InstantiateCakePiece(i);
 
-                            //liberar la celda si se quedo sin porciones de torta.
+                            //libera la celda, si la porcion de torta se completa.
                             CellRelease(); //release=liberar
 
                             //destruir la porcion de torta movida del vecino.
@@ -169,9 +172,7 @@ public class Dish : MonoBehaviour
                                 return;
                             }
                         }
-                    }
-
-                    
+                    }                    
                 }
             }
         }
@@ -196,7 +197,7 @@ public class Dish : MonoBehaviour
             //Debug.Log("Plato lleno perri");
             //sumar puntos!
 
-            //liberas la celda.
+            //liberas la celda seleccionada, si es que se completo.
             previousSelected.transform.parent.GetComponent<Cell>().isBusy = false;
 
             //destruis el objeto.
@@ -218,6 +219,8 @@ public class Dish : MonoBehaviour
         //esto destruye al vecino si se queda sin porcion.
         if (neighborsPrefab.createdCake.Count == 0)
         {
+            //liberas la celda del vecino. si se quedo sin porciones.
+            neighborsPrefab.transform.parent.GetComponent<Cell>().isBusy = false;
             Destroy(neighbor, 0.25f);
         }
     }
@@ -249,14 +252,18 @@ public class Dish : MonoBehaviour
     GameObject GetNeighbor(Vector3 direction)
     {
         Ray ray;
-        ray = new Ray(transform.position, direction);
+
+        ray = new Ray(previousSelected.transform.position, direction);
+
+        //ray = new Ray(transform.position, direction);
 
         RaycastHit[] hits;
         hits = Physics.RaycastAll(ray);
 
+        //this.gameObject
         //        
         RaycastHit hit;
-        float maxDistance = 5.0f;
+        float maxDistance = 1.5f;
         Physics.Raycast(ray, out hit, maxDistance, layerToHit);
 
         //golpear a un vecino con la misma porcion de torta??
@@ -280,136 +287,6 @@ public class Dish : MonoBehaviour
         else
         {
             return null;
-        }
-    }
-
-    //de aca para bajo, se borra todo o sirve algo ==> ???
-
-    public void FindAllMatches()
-    {
-        if (this.gameObject == null)
-        {
-            return;
-        }
-
-        //esto busca coincidencias horizontal 
-
-        bool hMatch = ClearMatch(new Vector3[2] { //vector con 2 direcciones..
-
-            new Vector3(2.1f, 0f, 0f), new Vector3(-2.1f, 0f, 0f)
-            //Vector3.left, Vector3.right
-        });
-
-        //esto busca coincidencias vertical
-
-        bool vMatch = ClearMatch(new Vector3[2] { //vector con 2 direcciones..
-
-            new Vector3(0f, 0f, 1.6f), new Vector3(0f, 0f, -1.6f)
-            //Vector3.forward, Vector3.back
-        });
-    }
-
-    bool ClearMatch(Vector3[] directions)
-    {
-        List<GameObject> matchCake = new List<GameObject>();
-
-        foreach (Vector3 direction in directions) //
-        {
-            //agrega a la lista objetos iguales.
-            matchCake.AddRange(FindMatch(direction));
-        }
-
-        //aca tiene que pasar algo... con la lista de match cake. 
-        //si algo coincide, debes de limpear.
-        //tenes que juntar las porciones que coinciden
-
-        //obtenes una lista de cada objeto que encontraste en el find match.
-        foreach (var item in matchCake)
-        {
-
-        }
-
-        foreach (GameObject dish in matchCake)
-        {
-            //este destruye el plato de al lado..
-            dish.SetActive(false);
-
-            //primero saber cuantas piezas tiene
-            //dish.GetComponentInChildren<Cake>().amountPieces 
-               
-            //segundo, que 
-                
-            //pero como recibe la informacion el instanciado?
-
-        }
-
-
-        return true;
-    }
-
-    List<GameObject> FindMatch(Vector3 direction)
-    {
-        //matchDish == combinacion de platos.
-        List<GameObject> matchCake = new List<GameObject>();
-
-        Ray ray;
-        //RaycastHit hit;
-        RaycastHit[] hits;
-
-        ray = new Ray(transform.position, direction);
-
-        hits = Physics.RaycastAll(ray);
-
-        foreach (var item in hits)
-        {
-            if (item.collider.gameObject.layer == 6)
-            {
-                Debug.Log("coincidieron platos");
-
-                //el numero de torta que dejaste en la celda,
-                //es igual al numero de torta de la celda de al lado, 
-                //y por lo tanto, tenes que unirlo.?
-
-                if (this.numCake == item.collider.GetComponentInChildren<Dish>().numCake)
-                {
-                    //esto busca el match, para luego eliminarlo
-                    matchCake.Add(item.collider.gameObject);
-
-                    //pero antes de eliminarlo, hay que pasarlo al plato que pusiste
-             
-                    //cantidad de piezas del plato adyacente.
-                    var amountPieceOtherCake = item.collider.GetComponentInChildren<Dish>().amountPiece;
-
-                    //num maximo de cantidad de piezas para ese postre.
-                    if (createdCake.Count < cakePrefab[numCake].amountPieces)
-                    {
-                        //aca tendrias que ponerle al plato instanciado. 
-                        //la cantidad de postres que tenia la torta adjacente.
-                        InstantiatePieceCake(createdCake, numCake, amountPieceOtherCake, matchCake);
-                        //createdCake.Add();
-                    }
-                }
-            }
-        }
-
-        return matchCake;
-    }
-
-    void InstantiatePieceCake(List<GameObject> createdCake, int numCake, int amountPieceOtherCake, List<GameObject> matchCake)
-    {
-        //Cada plato tiene que tener su lista de postres
-        //createdCake = new List<GameObject>();
-
-        for (int i = this.amountPiece; i < this.amountPiece + amountPieceOtherCake; i++)
-        {
-            //instanciar cada postre en su plato
-            GameObject pieceCake = Instantiate<GameObject>(cakePrefab[numCake].pieceCake[i]); //uno mas del que ya hay
-
-            pieceCake.transform.SetParent(transform, false);
-            pieceCake.transform.position = new Vector3(transform.position.x,
-                                                        pieceCake.transform.position.y,
-                                                        transform.position.z);
-            createdCake.Add(pieceCake);    
         }
     }
 
@@ -439,14 +316,17 @@ public class Dish : MonoBehaviour
 
         for (int i = 0; i < amountPiece; i++)
         {
-            //instanciar cada postre en su plato
-            GameObject pieceCake = Instantiate<GameObject>(cakePrefab[numCake].pieceCake[i]);
+            //instanciar porcion de torta del vecino al seleccionado.
+            InstantiateCakePiece(i);
 
-            pieceCake.transform.SetParent(transform, false);
-            pieceCake.transform.position = new Vector3(transform.position.x,
-                                                       pieceCake.transform.position.y,
-                                                       transform.position.z);
-            createdCake.Add(pieceCake);
+            //instanciar cada postre en su plato
+            //GameObject pieceCake = Instantiate<GameObject>(cakePrefab[numCake].pieceCake[i]);
+
+            //pieceCake.transform.SetParent(transform, false);
+            //pieceCake.transform.position = new Vector3(transform.position.x,
+            //                                           pieceCake.transform.position.y,
+            //                                           transform.position.z);
+            //createdCake.Add(pieceCake);
         }
     } 
 
@@ -455,7 +335,7 @@ public class Dish : MonoBehaviour
         // && !onCell) // && !isSelected) //"Cell")
         //LayerMask.NameToLayer("Cell")
         if (other.gameObject.layer == 9 && !onCell)
-        {
+        {            
             //esto recibe la info de la celda.
             currentCell = other.gameObject.GetComponent<Cell>();
 
@@ -464,10 +344,10 @@ public class Dish : MonoBehaviour
                 //Debug.Log("tocaste?");
                 isTouchingDish = true;
             }
-            else
-            {
-                isTouchingDish = false;
-            }  
+            //else
+            //{
+            //    isTouchingDish = false;
+            //}  
         }
     }
 
@@ -477,7 +357,7 @@ public class Dish : MonoBehaviour
         {
             //Debug.Log("dejaste de tocar");
             isTouchingDish = false;
+            //currentCell = null;
         }
     }
-
 }
