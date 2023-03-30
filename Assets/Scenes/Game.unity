@@ -320,6 +320,7 @@ MonoBehaviour:
   fxSound: {fileID: 565330415}
   clickDish: {fileID: 8300000, guid: 3533994249e6b0d47b780598b398c835, type: 3}
   clickButton: {fileID: 8300000, guid: 1876eb3890ac3f945aec3812bb199429, type: 3}
+  soundFullCake: {fileID: 8300000, guid: 666ee55da20a82b46a71ccba7d336580, type: 3}
   fxSoundOn: 1
   musicOn: 1
   musicButton: {fileID: 1516385308}
@@ -381,7 +382,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 3433149793524291045, guid: 684c8cbee9369624f820d3e4eec88982, type: 2}
-  m_audioClip: {fileID: 8300000, guid: d7fe43b8ecfc6624cb29ba10b5597c4b, type: 3}
+  m_audioClip: {fileID: 8300000, guid: ad924837db8354e4baa82993f9b1c309, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1

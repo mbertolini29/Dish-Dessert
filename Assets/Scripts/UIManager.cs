@@ -32,6 +32,7 @@ public class UIManager : MonoBehaviour
     public AudioSource fxSound;
     public AudioClip clickDish;
     public AudioClip clickButton;
+    public AudioClip soundFullCake;
 
     [SerializeField] bool fxSoundOn = true;
     [SerializeField] bool musicOn = true;
@@ -50,6 +51,11 @@ public class UIManager : MonoBehaviour
         {
             instance = this;
         }
+    }
+
+    public void PlaySoundFullCake()
+    {
+        fxSound.PlayOneShot(soundFullCake);
     }
 
     public void PlaySoundDish()
@@ -142,14 +148,14 @@ public class UIManager : MonoBehaviour
     {
         paused = !paused;
         Time.timeScale = paused ? 0 : 1;
+        GameManager.instance.HighScore = GameManager.instance.Score;
         gameOverScreen.SetActive(true);
-        
-        //finalScoreText.text = " " + GameManager.Instance.Score;
     }
 
     public void UpdateUIScore(int score)
     {
         scoreText.text = score.ToString();
+        scoreTextGameOver.text = score.ToString();
     }
 
     public void UpdateUIHighScore(int highScore)

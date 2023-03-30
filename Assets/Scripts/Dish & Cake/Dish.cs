@@ -97,38 +97,17 @@ public class Dish : MonoBehaviour
             transform.SetParent(currentCell.gameObject.transform, false);
             transform.localScale = new Vector3(1f, 1f, 1f);
 
-            //una vez que ocupa la celda.
-            //buscar si coincide con el de al lado o de arriba.
-
+            //una vez que ocupa la celda. Busca si las porciones de tortas coinciden.
             CanSwipe();
 
-            //if (CanSwipe())
-            //{
-            //    //si encontro un vecino plato, va a devolver true
-            //    //entonces, vas a poder ver, si hay una torta igual
-            //    //y ver si le falta algun porcion.
-            //    //e intercambiar la porcion
-            //    //si no quedan mas porciones en el plato, se destruye el vecino
-            //    //si hay mas porciones, se resta la intercambiada.
-
-            //}
-            //else
-            //{
-            //    Debug.Log("No hay vecinos");
-            //}
-
-            //FindAllMatches();
+            //desp de buscar coincidencia, si todos los platos estan ocupados. GameOver
+            Grid.instance.CheckBusyCell();
         }
         else
         {
             //sino vuelve a la posicion inicial.
             transform.position = posInicial;
         }
-
-    }
-
-    void SwapCakePiece(Dish dishClone)
-    {
 
     }
 
@@ -150,10 +129,7 @@ public class Dish : MonoBehaviour
                 //plato que recien apoyaste en la grilla, y su tipo de torta
                 if(previousSelected.numCake == neighborsPrefab.numCake)
                 {
-                    //void CakeFill()
-                    //{
-
-                    //}                   
+                    //void CakeFill()   
 
                     //num maximo de cantidad de piezas para ese postre.                    
                     if (previousSelected.createdCake.Count < cakePrefab[previousSelected.numCake].amountPieces)
@@ -198,8 +174,11 @@ public class Dish : MonoBehaviour
     {
         if (previousSelected.createdCake.Count >= cakePrefab[previousSelected.numCake].amountPieces)
         {
-            //Debug.Log("Plato lleno perri");
             //sumar puntos!
+            GameManager.instance.Score += ReturnScore(previousSelected.numCake);
+
+            //sonido de torta completa.
+            UIManager.instance.PlaySoundFullCake();
 
             //liberas la celda seleccionada, si es que se completo.
             previousSelected.transform.parent.GetComponent<Cell>().isBusy = false;
@@ -207,6 +186,24 @@ public class Dish : MonoBehaviour
             //destruis el objeto.
             Destroy(previousSelected.gameObject, 1.0f);
         }
+    }
+
+    int ReturnScore(int numCake)
+    {
+        int numScore = 0;
+        switch (numCake)
+        {
+            case 0:
+                numScore = (int)PuntuacionPiece.Cupcake;
+                return numScore;
+            case 1:
+                numScore = (int)PuntuacionPiece.Rosquilla;
+                return numScore;
+            case 2:
+                numScore = (int)PuntuacionPiece.Canela;
+                return numScore;
+        }
+        return numScore;
     }
 
     void DestroyCakePiece(GameObject neighbor)
@@ -322,21 +319,11 @@ public class Dish : MonoBehaviour
         {
             //instanciar porcion de torta del vecino al seleccionado.
             InstantiateCakePiece(i);
-
-            //instanciar cada postre en su plato
-            //GameObject pieceCake = Instantiate<GameObject>(cakePrefab[numCake].pieceCake[i]);
-
-            //pieceCake.transform.SetParent(transform, false);
-            //pieceCake.transform.position = new Vector3(transform.position.x,
-            //                                           pieceCake.transform.position.y,
-            //                                           transform.position.z);
-            //createdCake.Add(pieceCake);
         }
     } 
 
     private void OnTriggerEnter(Collider other)
     {
-        // && !onCell) // && !isSelected) //"Cell")
         //LayerMask.NameToLayer("Cell")
         if (other.gameObject.layer == 9 && !onCell)
         {            
@@ -345,21 +332,15 @@ public class Dish : MonoBehaviour
 
             if (!currentCell.isBusy)
             {
-                //Debug.Log("tocaste?");
                 isTouchingDish = true;
             }
-            //else
-            //{
-            //    isTouchingDish = false;
-            //}  
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.layer != 9) // && !isSelected) //"Cell")
+        if (other.gameObject.layer != 9)
         {
-            //Debug.Log("dejaste de tocar");
             isTouchingDish = false;
             //currentCell = null;
         }

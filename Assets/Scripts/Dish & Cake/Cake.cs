@@ -12,6 +12,11 @@ public enum AmountPiece
     Cupcake = 2, Rosquilla = 3, Canela = 4
 }
 
+public enum PuntuacionPiece
+{
+    Cupcake = 100, Rosquilla = 150, Canela = 200
+}
+
 public class Cake : MonoBehaviour
 {
     //postre

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Grid : MonoBehaviour
 {
+    public static Grid instance;
+
     [Header("Grid Construction")]
     [SerializeField] Cell[] cells; //conjunto de celdas
     public Cell cellPrefab; //celda individual
@@ -16,6 +18,11 @@ public class Grid : MonoBehaviour
 
     private void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
+
         //se crea la grilla de 4 * 4
         cells = new Cell[width * height];
 
@@ -46,8 +53,29 @@ public class Grid : MonoBehaviour
         cell.name = string.Format("Dish[{0}][{1}]", x, z);
     }
 
-    void SavePosGrid(Vector3 pos, int x, int z, int i)
+    //llamar cada vez que instanciamos un plato en la grilla.
+    public void CheckBusyCell() 
     {
+        //esto funciona, pero deberia ser mejor,
+        //podrias crear una funcion con una variable
+        //que a medida que se llene la celda, sume uno
+        //si se vacia, que reste.
+        //y cuando llega al cells.count >= variable .. llame al gameover..
 
+        int numBusyCell = 0;
+
+        foreach (var item in cells)
+        {
+            if(item.transform.GetComponentInChildren<Cell>().isBusy)
+            {
+                numBusyCell++;
+            }
+        }
+
+        if(numBusyCell >= (width*height))
+        {
+            //llamar al gameOver. 
+            UIManager.instance.GameoverScreen();
+        }
     }
 }

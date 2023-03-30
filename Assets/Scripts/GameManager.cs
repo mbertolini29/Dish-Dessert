@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager instance;
+
     [Header("Score")]
     [SerializeField] int score = 0;
     [SerializeField] int highScore = 0;
@@ -31,6 +33,14 @@ public class GameManager : MonoBehaviour
                 highScore = Score;
                 UIManager.instance.UpdateUIHighScore(highScore);
             }
+        }
+    }
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
         }
     }
 
