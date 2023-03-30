@@ -11,7 +11,7 @@ public class Dish : MonoBehaviour
     [SerializeField] int amountPiece;
 
     //Todos los tipos de postres
-    [SerializeField] Cake[] cakePrefab;
+    [SerializeField] Cake[] cakePrefab; 
 
     //lista de postres a instanciar en cada plato
     public List<GameObject> createdCake; //no seria, la lista de postres instanciado en cada plato.
@@ -126,19 +126,35 @@ public class Dish : MonoBehaviour
                 //vecino que encontraste
                 neighborsPrefab = neighbor.gameObject.GetComponent<Dish>();
 
+                //donde habia previousSelected, lo reemplace por this.
+
                 //plato que recien apoyaste en la grilla, y su tipo de torta
-                if(previousSelected.numCake == neighborsPrefab.numCake)
+                if(this.numCake == neighborsPrefab.numCake)
                 {
                     //void CakeFill()   
 
-                    //num maximo de cantidad de piezas para ese postre.                    
-                    if (previousSelected.createdCake.Count < cakePrefab[previousSelected.numCake].amountPieces)
+                    //falla cuando canela tien 2 y el instanciado 1
+                    //
+
+                    //cant de piezas antes de realizar el cambio..
+                    //int auxNeighbor = neighborsPrefab.amountPiece;
+                    //int aux = this.amountPiece;
+
+                    //cant de piezas del objeto seleccionado y el vecino.
+                    int aux = this.amountPiece + neighborsPrefab.amountPiece;
+
+                    //controlar la cant de piezas que le faltan y puede tener.          
+                    if (this.createdCake.Count < cakePrefab[this.numCake].amountPieces)
                     {
                         //llenar torta seleccionada.
-                        for (int i = previousSelected.amountPiece; i < previousSelected.amountPiece + neighborsPrefab.amountPiece; i++)
+
+                        //cant de piezas del plato. 
+                        for (int i = this.amountPiece; i < aux; i++)
                         {
                             //instanciar porcion de torta del vecino al seleccionado.
                             InstantiateCakePiece(i);
+
+                            this.amountPiece++; //si le instancias, tenes que sumarle.
 
                             //libera la celda, si la porcion de torta se completa.
                             CellRelease(); //release=liberar
@@ -147,7 +163,7 @@ public class Dish : MonoBehaviour
                             DestroyCakePiece(neighbor);                          
 
                             //si la torta instanciada en el plato seleccionado, ya esta llena, salir.
-                            if(createdCake.Count >= cakePrefab[previousSelected.numCake].amountPieces)
+                            if(this.createdCake.Count >= cakePrefab[this.numCake].amountPieces)
                             {
                                 return;
                             }
@@ -161,8 +177,7 @@ public class Dish : MonoBehaviour
     void InstantiateCakePiece(int i)
     {
         //instanciar cada postre en su plato
-        GameObject pieceCake = Instantiate<GameObject>(cakePrefab[numCake].pieceCake[i]); //uno mas del que ya hay
-
+        GameObject pieceCake = Instantiate<GameObject>(cakePrefab[numCake].pieceCake[i]); 
         pieceCake.transform.SetParent(transform, false);
         pieceCake.transform.position = new Vector3(transform.position.x,
                                                     pieceCake.transform.position.y,
@@ -170,21 +185,21 @@ public class Dish : MonoBehaviour
         createdCake.Add(pieceCake);
     }
 
-    void CellRelease()
+    void CellRelease() //liberar celda, si se completo..
     {
-        if (previousSelected.createdCake.Count >= cakePrefab[previousSelected.numCake].amountPieces)
+        if (this.createdCake.Count >= cakePrefab[this.numCake].amountPieces)
         {
             //sumar puntos!
-            GameManager.instance.Score += ReturnScore(previousSelected.numCake);
+            GameManager.instance.Score += ReturnScore(this.numCake);
 
             //sonido de torta completa.
             UIManager.instance.PlaySoundFullCake();
 
             //liberas la celda seleccionada, si es que se completo.
-            previousSelected.transform.parent.GetComponent<Cell>().isBusy = false;
+            this.transform.parent.GetComponent<Cell>().isBusy = false;
 
             //destruis el objeto.
-            Destroy(previousSelected.gameObject, 1.0f);
+            Destroy(this.gameObject, 1.0f);
         }
     }
 
@@ -216,6 +231,7 @@ public class Dish : MonoBehaviour
 
         //lo remueve de la lista de porcion de tortas del vecino.
         neighborsPrefab.createdCake.RemoveAt(numPieceCake);
+        neighborsPrefab.amountPiece--;
 
         //esto destruye al vecino si se queda sin porcion.
         if (neighborsPrefab.createdCake.Count == 0)
@@ -293,6 +309,20 @@ public class Dish : MonoBehaviour
 
     public void CreatedCake() //crea el postre.
     {
+        //un plato tiene la posibilidad de tener mas de un tipo de postre.
+        //como seria esa logica?
+
+        //una logicas seria, 
+        //si o si elegis una porcion de torta
+        //lo que sucede hasta ahora 
+        //si tiene lugar el plato.
+        //lanzas un numero random con posibilidad de que no salga torta.
+        //si es -1 no hace nada.
+        //si no. elije un numero al azar de esa torta.
+        //       pero si el num, es mayor a la cantidad de espacio, elige la unica
+        //       posibilida o lanza un valor en base a la cant de espacio que haya?
+
+
         //Elije el postre q quiere instanciar, al azar
         //UnityEngine.Random.Range(0, 2);
         numCake = UnityEngine.Random.Range(0, Enum.GetValues(typeof(typeCake)).Length);
@@ -320,6 +350,10 @@ public class Dish : MonoBehaviour
             //instanciar porcion de torta del vecino al seleccionado.
             InstantiateCakePiece(i);
         }
+
+        //osea que esto deberia elegirse desp de instanciarlo?? 
+        //int numRandom = UnityEngine.Random.Range(-1, Enum.GetValues(typeof(typeCake)).Length);
+        //Debug.Log(numRandom);
     } 
 
     private void OnTriggerEnter(Collider other)
