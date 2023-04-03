@@ -47,9 +47,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ede45f712477d841bb83ca53a937c04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameDessert: Canela
-  amountPieces: 4
-  pieceCake:
+  nameCake: 
+  pieceCount: 0
+  piece:
   - {fileID: 4339394559091929376, guid: b7872e67e1d3fe245a846b1749798fb5, type: 3}
   - {fileID: 8249725040718284990, guid: 8be3961162886e344be1b411e3229540, type: 3}
   - {fileID: 6468475361355564438, guid: 9e6fcb762d4a2fd48a4e8014f222b3c0, type: 3}

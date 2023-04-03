@@ -11,7 +11,6 @@ public class Cell : MonoBehaviour
 
     public Vector3 posCell = new Vector3();
 
-
     // Start is called before the first frame update
     void Start()
     {

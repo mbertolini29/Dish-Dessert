@@ -69,7 +69,7 @@ public class DishManager : MonoBehaviour
             //
             dish.CreatedCake();
 
-            //guardas el postre
+            //guardas el plato con el postre.
             dishes.Add(dish);
         }
     }

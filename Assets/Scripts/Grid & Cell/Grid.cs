@@ -12,9 +12,14 @@ public class Grid : MonoBehaviour
     public int width = 4; //x = fila
     public int height = 4; //z = columna
 
+    //static int allCells 
+    static int numBusyCell = 0;
+
     [Header("Padding")]
     [SerializeField] float paddingX = 2.1f;
     [SerializeField] float paddingZ = 1.6f;
+
+    
 
     private void Awake()
     {
@@ -61,8 +66,7 @@ public class Grid : MonoBehaviour
         //que a medida que se llene la celda, sume uno
         //si se vacia, que reste.
         //y cuando llega al cells.count >= variable .. llame al gameover..
-
-        int numBusyCell = 0;
+        numBusyCell = 0;
 
         foreach (var item in cells)
         {

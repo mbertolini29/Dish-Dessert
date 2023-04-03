@@ -140,13 +140,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80beaa01dfec76b4f8a1c26b6ab61191, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  amountCake: 0
+  createdCake: []
   numCake: 0
   amountPiece: 0
   cakePrefab:
   - {fileID: -5756123967269625335, guid: a85baafbf1c947b4095673e37eceeb1f, type: 3}
   - {fileID: -2188237222983897226, guid: 06c32a9e63a4bca418b5718ad4bd2eca, type: 3}
   - {fileID: 5832672474446144251, guid: b124cff4afa2aa94185f3ff6f8f3c853, type: 3}
-  createdCake: []
   neighbors: []
   posInicial: {x: 0, y: 0, z: 0}
   isSelected: 0

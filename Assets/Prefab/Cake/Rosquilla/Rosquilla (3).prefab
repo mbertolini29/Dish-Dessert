@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: -3296408862508234089}
   m_Layer: 8
   m_Name: Rosquilla (3)
-  m_TagString: Untagged
+  m_TagString: Rosquilla
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -143,7 +143,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6399067236274287144
 Transform:
   m_ObjectHideFlags: 0

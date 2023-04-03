@@ -3,19 +3,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class CakeItem
+{
+    public List<GameObject> _allCake;
+    public int _countCake; //cant de tortas.
+    public int _numCake; //Num de postre.
+    public int _pieceCount; //Cant de piezas del postre.
+}
+
 public class Dish : MonoBehaviour
 {
+    public List<CakeItem> cakeItemList = new List<CakeItem>();
+    CakeItem cakeItem;
+
+    //[Header("Lista de postres instanciados.")]
+    List<GameObject> createdCake; //la lista de postres instanciado en cada plato.
+
+    //[Header("Postres individuales.")]
     //Num de postre
-    [SerializeField] int numCake;
+    int numCake;
     //Cant de piezas del postre
-    [SerializeField] int amountPiece;
+    int pieceCount;
 
+    [Header("Tipos de postres.")]
     //Todos los tipos de postres
-    [SerializeField] Cake[] cakePrefab; 
+    [SerializeField] Cake[] cakePrefab;
 
-    //lista de postres a instanciar en cada plato
-    public List<GameObject> createdCake; //no seria, la lista de postres instanciado en cada plato.
-
+    [Header("Lista de vecinos.")] 
     public List<GameObject> neighbors;
 
     [Header("Drag & Drop")]
@@ -26,13 +41,16 @@ public class Dish : MonoBehaviour
 
     static Dish previousSelected = null;
     static Dish neighborsPrefab = null;
+
+    static Dish neighborDish = null;
     Vector3 mousePos;
 
+    [Header("Celda donde esta el plato.")]
     public Cell currentCell;
 
     //public Action OnCell;
 
-    //colisiones de 
+    [Header("Colisiones.")]
     public GameObject[] hitObject;
     public Vector3 collision = Vector3.zero;
     public LayerMask layerToHit;
@@ -59,9 +77,6 @@ public class Dish : MonoBehaviour
             transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition - mousePos);
             transform.position = new Vector3(transform.position.x, 2f, transform.position.z);
         }
-
-        Debug.DrawRay(transform.position, new Vector3(0, 0, -2f), Color.white);
-
     }
 
     void SelectDish()
@@ -108,7 +123,6 @@ public class Dish : MonoBehaviour
             //sino vuelve a la posicion inicial.
             transform.position = posInicial;
         }
-
     }
 
     //poder intercambiar
@@ -116,92 +130,8 @@ public class Dish : MonoBehaviour
     {
         //si hay vecinos que tengan la misma porcion de torta, se puede intercambiar        
         //return GetAllNeighbors().Contains(previousSelected.gameObject);
-
-        neighbors = GetAllNeighbors();
-
-        foreach (GameObject neighbor in neighbors)
-        {
-            if (neighbor != null)
-            {
-                //vecino que encontraste
-                neighborsPrefab = neighbor.gameObject.GetComponent<Dish>();
-
-                //donde habia previousSelected, lo reemplace por this.
-
-                //plato que recien apoyaste en la grilla, y su tipo de torta
-                if(this.numCake == neighborsPrefab.numCake)
-                {
-                    //void CakeFill()   
-
-                    //falla cuando canela tien 2 y el instanciado 1
-                    //
-
-                    //cant de piezas antes de realizar el cambio..
-                    //int auxNeighbor = neighborsPrefab.amountPiece;
-                    //int aux = this.amountPiece;
-
-                    //cant de piezas del objeto seleccionado y el vecino.
-                    int aux = this.amountPiece + neighborsPrefab.amountPiece;
-
-                    //controlar la cant de piezas que le faltan y puede tener.          
-                    if (this.createdCake.Count < cakePrefab[this.numCake].amountPieces)
-                    {
-                        //llenar torta seleccionada.
-
-                        //cant de piezas del plato. 
-                        for (int i = this.amountPiece; i < aux; i++)
-                        {
-                            //instanciar porcion de torta del vecino al seleccionado.
-                            InstantiateCakePiece(i);
-
-                            this.amountPiece++; //si le instancias, tenes que sumarle.
-
-                            //libera la celda, si la porcion de torta se completa.
-                            CellRelease(); //release=liberar
-
-                            //destruir la porcion de torta movida del vecino.
-                            DestroyCakePiece(neighbor);                          
-
-                            //si la torta instanciada en el plato seleccionado, ya esta llena, salir.
-                            if(this.createdCake.Count >= cakePrefab[this.numCake].amountPieces)
-                            {
-                                return;
-                            }
-                        }
-                    }                    
-                }
-            }
-        }
-    }
-
-    void InstantiateCakePiece(int i)
-    {
-        //instanciar cada postre en su plato
-        GameObject pieceCake = Instantiate<GameObject>(cakePrefab[numCake].pieceCake[i]); 
-        pieceCake.transform.SetParent(transform, false);
-        pieceCake.transform.position = new Vector3(transform.position.x,
-                                                    pieceCake.transform.position.y,
-                                                    transform.position.z);
-        createdCake.Add(pieceCake);
-    }
-
-    void CellRelease() //liberar celda, si se completo..
-    {
-        if (this.createdCake.Count >= cakePrefab[this.numCake].amountPieces)
-        {
-            //sumar puntos!
-            GameManager.instance.Score += ReturnScore(this.numCake);
-
-            //sonido de torta completa.
-            UIManager.instance.PlaySoundFullCake();
-
-            //liberas la celda seleccionada, si es que se completo.
-            this.transform.parent.GetComponent<Cell>().isBusy = false;
-
-            //destruis el objeto.
-            Destroy(this.gameObject, 1.0f);
-        }
-    }
+        neighbors = GetAllNeighbors();       
+    } 
 
     int ReturnScore(int numCake)
     {
@@ -221,24 +151,24 @@ public class Dish : MonoBehaviour
         return numScore;
     }
 
-    void DestroyCakePiece(GameObject neighbor)
+    void DestroyCakePieceNeighbor(GameObject selectedPrefab, int i)
     {
-        int numPieceCake = neighborsPrefab.createdCake.Count - 1;
+        int numPieceCake = this.cakeItemList[i]._allCake.Count - 1;
 
         //destruye la porcion de la torta del vecino
-        GameObject npc = neighborsPrefab.createdCake[numPieceCake].transform.gameObject;
+        GameObject npc = this.cakeItemList[i]._allCake[numPieceCake].transform.gameObject;
         Destroy(npc, 0.5f);
 
         //lo remueve de la lista de porcion de tortas del vecino.
-        neighborsPrefab.createdCake.RemoveAt(numPieceCake);
-        neighborsPrefab.amountPiece--;
+        this.cakeItemList[i]._allCake.RemoveAt(numPieceCake);
+        this.cakeItemList[i]._pieceCount--;
 
         //esto destruye al vecino si se queda sin porcion.
-        if (neighborsPrefab.createdCake.Count == 0)
+        if (this.cakeItemList[i]._allCake.Count == 0)
         {
             //liberas la celda del vecino. si se quedo sin porciones.
-            neighborsPrefab.transform.parent.GetComponent<Cell>().isBusy = false;
-            Destroy(neighbor, 0.25f);
+            this.transform.parent.GetComponent<Cell>().isBusy = false;
+            Destroy(selectedPrefab, 0.25f);
         }
     }
 
@@ -269,37 +199,28 @@ public class Dish : MonoBehaviour
     GameObject GetNeighbor(Vector3 direction)
     {
         Ray ray;
-
         ray = new Ray(previousSelected.transform.position, direction);
-
         //ray = new Ray(transform.position, direction);
 
         RaycastHit[] hits;
         hits = Physics.RaycastAll(ray);
 
-        //this.gameObject
-        //        
         RaycastHit hit;
         float maxDistance = 1.5f;
         Physics.Raycast(ray, out hit, maxDistance, layerToHit);
 
-        //golpear a un vecino con la misma porcion de torta??
-        if (hit.collider != null)
+        if(hit.collider != null)
         {
-            //Debug.Log("Hola, choque con un plato de torta.");
-            //return hit.collider.gameObject;
+            //porque aca tmb, podria identificar las conexiones con un tag
+            //hit.collider.tag == "Magdalena"
 
-            //si el padre es igual al padre que colisiono.
-            // destruir. esto no deberia pasar.
-            if (transform.parent == hit.collider.transform.parent)
-            {
-                return null;
-            }
-            else
-            {
-                //Debug.Log("Hola, choque con un plato de torta.");
-                return hit.collider.gameObject;
-            }
+            //vecino que encontraste //0.1
+            neighborDish = hit.collider.gameObject.GetComponent<Dish>();
+            GameObject neighbor = hit.collider.gameObject; //esto para poder eliminarlo. 
+
+            NeighborCheck(neighborDish, neighbor);
+
+            return hit.collider.gameObject;
         }
         else
         {
@@ -307,54 +228,218 @@ public class Dish : MonoBehaviour
         }
     }
 
+    void NeighborCheck(Dish neighborDish, GameObject neighbor)
+    {
+        ////cuantas torta tiene el vecino y el plato que dejaste.
+        //int neighborCount = neighborDish.cakeItemList.Count;
+        //int cakeCount = this.cakeItemList.Count; //el plato seleccionado y dejado.
+
+        //primero te chequeas al seleccionado.
+        for (int i = 0; i < this.cakeItemList.Count; i++)
+        {
+            for (int j = 0; j < neighborDish.cakeItemList.Count; j++)
+            {
+                //chequeas si el vecinoo tiene un porcion igual.
+                if (this.cakeItemList[i]._numCake == neighborDish.cakeItemList[j]._numCake)
+                {
+                    if(neighborDish.cakeItemList.Count == 0 || this.cakeItemList.Count == 0)
+                    {
+                        return; //si uno de los 2 esta vacio. No seguir.
+                    }
+
+                    //cant de piezas del objeto seleccionado y el vecino.
+                    int aux = this.cakeItemList[i]._pieceCount + neighborDish.cakeItemList[j]._pieceCount;
+
+                    if (neighborDish.cakeItemList.Count == 1) //mover la porcion de torta desde el seleccionado al vecino.
+                    {
+                        Dish dish = neighborDish;
+                        Dish destroyPiece = this.gameObject.GetComponent<Dish>();
+                        //funcion que mueva la pieza del vecino.
+                        MovePiece(dish, destroyPiece, neighbor, aux, i, j);                               
+                    }
+                    else if(this.cakeItemList.Count == 1) //ir del vecino hacia la torta que pusiste
+                    {
+                        Dish dish = this.gameObject.GetComponent<Dish>();
+                        Dish destroyPiece = neighborDish;
+
+                        //funcion que mueve la pieza del plato que se mueve.
+                        MovePiece(dish, destroyPiece, this.gameObject, aux, i, j);
+                    }
+                }
+            }
+        }   
+    }
+
+    void MovePiece(Dish movePiece, Dish destroyPiece, GameObject neighbor, int aux, int i, int j)
+    {
+        //para intanciarle al vecino, las porciones de torta del seleccionado.
+        if (movePiece.cakeItemList[j]._allCake.Count <= cakePrefab[movePiece.cakeItemList[j]._numCake].piece.Count)
+        {
+            //llenar torta seleccionada.
+            for (int k = movePiece.cakeItemList[j]._pieceCount; k < aux; k++)
+            {
+                //instanciar porcion de torta del vecino al seleccionado.
+                GameObject pieceCake = Instantiate<GameObject>(cakePrefab[movePiece.cakeItemList[j]._numCake].piece[k]);
+                pieceCake.transform.SetParent(movePiece.transform, false);
+                pieceCake.transform.position = new Vector3(movePiece.transform.position.x, 
+                                                           pieceCake.transform.position.y,
+                                                           movePiece.transform.position.z);
+                movePiece.cakeItemList[j]._allCake.Add(pieceCake);
+
+                //si le instancias, tenes que sumarle.
+                movePiece.cakeItemList[j]._pieceCount++;
+
+                //libera la celda, si la porcion de torta se completa.
+                CellRelease(movePiece, j); //release=liberar                                
+
+                //destruir la porcion de torta movida.
+                DestroyCakePiece(destroyPiece, neighbor, i);
+
+                //si la torta instanciada en el plato seleccionado, ya esta llena, salir.
+                if (movePiece.cakeItemList[j]._allCake.Count >= cakePrefab[movePiece.cakeItemList[j]._numCake].piece.Count)
+                {
+                    return;
+                }
+            }
+        }
+    }
+
+    void CellRelease(Dish movePiece, int i) //liberar celda, si se completo..
+    {
+        if (movePiece.cakeItemList[i]._allCake.Count >= cakePrefab[movePiece.cakeItemList[i]._numCake].piece.Count)
+        {
+            //sumar puntos!
+            GameManager.instance.Score += ReturnScore(movePiece.cakeItemList[i]._numCake);
+
+            //sonido de torta completa.
+            UIManager.instance.PlaySoundFullCake();
+
+            //liberas la celda seleccionada, si es que se completo.
+            this.transform.parent.GetComponent<Cell>().isBusy = false;
+
+            //destruis el plato, una vez que se quedo sin porciones.
+            //Destroy(this.cakeItemList[j]._allCake[j], 1.0f);
+            Destroy(movePiece.gameObject, 1.0f);
+        }
+    }
+
+    void DestroyCakePiece(Dish destroyPiece, GameObject neighbor, int j)
+    {
+        int numPieceCake = destroyPiece.cakeItemList[j]._allCake.Count - 1;
+
+        //destruye la porcion de la torta del vecino
+        GameObject npc = destroyPiece.cakeItemList[j]._allCake[numPieceCake].transform.gameObject;
+        Destroy(npc, 0.5f);
+
+        //lo remueve de la lista de porcion de tortas del vecino.
+        destroyPiece.cakeItemList[j]._allCake.RemoveAt(numPieceCake);
+        //destroyPiece.cakeItemList[j]._pieceCount--;
+        destroyPiece.cakeItemList.RemoveAt(j);
+
+        //esto destruye al vecino si se queda sin porcion.
+        if (destroyPiece.cakeItemList.Count == 0)
+        {
+            //liberas la celda del vecino. si se quedo sin porciones.
+            destroyPiece.transform.parent.GetComponent<Cell>().isBusy = false;
+            Destroy(neighbor, 0.5f);
+        }
+    }
+
+    //------------
+    //1° cosa que se crea.
     public void CreatedCake() //crea el postre.
     {
-        //un plato tiene la posibilidad de tener mas de un tipo de postre.
-        //como seria esa logica?
-
-        //una logicas seria, 
-        //si o si elegis una porcion de torta
-        //lo que sucede hasta ahora 
-        //si tiene lugar el plato.
-        //lanzas un numero random con posibilidad de que no salga torta.
-        //si es -1 no hace nada.
-        //si no. elije un numero al azar de esa torta.
-        //       pero si el num, es mayor a la cantidad de espacio, elige la unica
-        //       posibilida o lanza un valor en base a la cant de espacio que haya?
-
+        //lista de porciones de torta.
+        createdCake = new List<GameObject>();
+        cakeItem = new CakeItem();
 
         //Elije el postre q quiere instanciar, al azar
         //UnityEngine.Random.Range(0, 2);
-        numCake = UnityEngine.Random.Range(0, Enum.GetValues(typeof(typeCake)).Length);
+        numCake = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TypeCake)).Length);
 
         //Cuantas piezas
         //numPiece = UnityEngine.Random.Range(0, Enum.GetValues(typeof(AmountPiece)).Length);
         switch (numCake)
         {
             case 0:
-                amountPiece = UnityEngine.Random.Range(1, (int)AmountPiece.Cupcake);
+                pieceCount = UnityEngine.Random.Range(1, (int)AmountPiece.Cupcake);
                 break;
             case 1:
-                amountPiece = UnityEngine.Random.Range(1, (int)AmountPiece.Rosquilla);
+                pieceCount = UnityEngine.Random.Range(1, (int)AmountPiece.Rosquilla);
                 break;
             case 2:
-                amountPiece = UnityEngine.Random.Range(1, (int)AmountPiece.Canela);
+                pieceCount = UnityEngine.Random.Range(1, (int)AmountPiece.Canela);
                 break;
         }
 
-        //Cada plato tiene que tener su lista de postres
-        createdCake = new List<GameObject>();
-
-        for (int i = 0; i < amountPiece; i++)
+        for (int i = 0; i < pieceCount; i++)
         {
             //instanciar porcion de torta del vecino al seleccionado.
-            InstantiateCakePiece(i);
+            InstantiateCakePiece(i, numCake);
         }
 
-        //osea que esto deberia elegirse desp de instanciarlo?? 
-        //int numRandom = UnityEngine.Random.Range(-1, Enum.GetValues(typeof(typeCake)).Length);
+        //guardas la torta
+        cakeItem._allCake = createdCake;
+        cakeItem._numCake = numCake;
+        cakeItem._pieceCount = pieceCount;
+        cakeItemList.Add(cakeItem);
+
+        //lista de porciones de torta.
+        createdCake = new List<GameObject>();
+        cakeItem = new CakeItem();
+
+        //lanzas un numero random con posibilidad de que no salga torta.
+        int numRandom = UnityEngine.Random.Range(-1, Enum.GetValues(typeof(TypeCake)).Length);
+
+        if (numRandom != -1 && numRandom != numCake)
+        {
+            numCake = numRandom;
+            switch (numRandom)
+            {
+                case 0:
+                    pieceCount = UnityEngine.Random.Range(1, (int)AmountPiece.Cupcake);
+                    break;
+                case 1:
+                    pieceCount = UnityEngine.Random.Range(1, (int)AmountPiece.Rosquilla);
+                    break;
+                case 2:
+                    pieceCount = UnityEngine.Random.Range(1, (int)AmountPiece.Canela);
+                    break;
+            }
+
+            for (int i = 0; i < pieceCount; i++)
+            {
+                //instanciar porcion de torta del vecino al seleccionado.
+                InstantiateCakePiece(i, numCake);
+                
+                //ver como acomodar desp.
+                //createdCake[i].transform.rotation = Quaternion.Euler(transform.rotation.x, -90f, transform.rotation.z);
+            }
+
+            //guardas otra torta en el plato.
+            //allDishCake.Add(createdCake);
+
+            //guardas la torta
+            cakeItem._allCake = createdCake;
+            cakeItem._numCake = numCake;
+            cakeItem._pieceCount = pieceCount;
+            cakeItemList.Add(cakeItem);
+        }
+
         //Debug.Log(numRandom);
-    } 
+    }
+
+    void InstantiateCakePiece(int i, int numCake)
+    {
+        //instanciar cada postre en su plato
+        GameObject pieceCake = Instantiate<GameObject>(cakePrefab[numCake].piece[i]);
+        pieceCake.transform.SetParent(transform, false);
+        pieceCake.transform.position = new Vector3(transform.position.x,
+                                                    pieceCake.transform.position.y,
+                                                    transform.position.z);
+
+        createdCake.Add(pieceCake);
+    }
 
     private void OnTriggerEnter(Collider other)
     {

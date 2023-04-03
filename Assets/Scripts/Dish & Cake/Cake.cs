@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum typeCake
+public enum TypeCake
 {
     Cupcake, Rosquilla, Canela
 }
@@ -24,9 +24,9 @@ public class Cake : MonoBehaviour
     //public static Cake instance;
 
     //todo esto ya esta completo.
-    public string nameDessert;
-    public int amountPieces;
-    public List<GameObject> pieceCake; //lista de porciones del postre 
+    public string nameCake;
+    public int pieceCount;
+    public List<GameObject> piece; //lista de porciones del postre 
 
     public void GetPieceCake()
     {
