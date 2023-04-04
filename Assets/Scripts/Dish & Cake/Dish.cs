@@ -44,6 +44,7 @@ public class Dish : MonoBehaviour
 
     static Dish neighborDish = null;
     Vector3 mousePos;
+    static bool destroyDish = false;
 
     [Header("Celda donde esta el plato.")]
     public Cell currentCell;
@@ -151,27 +152,6 @@ public class Dish : MonoBehaviour
         return numScore;
     }
 
-    void DestroyCakePieceNeighbor(GameObject selectedPrefab, int i)
-    {
-        int numPieceCake = this.cakeItemList[i]._allCake.Count - 1;
-
-        //destruye la porcion de la torta del vecino
-        GameObject npc = this.cakeItemList[i]._allCake[numPieceCake].transform.gameObject;
-        Destroy(npc, 0.5f);
-
-        //lo remueve de la lista de porcion de tortas del vecino.
-        this.cakeItemList[i]._allCake.RemoveAt(numPieceCake);
-        this.cakeItemList[i]._pieceCount--;
-
-        //esto destruye al vecino si se queda sin porcion.
-        if (this.cakeItemList[i]._allCake.Count == 0)
-        {
-            //liberas la celda del vecino. si se quedo sin porciones.
-            this.transform.parent.GetComponent<Cell>().isBusy = false;
-            Destroy(selectedPrefab, 0.25f);
-        }
-    }
-
     //vecinos
     Vector3[] adjecentDirections = new Vector3[]
     {
@@ -209,18 +189,26 @@ public class Dish : MonoBehaviour
         float maxDistance = 1.5f;
         Physics.Raycast(ray, out hit, maxDistance, layerToHit);
 
-        if(hit.collider != null)
+        if (hit.collider != null)
         {
-            //porque aca tmb, podria identificar las conexiones con un tag
-            //hit.collider.tag == "Magdalena"
-
-            //vecino que encontraste //0.1
+            //vecino que encontraste 
             neighborDish = hit.collider.gameObject.GetComponent<Dish>();
             GameObject neighbor = hit.collider.gameObject; //esto para poder eliminarlo. 
 
-            NeighborCheck(neighborDish, neighbor);
+            if (neighborDish.currentCell != this.currentCell)
+            {
+                CheckSeveralNeighbors(neighborDish, neighbor);
 
-            return hit.collider.gameObject;
+                //chequea vecinos que uno de ambos tenga una porcion de torta.
+                NeighborCheck(neighborDish, neighbor);
+
+
+                return hit.collider.gameObject;
+            }
+            else
+            {
+                return null;
+            }
         }
         else
         {
@@ -228,12 +216,38 @@ public class Dish : MonoBehaviour
         }
     }
 
+    void CheckSeveralNeighbors(Dish neighborDish, GameObject neighbor)
+    {
+        for (int i = 0; i < this.cakeItemList.Count; i++)
+        {
+            for (int j = 0; j < neighborDish.cakeItemList.Count; j++)
+            {
+                //chequeas si el vecinoo tiene un porcion igual.
+                if (this.cakeItemList[i]._numCake == neighborDish.cakeItemList[j]._numCake)
+                {
+                    if (neighborDish.cakeItemList.Count == 0 || this.cakeItemList.Count == 0)
+                    {
+                        return; //si uno de los 2 esta vacio. No seguir.
+                    }
+
+                    //cant de piezas del objeto seleccionado y el vecino.
+                    int aux = this.cakeItemList[i]._pieceCount + neighborDish.cakeItemList[j]._pieceCount;
+
+                    if (neighborDish.cakeItemList.Count >= 2 && this.cakeItemList.Count >= 2)
+                    {
+                        //ir del vecino hacia la torta que pusiste
+                        Dish dish = this.gameObject.GetComponent<Dish>();
+                        Dish destroyPiece = neighborDish;
+                        
+                        MovePiece(destroyPiece, dish, neighbor, aux, i, j);
+                    }
+                }
+            }
+        }
+    }
+
     void NeighborCheck(Dish neighborDish, GameObject neighbor)
     {
-        ////cuantas torta tiene el vecino y el plato que dejaste.
-        //int neighborCount = neighborDish.cakeItemList.Count;
-        //int cakeCount = this.cakeItemList.Count; //el plato seleccionado y dejado.
-
         //primero te chequeas al seleccionado.
         for (int i = 0; i < this.cakeItemList.Count; i++)
         {
@@ -250,27 +264,36 @@ public class Dish : MonoBehaviour
                     //cant de piezas del objeto seleccionado y el vecino.
                     int aux = this.cakeItemList[i]._pieceCount + neighborDish.cakeItemList[j]._pieceCount;
 
-                    if (neighborDish.cakeItemList.Count == 1) //mover la porcion de torta desde el seleccionado al vecino.
+                    if (neighborDish.cakeItemList.Count == 1 && this.cakeItemList.Count == 1)
                     {
-                        Dish dish = neighborDish;
-                        Dish destroyPiece = this.gameObject.GetComponent<Dish>();
-                        //funcion que mueva la pieza del vecino.
-                        MovePiece(dish, destroyPiece, neighbor, aux, i, j);                               
-                    }
-                    else if(this.cakeItemList.Count == 1) //ir del vecino hacia la torta que pusiste
-                    {
+                        //Del vecino hacia la torta que pusiste
                         Dish dish = this.gameObject.GetComponent<Dish>();
                         Dish destroyPiece = neighborDish;
 
-                        //funcion que mueve la pieza del plato que se mueve.
                         MovePiece(dish, destroyPiece, this.gameObject, aux, i, j);
+                    }
+                    else if (neighborDish.cakeItemList.Count == 1 && this.cakeItemList.Count >= 2)
+                    { 
+                        //Desde el seleccionado al vecino.
+                        Dish dish = neighborDish;
+                        Dish destroyPiece = this.gameObject.GetComponent<Dish>();
+
+                        MovePiece(dish, destroyPiece, neighbor, aux, i, j);                               
+                    }
+                    else if(neighborDish.cakeItemList.Count >= 2 && this.cakeItemList.Count == 1)
+                    {
+                        //Del vecino hacia la torta que pusiste
+                        Dish dish = this.gameObject.GetComponent<Dish>();
+                        Dish destroyPiece = neighborDish;
+                        
+                        MovePiece(dish, destroyPiece, this.gameObject, aux, j, i);
                     }
                 }
             }
         }   
     }
 
-    void MovePiece(Dish movePiece, Dish destroyPiece, GameObject neighbor, int aux, int i, int j)
+    void MovePiece(Dish movePiece, Dish destroyPiece, GameObject gameobjectDish, int aux, int i, int j)
     {
         //para intanciarle al vecino, las porciones de torta del seleccionado.
         if (movePiece.cakeItemList[j]._allCake.Count <= cakePrefab[movePiece.cakeItemList[j]._numCake].piece.Count)
@@ -290,40 +313,62 @@ public class Dish : MonoBehaviour
                 movePiece.cakeItemList[j]._pieceCount++;
 
                 //libera la celda, si la porcion de torta se completa.
-                CellRelease(movePiece, j); //release=liberar                                
+                CellRelease(movePiece, destroyPiece, gameobjectDish, j); //release=liberar                                
 
                 //destruir la porcion de torta movida.
-                DestroyCakePiece(destroyPiece, neighbor, i);
+                DestroyCakePiece(destroyPiece, i);
+
+                //if (destroyDish) //si se destruyo el plato, no seguir corroborando vecinos.
+                //{
+                //    break;
+                //}
 
                 //si la torta instanciada en el plato seleccionado, ya esta llena, salir.
                 if (movePiece.cakeItemList[j]._allCake.Count >= cakePrefab[movePiece.cakeItemList[j]._numCake].piece.Count)
                 {
-                    return;
+                    //return;
+                    break;
                 }
             }
         }
     }
 
-    void CellRelease(Dish movePiece, int i) //liberar celda, si se completo..
+    void CellRelease(Dish movePiece, Dish destroyPiece, GameObject gameobjectDish, int j) //liberar celda, si se completo..
     {
-        if (movePiece.cakeItemList[i]._allCake.Count >= cakePrefab[movePiece.cakeItemList[i]._numCake].piece.Count)
+        if (movePiece.cakeItemList[j]._allCake.Count >= cakePrefab[movePiece.cakeItemList[j]._numCake].piece.Count)
         {
             //sumar puntos!
-            GameManager.instance.Score += ReturnScore(movePiece.cakeItemList[i]._numCake);
+            GameManager.instance.Score += ReturnScore(movePiece.cakeItemList[j]._numCake);
 
             //sonido de torta completa.
             UIManager.instance.PlaySoundFullCake();
 
-            //liberas la celda seleccionada, si es que se completo.
-            this.transform.parent.GetComponent<Cell>().isBusy = false;
-
             //destruis el plato, una vez que se quedo sin porciones.
-            //Destroy(this.cakeItemList[j]._allCake[j], 1.0f);
-            Destroy(movePiece.gameObject, 1.0f);
+            if (movePiece.cakeItemList.Count <= 1)
+            {
+                //liberas la celda seleccionada, si es que se completo.
+                gameobjectDish.transform.parent.GetComponent<Cell>().isBusy = false;
+
+                Destroy(movePiece.gameObject, 1.0f);
+
+                //destroyDish = true;
+            }
+            else //si en un plato, se completo la torta, aunque tenga otro vecino. hay que destruir esa torta completa
+            {
+                for (int i = 0; i < movePiece.cakeItemList[j]._allCake.Count; i++)
+                {
+                    //destruye la porcion de la torta del vecino
+                    GameObject npc = movePiece.cakeItemList[j]._allCake[i].transform.gameObject;
+                    Destroy(npc, 0.5f);
+                }
+
+                //lo remueve de la lista de porcion de tortas del vecino.
+                movePiece.cakeItemList.RemoveAt(j);
+            }
         }
     }
 
-    void DestroyCakePiece(Dish destroyPiece, GameObject neighbor, int j)
+    void DestroyCakePiece(Dish destroyPiece, int j)
     {
         int numPieceCake = destroyPiece.cakeItemList[j]._allCake.Count - 1;
 
@@ -333,15 +378,20 @@ public class Dish : MonoBehaviour
 
         //lo remueve de la lista de porcion de tortas del vecino.
         destroyPiece.cakeItemList[j]._allCake.RemoveAt(numPieceCake);
-        //destroyPiece.cakeItemList[j]._pieceCount--;
-        destroyPiece.cakeItemList.RemoveAt(j);
+        destroyPiece.cakeItemList[j]._pieceCount--;
+
+        if(destroyPiece.cakeItemList[j]._allCake.Count < 1)
+        {
+            destroyPiece.cakeItemList.RemoveAt(j);
+        }
 
         //esto destruye al vecino si se queda sin porcion.
         if (destroyPiece.cakeItemList.Count == 0)
         {
             //liberas la celda del vecino. si se quedo sin porciones.
             destroyPiece.transform.parent.GetComponent<Cell>().isBusy = false;
-            Destroy(neighbor, 0.5f);
+            Destroy(destroyPiece.gameObject, 0.5f);
+            //si no destruye el plato, es xq, hay que pasarle, el gameobject,
         }
     }
 
