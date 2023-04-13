@@ -9,18 +9,16 @@ public class Grid : MonoBehaviour
     [Header("Grid Construction")]
     [SerializeField] Cell[] cells; //conjunto de celdas
     public Cell cellPrefab; //celda individual
-    public int width = 4; //x = fila
-    public int height = 4; //z = columna
+    public int height = 4; //x = columna
+    public int width = 4; //y = fila
 
     //static int allCells 
     static int numBusyCell = 0;
 
     [Header("Padding")]
-    [SerializeField] float paddingX = 2.1f;
-    [SerializeField] float paddingZ = 1.6f;
-
+    [SerializeField] float paddingX = 1.9f; //2.425
+    [SerializeField] float paddingY = 1.9f; //1.85
     
-
     private void Awake()
     {
         if (instance == null)
@@ -33,29 +31,31 @@ public class Grid : MonoBehaviour
 
         //se rellena la grilla
         int i = 0;
-        for (int z = 0; z < height; z++)
+
+        for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
             {
-                CreateGrid(x, z, i++);
+                CreateGrid(x, y, i++);
             }
         }
     }
 
-    void CreateGrid(int x, int z, int i)
+    void CreateGrid(int x, int y, int i)
     {
         Cell cell = cells[i] = Instantiate<Cell>(cellPrefab);
         cell.transform.SetParent(transform, false);
 
         Vector3 position;
-        position.x = (cell.width + (paddingX * x));
-        position.y = 0f;
-        position.z = (cell.height + (paddingZ * z));
+        position.x = cell.width + (paddingX * x);
+        position.y = cell.height + (paddingY * y);
+        position.z = 0f;
         cell.transform.localPosition = position;
+        //cell.posCell = transform.position;
 
         //como centramos la grilla?
 
-        cell.name = string.Format("Dish[{0}][{1}]", x, z);
+        cell.name = string.Format("Dish[{0}][{1}]", x, y);
     }
 
     //llamar cada vez que instanciamos un plato en la grilla.

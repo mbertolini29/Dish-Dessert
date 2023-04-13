@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Cell : MonoBehaviour
 {
-    public float width = 1.9f; //ancho de la celda
-    public float height = 1.4f; //alto de la celda
+    public float width = 1.9f; //2.3 ancho de la celda
+    public float height = 1.4f; //1.8 alto de la celda
 
     public bool isBusy = false;
 

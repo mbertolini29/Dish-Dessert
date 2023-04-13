@@ -21,8 +21,7 @@ public class Dish : MonoBehaviour
     List<GameObject> createdCake; //la lista de postres instanciado en cada plato.
 
     //[Header("Postres individuales.")]
-    //Num de postre
-    int numCake;
+    int numCake; //numDessert
     //Cant de piezas del postre
     int pieceCount;
 
@@ -76,7 +75,8 @@ public class Dish : MonoBehaviour
         {
             //esto mueve el plato.
             transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition - mousePos);
-            transform.position = new Vector3(transform.position.x, 2f, transform.position.z);
+            //transform.position = new Vector3(transform.position.x, transform.position.y,  transform.position.z);
+            transform.position = new Vector3(transform.position.x, transform.position.y, -0.5f);
         }
     }
 
@@ -109,9 +109,11 @@ public class Dish : MonoBehaviour
             //ocupas la celda donde se instancio el plato.
             currentCell.isBusy = true;
 
-            transform.position = new Vector3(0f, 1f, 0f);            
+            transform.position = new Vector3(0f, 0.15f, 0f);
+            transform.rotation = Quaternion.Euler(new Vector3(-90f, 0f, 0f));
+            transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
+
             transform.SetParent(currentCell.gameObject.transform, false);
-            transform.localScale = new Vector3(1f, 1f, 1f);
 
             //una vez que ocupa la celda. Busca si las porciones de tortas coinciden.
             CanSwipe();
@@ -155,8 +157,8 @@ public class Dish : MonoBehaviour
     //vecinos
     Vector3[] adjecentDirections = new Vector3[]
     {
-        Vector3.forward, //adelante (arriba)
-        Vector3.back, //atras (abajo)
+        Vector3.up, 
+        Vector3.down, 
         Vector3.left,
         Vector3.right
     };
@@ -186,7 +188,7 @@ public class Dish : MonoBehaviour
         hits = Physics.RaycastAll(ray);
 
         RaycastHit hit;
-        float maxDistance = 1.5f;
+        float maxDistance = 2.5f;
         Physics.Raycast(ray, out hit, maxDistance, layerToHit);
 
         if (hit.collider != null)
@@ -201,7 +203,6 @@ public class Dish : MonoBehaviour
 
                 //chequea vecinos que uno de ambos tenga una porcion de torta.
                 NeighborCheck(neighborDish, neighbor);
-
 
                 return hit.collider.gameObject;
             }
@@ -508,7 +509,9 @@ public class Dish : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.layer != 9)
+        Debug.Log(other.gameObject);
+
+        if (other.gameObject.layer == 10)
         {
             isTouchingDish = false;
             //currentCell = null;
