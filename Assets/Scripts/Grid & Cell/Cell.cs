@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Cell : MonoBehaviour
 {
-    public float width = 1.9f; //2.3 ancho de la celda
-    public float height = 1.4f; //1.8 alto de la celda
+    public float width = 2.3f; //ancho de la celda
+    public float height = 1.8f; //alto de la celda
 
     public bool isBusy = false;
 
@@ -15,22 +15,5 @@ public class Cell : MonoBehaviour
     void Start()
     {
         posCell = transform.position;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        //Debug.Log("todo?");
-        //if(other.gameObject)
     }
 }

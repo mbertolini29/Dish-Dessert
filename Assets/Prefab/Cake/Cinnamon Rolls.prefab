@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1465250746486655654
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1465250746486655648}
+  - component: {fileID: 1465250746486655655}
+  m_Layer: 0
+  m_Name: Cinnamon Rolls
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1465250746486655648
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465250746486655654}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1465250746486655655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465250746486655654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ede45f712477d841bb83ca53a937c04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameCake: Cinnamon Rolls
+  piecesCount: 4
+  piece:
+  - {fileID: 2805933404305607940, guid: 11e9c4dc9213b2a40846db544356e2f6, type: 3}
+  - {fileID: 6408064034470011827, guid: 99dbc9c39f681a941b7fe317f7ca2eb6, type: 3}
+  - {fileID: 3905922206569113412, guid: bc398f10df3c74a4b807d23ecc92aa9f, type: 3}
+  - {fileID: 3600186376774988961, guid: edff30978691f834d8d6f519a554df08, type: 3}
+  posOriginal:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  scaleOriginal: {x: 0.2, y: 0.2, z: 0.2}
+  posBottom:
+  - {x: 0.45, y: 0.045, z: -2}
+  - {x: 0.23, y: 0.4, z: -2}
+  - {x: -0.215, y: 0.4, z: -2}
+  - {x: -0.45, y: -0.015, z: -2}
+  - {x: -0.22, y: -0.41, z: -2}
+  - {x: 0.25, y: -0.35, z: -2}
+  scaleBottom: {x: 0.15, y: 0.15, z: 0.15}
+  cakeItemList: []

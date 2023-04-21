@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
+[System.Serializable] //esto llevarlo a cake desp....
 public class CakeItem
 {
     public List<GameObject> _allCake;
@@ -18,16 +18,16 @@ public class Dish : MonoBehaviour
     CakeItem cakeItem;
 
     //[Header("Lista de postres instanciados.")]
-    List<GameObject> createdCake; //la lista de postres instanciado en cada plato.
+    public List<GameObject> createdCake; //la lista de postres instanciado en cada plato.
 
     //[Header("Postres individuales.")]
     int numCake; //numDessert
     //Cant de piezas del postre
     int pieceCount;
 
-    [Header("Tipos de postres.")]
+    [Header("Tipos de postres")]
     //Todos los tipos de postres
-    [SerializeField] Cake[] cakePrefab;
+    public Cake[] cakePrefab;
 
     [Header("Lista de vecinos.")] 
     public List<GameObject> neighbors;
@@ -99,7 +99,7 @@ public class Dish : MonoBehaviour
         if (this.isTouchingDish && !this.onCell)
         {
             //cant de platos intanciados.
-            GameObject.FindObjectOfType<DishManager>().AmountDish--;
+            FindObjectOfType<DishManager>().AmountDish--;
             
             //this.OnCell?.Invoke();
             this.onCell = true; //plato esta en la celda.
@@ -109,9 +109,13 @@ public class Dish : MonoBehaviour
             //ocupas la celda donde se instancio el plato.
             currentCell.isBusy = true;
 
-            transform.position = new Vector3(0f, 0.15f, 0f);
+            transform.position = new Vector3(0f, -0.7f, 0f);
             transform.rotation = Quaternion.Euler(new Vector3(-90f, 0f, 0f));
-            transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
+            transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+
+            //util, busca al hijo de un objeto.            
+            //GameObject game = transform.GetChild(0).gameObject;
+            //game.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);            
 
             transform.SetParent(currentCell.gameObject.transform, false);
 
@@ -145,10 +149,10 @@ public class Dish : MonoBehaviour
                 numScore = (int)PuntuacionPiece.Cupcake;
                 return numScore;
             case 1:
-                numScore = (int)PuntuacionPiece.Rosquilla;
+                numScore = (int)PuntuacionPiece.Cinnamon;
                 return numScore;
             case 2:
-                numScore = (int)PuntuacionPiece.Canela;
+                numScore = (int)PuntuacionPiece.Apple;
                 return numScore;
         }
         return numScore;
@@ -416,10 +420,10 @@ public class Dish : MonoBehaviour
                 pieceCount = UnityEngine.Random.Range(1, (int)AmountPiece.Cupcake);
                 break;
             case 1:
-                pieceCount = UnityEngine.Random.Range(1, (int)AmountPiece.Rosquilla);
+                pieceCount = UnityEngine.Random.Range(1, (int)AmountPiece.Cinnamon);
                 break;
             case 2:
-                pieceCount = UnityEngine.Random.Range(1, (int)AmountPiece.Canela);
+                pieceCount = UnityEngine.Random.Range(1, (int)AmountPiece.Apple);
                 break;
         }
 
@@ -451,10 +455,10 @@ public class Dish : MonoBehaviour
                     pieceCount = UnityEngine.Random.Range(1, (int)AmountPiece.Cupcake);
                     break;
                 case 1:
-                    pieceCount = UnityEngine.Random.Range(1, (int)AmountPiece.Rosquilla);
+                    pieceCount = UnityEngine.Random.Range(1, (int)AmountPiece.Cinnamon);
                     break;
                 case 2:
-                    pieceCount = UnityEngine.Random.Range(1, (int)AmountPiece.Canela);
+                    pieceCount = UnityEngine.Random.Range(1, (int)AmountPiece.Apple);
                     break;
             }
 
@@ -486,8 +490,8 @@ public class Dish : MonoBehaviour
         GameObject pieceCake = Instantiate<GameObject>(cakePrefab[numCake].piece[i]);
         pieceCake.transform.SetParent(transform, false);
         pieceCake.transform.position = new Vector3(transform.position.x,
-                                                    pieceCake.transform.position.y,
-                                                    transform.position.z);
+                                                   pieceCake.transform.position.y,
+                                                   transform.position.z);
 
         createdCake.Add(pieceCake);
     }

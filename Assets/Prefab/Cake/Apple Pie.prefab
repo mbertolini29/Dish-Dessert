@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5017457782943279556
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5686436547732845438}
+  - component: {fileID: 5017457782943279557}
+  m_Layer: 0
+  m_Name: Apple Pie
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5686436547732845438
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5017457782943279556}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5017457782943279557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5017457782943279556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ede45f712477d841bb83ca53a937c04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameCake: Apple Pie
+  piecesCount: 6
+  piece:
+  - {fileID: 8957320003894823696, guid: ec4b5df9e1470bf4c91750fb90833bcc, type: 3}
+  - {fileID: 1256124613269203030, guid: d55e6c85a17a48943b80c5504243895b, type: 3}
+  - {fileID: 2222597358515247072, guid: db2a62ef60415cf4e962293a5ab4a4a0, type: 3}
+  - {fileID: 1937124887374771383, guid: fa12199fd9d86df48a08012a1290f586, type: 3}
+  - {fileID: 5853381896623133974, guid: a75567592d224e542961ff5967d612f6, type: 3}
+  - {fileID: 6211913679238563652, guid: 4fe82df11c424754299c5d5db01a1415, type: 3}
+  posOriginal: []
+  scaleOriginal: {x: 0.5, y: 0.5, z: 0.5}
+  posBottom:
+  - {x: 0.4, y: 0.04, z: -2}
+  - {x: 0.21, y: 0.35, z: -2}
+  - {x: -0.212, y: 0.358, z: -2}
+  - {x: -0.389, y: 0, z: -2}
+  - {x: -0.208, y: -0.357, z: -2}
+  - {x: 0.235, y: -0.311, z: -2}
+  scaleBottom: {x: 0.45, y: 0.45, z: 0.45}
+  cakeItemList: []

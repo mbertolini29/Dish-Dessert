@@ -68,6 +68,11 @@ public class DishManager : MonoBehaviour
 
             //
             dish.CreatedCake();
+            
+            //Cake cake = new Cake();
+            //cake.Create();
+
+            //FindObjectOfType<Cake>().Create();
 
             //guardas el plato con el postre.
             dishes.Add(dish);
