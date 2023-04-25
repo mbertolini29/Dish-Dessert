@@ -5,17 +5,19 @@ using UnityEngine;
 
 public enum TypeCake
 {
-    Cupcake = 2, Cinnamon = 4, Apple = 6
+    Cupcake = 2, Donut = 3, Cinnamon = 4, Apple = 6
 }
 
 public enum AmountPiece
-{
-    Cupcake = 2, Cinnamon = 4, Apple = 6
+{ 
+    //aca hay que poner el num maximo de porciones por torta que quieras que salgan.
+    //cinnon diria que salgan 2 porciones y apple 3
+    Cupcake = 2, Donut = 2, Cinnamon = 3, Apple = 4
 }
 
 public enum PuntuacionPiece
 {
-    Cupcake = 100, Cinnamon = 150, Apple = 200
+    Cupcake = 100, Donut = 125, Cinnamon = 150, Apple = 200
 }
 
 public class Cake : MonoBehaviour
@@ -27,6 +29,8 @@ public class Cake : MonoBehaviour
 
     [Header("Table 16")]
     public Vector3[] posOriginal;
+    public Vector3[] rotOriginal;
+    public Quaternion[] quatOriginal;
     public Vector3 scaleOriginal;
 
     //posiciones para 6 porciones de torta.
@@ -35,7 +39,8 @@ public class Cake : MonoBehaviour
     public Vector3 scaleBottom;
 
     //lista de todas las tortas de un plato.
-    public List<CakeItem> cakeItemList = new List<CakeItem>();
+    //esta lista deberia ser del plato
+    //public List<CakeItem> cakeItemList = new List<CakeItem>();
 
     //item que tiene una torta.
     CakeItem cakeItem;
@@ -48,13 +53,17 @@ public class Cake : MonoBehaviour
 
     }
 
+    private void Start()
+    {
+        Create();
+    }
 
     public void GetPiece()
     {
 
     }
 
-    public int NumCake()
+    public int NumCake() //ReturnNum
     {
         if(firstNum)
         {
@@ -70,12 +79,17 @@ public class Cake : MonoBehaviour
             int numCake = UnityEngine.Random.Range(-1, Enum.GetValues(typeof(TypeCake)).Length);
             return numCake;
         }
-
     }
 
     public int PieceCount(int numCake)
     {
         int pieceCount = 0;
+
+        //lanzas un numero random con posibilidad de que no salga torta.
+        //int numRandom = UnityEngine.Random.Range(-1, Enum.GetValues(typeof(TypeCake)).Length);
+
+        //if (numRandom != -1 && numRandom != numCake)
+
         //Cuantas piezas
         switch (numCake)
         {
@@ -83,9 +97,12 @@ public class Cake : MonoBehaviour
                 pieceCount = UnityEngine.Random.Range(1, (int)AmountPiece.Cupcake);
                 break;
             case 1:
-                pieceCount = UnityEngine.Random.Range(1, (int)AmountPiece.Cinnamon);
+                pieceCount = UnityEngine.Random.Range(1, (int)AmountPiece.Donut);
                 break;
             case 2:
+                pieceCount = UnityEngine.Random.Range(1, (int)AmountPiece.Cinnamon);
+                break;
+            case 3:
                 pieceCount = UnityEngine.Random.Range(1, (int)AmountPiece.Apple);
                 break;
         }
@@ -103,34 +120,52 @@ public class Cake : MonoBehaviour
         cakeItem._numCake = NumCake();
         cakeItem._pieceCount = PieceCount(cakeItem._numCake);
 
+        Dish dish = FindObjectOfType<Dish>();
+        dish.positionCount = cakeItem._pieceCount;
+
+        int num = dish.cakePrefab[cakeItem._numCake].piece.Count;
+
+        dish.positionBusy = new bool[num];
+
+        //lista de porciones de torta.
+        List<GameObject> createdCake = new List<GameObject>();
         for (int i = 0; i < cakeItem._pieceCount; i++)
         {
             //instanciar porcion de torta del vecino al seleccionado.
-            InstantiateCakePiece(cakeItem, i, cakeItem._numCake);
+            createdCake.Add(InstantiateCakePiece(i, cakeItem._numCake));
+
+            FindObjectOfType<Dish>().positionBusy[i] = true;
+            //dish = FindObjectOfType<Dish>();
+            //dish.positionBusy[i] = true;
         }
 
+        //guardas cada porcion de torta
+        cakeItem._allCake = createdCake;
+
         //guardas la torta
-        cakeItemList.Add(cakeItem);
+        FindObjectOfType<Dish>().cakeItemList.Add(cakeItem);
     }
 
-    public void InstantiateCakePiece(CakeItem cakeItem, int i, int numCake)
+    public GameObject InstantiateCakePiece(int i, int numCake)
     {
-        //lista de porciones de torta.
-        FindObjectOfType<Dish>().createdCake = new List<GameObject>();
-
-        GameObject piece = FindObjectOfType<Dish>().cakePrefab[numCake].piece[i];
+        //esto hay q ver si queres que sea parte del plato o de la torta.
+        GameObject piece = FindObjectOfType<Dish>().cakePrefab[numCake].piece[i]; //sos todas las tortas disponibles.
 
         //instanciar cada postre en su plato
-        Instantiate<GameObject>(piece);
+        //Instantiate(piece);
+        GameObject pieceCake = Instantiate<GameObject>(piece);
 
-        piece.transform.SetParent(FindObjectOfType<Dish>().transform, false);
-        piece.transform.position = new Vector3(transform.position.x,
-                                               piece.transform.position.y,
-                                               transform.position.z);
+        Dish dish = FindObjectOfType<Dish>();
 
-        FindObjectOfType<Dish>().createdCake.Add(piece);
+        pieceCake.transform.SetParent(dish.gameObject.transform, false);
 
-        cakeItem._allCake = FindObjectOfType<Dish>().createdCake;
+        //pieceCake.transform.position = posOriginal[i];
+        //pieceCake.transform.position = new Vector3(dish.transform.position.x,
+        //                                           dish.transform.position.y,
+        //                                           dish.transform.position.z);
+
+        return pieceCake;
+        //cakeItem._allCake.Add(pieceCake);
     }
 
 

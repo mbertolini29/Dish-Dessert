@@ -141,10 +141,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.52263176
-  m_Height: 3.1933658
+  m_Radius: 0.87
+  m_Height: 3.2
   m_Direction: 2
-  m_Center: {x: 0, y: 0, z: 0.60426724}
+  m_Center: {x: 0, y: 0, z: 0.6}
 --- !u!114 &311295325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,10 +157,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80beaa01dfec76b4f8a1c26b6ab61191, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dishConection:
+  - {fileID: 8056791895029796652, guid: 7c60ec4994e3f244c92549beac2581ef, type: 3}
+  - {fileID: 6110704306650279382, guid: 0a05c468cdfd90c4280074596ff14e9b, type: 3}
+  - {fileID: 7342218359943351728, guid: 5a9c2848c550a9d4b8c07f0e78727770, type: 3}
+  - {fileID: 903280284615933759, guid: e9fa66a62a9fb8f4c910c5210d83185b, type: 3}
+  positionCount: 5
+  positionBusy: 
   cakeItemList: []
   createdCake: []
   cakePrefab:
   - {fileID: 8576633777291455994, guid: 6feec338a66bb664db3e0ce8bd30e594, type: 3}
+  - {fileID: 3801945460454351840, guid: 22b22367bdd4b2c42adbf0b797a33e78, type: 3}
   - {fileID: 1465250746486655655, guid: 573522da822f615419fb5e5bb8e80eae, type: 3}
   - {fileID: 5017457782943279557, guid: fc8cd7b3221bf8045a8155dbb17cfcee, type: 3}
   neighbors: []

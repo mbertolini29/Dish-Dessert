@@ -46,15 +46,17 @@ MonoBehaviour:
   nameCake: Cinnamon Rolls
   piecesCount: 4
   piece:
-  - {fileID: 2805933404305607940, guid: 11e9c4dc9213b2a40846db544356e2f6, type: 3}
-  - {fileID: 6408064034470011827, guid: 99dbc9c39f681a941b7fe317f7ca2eb6, type: 3}
-  - {fileID: 3905922206569113412, guid: bc398f10df3c74a4b807d23ecc92aa9f, type: 3}
-  - {fileID: 3600186376774988961, guid: edff30978691f834d8d6f519a554df08, type: 3}
+  - {fileID: 5487196181261650995, guid: 900f7dfb244e7da4095e84eef2a11be5, type: 3}
+  - {fileID: 8101163896696414891, guid: 98fca671277b7a5438272d05a6c17f42, type: 3}
+  - {fileID: 7663824633961596255, guid: d7ca2543359755a429be36082df0f74c, type: 3}
+  - {fileID: 2468480290513041441, guid: 3d1c2670d98300c47858d09db4cc457a, type: 3}
   posOriginal:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
+  - {x: 0.51, y: 0.12, z: -1}
+  - {x: -0.2, y: 0.516, z: -1}
+  - {x: -0.5, y: -0.17, z: -1}
+  - {x: 0.15, y: -0.5, z: -1}
+  rotOriginal: []
+  quatOriginal: []
   scaleOriginal: {x: 0.2, y: 0.2, z: 0.2}
   posBottom:
   - {x: 0.45, y: 0.045, z: -2}
@@ -64,4 +66,3 @@ MonoBehaviour:
   - {x: -0.22, y: -0.41, z: -2}
   - {x: 0.25, y: -0.35, z: -2}
   scaleBottom: {x: 0.15, y: 0.15, z: 0.15}
-  cakeItemList: []

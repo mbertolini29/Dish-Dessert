@@ -12,6 +12,9 @@ public class DishManager : MonoBehaviour
     //lista total de platos instanciados.
     public List<Dish> dishes;
 
+    //es buena que las tortas que se pueden instanciar, esten aca.
+    //cake prefab ?
+
     //posicion de platos de la parte inferior
     public Transform[] posDishes;
 
@@ -67,10 +70,10 @@ public class DishManager : MonoBehaviour
             dish.posInicial = dish.transform.position;
 
             //
-            dish.CreatedCake();
-            
-            //Cake cake = new Cake();
-            //cake.Create();
+            //dish.CreatedCake();
+
+            Cake cake = new Cake();
+            cake.Create();
 
             //FindObjectOfType<Cake>().Create();
 

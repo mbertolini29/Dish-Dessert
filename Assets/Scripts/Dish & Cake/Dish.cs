@@ -14,6 +14,16 @@ public class CakeItem
 
 public class Dish : MonoBehaviour
 {
+    public GameObject[] dishConection;
+    public bool isNeighbor = false;
+
+    //cada plato tiene 5 posiciones mixta, si el plato solo tiene apple, cambia a 6, sino 4 o 2
+    public int positionCount = 5;
+    public bool[] positionBusy;
+
+    //es por aca.. chequear las posiciones ocupadas.
+    //y en base a eso, activar las animaciones, y guardar las nuevas posiciones ocupadas
+
     public List<CakeItem> cakeItemList = new List<CakeItem>();
     CakeItem cakeItem;
 
@@ -22,7 +32,6 @@ public class Dish : MonoBehaviour
 
     //[Header("Postres individuales.")]
     int numCake; //numDessert
-    //Cant de piezas del postre
     int pieceCount;
 
     [Header("Tipos de postres")]
@@ -54,6 +63,12 @@ public class Dish : MonoBehaviour
     public GameObject[] hitObject;
     public Vector3 collision = Vector3.zero;
     public LayerMask layerToHit;
+
+    private void Awake()
+    {
+        //ponemos las 5 posiciones ocupada.
+        positionBusy = new bool[positionCount];
+    }
 
     private void OnMouseDown()
     {
@@ -109,9 +124,9 @@ public class Dish : MonoBehaviour
             //ocupas la celda donde se instancio el plato.
             currentCell.isBusy = true;
 
-            transform.position = new Vector3(0f, -0.7f, 0f);
+            transform.position = new Vector3(0f, 0f, 0.2f);
             transform.rotation = Quaternion.Euler(new Vector3(-90f, 0f, 0f));
-            transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            //transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
 
             //util, busca al hijo de un objeto.            
             //GameObject game = transform.GetChild(0).gameObject;
@@ -137,7 +152,7 @@ public class Dish : MonoBehaviour
     {
         //si hay vecinos que tengan la misma porcion de torta, se puede intercambiar        
         //return GetAllNeighbors().Contains(previousSelected.gameObject);
-        neighbors = GetAllNeighbors();       
+        neighbors = GetAllNeighbors();
     } 
 
     int ReturnScore(int numCake)
@@ -149,9 +164,12 @@ public class Dish : MonoBehaviour
                 numScore = (int)PuntuacionPiece.Cupcake;
                 return numScore;
             case 1:
-                numScore = (int)PuntuacionPiece.Cinnamon;
+                numScore = (int)PuntuacionPiece.Donut;
                 return numScore;
             case 2:
+                numScore = (int)PuntuacionPiece.Cinnamon;
+                return numScore;
+            case 3:
                 numScore = (int)PuntuacionPiece.Apple;
                 return numScore;
         }
@@ -188,8 +206,8 @@ public class Dish : MonoBehaviour
         ray = new Ray(previousSelected.transform.position, direction);
         //ray = new Ray(transform.position, direction);
 
-        RaycastHit[] hits;
-        hits = Physics.RaycastAll(ray);
+        //RaycastHit[] hits;
+        //hits = Physics.RaycastAll(ray);
 
         RaycastHit hit;
         float maxDistance = 2.5f;
@@ -203,7 +221,21 @@ public class Dish : MonoBehaviour
 
             if (neighborDish.currentCell != this.currentCell)
             {
-                CheckSeveralNeighbors(neighborDish, neighbor);
+                //CheckSeveralNeighbors(neighborDish, neighbor);
+
+                for (int i = 0; i < neighborDish.cakeItemList.Count; i++)
+                {
+                    for (int j = 0; j < this.cakeItemList.Count; j++)
+                    {
+                        if (neighborDish.cakeItemList[i]._numCake == this.cakeItemList[j]._numCake)
+                        {
+                            DishConnection(direction);
+                            //break;
+                            //aca tenes que armar la funcion.. de 
+                        }
+                        //if(neighborDish.cakeItemList[i]._numCake.Contains(this.cakeItemList[j]._numCake))
+                    }
+                }
 
                 //chequea vecinos que uno de ambos tenga una porcion de torta.
                 NeighborCheck(neighborDish, neighbor);
@@ -219,6 +251,37 @@ public class Dish : MonoBehaviour
         {
             return null;
         }
+    }
+
+    void DishConnection(Vector3 direction)
+    {
+        int num = 0;
+
+        if (direction == Vector3.up)
+        {
+            num = 0;
+        } 
+        else if(direction == Vector3.down)
+        {
+            num = 1;
+
+        }         
+        else if(direction == Vector3.left)
+        {
+            num = 2;
+
+        } 
+        else if(direction == Vector3.right)
+        {
+            num = 3;
+        }
+
+        GameObject connection = Instantiate(dishConection[num]);
+        connection.transform.parent = this.gameObject.transform;
+        connection.transform.localPosition = dishConection[num].transform.position;
+        connection.transform.localRotation = dishConection[num].transform.localRotation;
+
+        Destroy(connection.gameObject, 0.5f);
     }
 
     void CheckSeveralNeighbors(Dish neighborDish, GameObject neighbor)
@@ -261,6 +324,8 @@ public class Dish : MonoBehaviour
                 //chequeas si el vecinoo tiene un porcion igual.
                 if (this.cakeItemList[i]._numCake == neighborDish.cakeItemList[j]._numCake)
                 {
+                    isNeighbor = true;
+
                     if(neighborDish.cakeItemList.Count == 0 || this.cakeItemList.Count == 0)
                     {
                         return; //si uno de los 2 esta vacio. No seguir.
@@ -297,6 +362,28 @@ public class Dish : MonoBehaviour
             }
         }   
     }
+    IEnumerator MoveObject(GameObject piece, Vector3 currentPos, Vector3 targetPos, float duration)
+    {
+        piece.transform.position = Vector3.zero;
+        float timeElapsed = 0;
+        while (timeElapsed < duration)
+        {
+            piece.transform.localPosition = Vector3.Lerp(currentPos, targetPos, timeElapsed / duration);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+    }
+    
+    IEnumerator RotateObject(GameObject gameObjectToMove, Quaternion currentRot, Quaternion newRot, float duration)
+    {
+        float counter = 0;
+        while (counter < duration)
+        {
+            counter += Time.deltaTime;
+            gameObjectToMove.transform.localRotation = Quaternion.Slerp(currentRot, newRot, counter / duration);
+            yield return null;
+        }
+    }
 
     void MovePiece(Dish movePiece, Dish destroyPiece, GameObject gameobjectDish, int aux, int i, int j)
     {
@@ -306,21 +393,87 @@ public class Dish : MonoBehaviour
             //llenar torta seleccionada.
             for (int k = movePiece.cakeItemList[j]._pieceCount; k < aux; k++)
             {
-                //instanciar porcion de torta del vecino al seleccionado.
-                GameObject pieceCake = Instantiate<GameObject>(cakePrefab[movePiece.cakeItemList[j]._numCake].piece[k]);
-                pieceCake.transform.SetParent(movePiece.transform, false);
-                pieceCake.transform.position = new Vector3(movePiece.transform.position.x, 
-                                                           pieceCake.transform.position.y,
-                                                           movePiece.transform.position.z);
-                movePiece.cakeItemList[j]._allCake.Add(pieceCake);
+                //esto es para activar la animacion
+                //string namePiece = FindObjectOfType<PieceCake>().ReturnCinnamon(k);
+                //FindObjectOfType<PieceCake>().ChangeAnimationState(namePiece);
 
-                //si le instancias, tenes que sumarle.
-                movePiece.cakeItemList[j]._pieceCount++;
+                if (!movePiece.positionBusy[k])
+                {
+                    //encuentra al hijo, siempre el 0 es el plato. luego la cantidad de platos que haya
+                    GameObject piece = destroyPiece.transform.GetChild(1).gameObject;
+
+                    //mueve la porcion de torta del plato a destruir, hacia el plato que deseas.
+                    piece.transform.parent = movePiece.gameObject.transform;
+
+                    //piece.transform.position = Vector3.zero;
+                    //piece.transform.localPosition = Vector3.zero;
+
+                    StartCoroutine(MoveObject(piece,
+                                              piece.transform.localPosition,
+                                              cakePrefab[movePiece.cakeItemList[j]._numCake].posOriginal[k],
+                                              0.5f));
+
+
+                    //todo lo de rotar para apple
+                    if(movePiece.cakeItemList[j]._numCake == 1 || movePiece.cakeItemList[j]._numCake == 3)
+                    {
+                        //piece.transform.rotation = Quaternion.Euler(new Vector3(-180, 0, 0));
+                        //piece.transform.localRotation = Quaternion.Euler(new Vector3(-180, 0, 0));
+
+                        Vector3 rot1 = new Vector3(-180, 0, 0);
+                        Quaternion quat1 = Quaternion.Euler(rot1);
+
+                        //Quaternion startRotation = piece.transform.rotation;
+
+                        Vector3 rot2 = cakePrefab[movePiece.cakeItemList[j]._numCake].rotOriginal[k];
+                        Quaternion quat2 = Quaternion.Euler(rot2);
+
+                        //Quaternion quat = cakePrefab[movePiece.cakeItemList[j]._numCake].quatOriginal[k];
+
+                        //cuando es apple tengo que rotarla.
+                        StartCoroutine(RotateObject(piece, quat1, quat2, 0.5f));
+                    }
+
+                    //esto lo agrega a la lista de torta correspondiente. 
+                    movePiece.cakeItemList[j]._allCake.Add(piece);
+
+                    //si le instancias, tenes que sumarle.
+                    movePiece.cakeItemList[j]._pieceCount++;
+
+                    movePiece.positionBusy[k] = true;
+                }
+
+                //destruir el plato del vecino, que se vacio.
+                //destruir el plato lleno, y sumar puntos.
+
+                //replicar esto en lo otros.
+
+                //piece.transform.position = new Vector3(0f, 0f, 0f);
+                //piece.transform.localPosition = new Vector3(0f, 0f, 0f);
+                //piece.transform.localPosition = Vector3.MoveTowards(gameobjectDish.transform.position, new Vector3(0f, 0f, 0f), 0.1f);
+
+                //StartCoroutine(MoveObject(piece, gameobjectDish.transform.position, new Vector3(-0.536f, -0.664f, 0f), 1f));
+
+                //pero pienso que lo mejor es moverlo 
+                //destroyPiece.transform.SetParent(piece.transform, false);
+
+                //instanciar porcion de torta del vecino al seleccionado.
+                //GameObject pieceCake = Instantiate<GameObject>(cakePrefab[movePiece.cakeItemList[j]._numCake].piece[k]);
+                //pieceCake.transform.SetParent(movePiece.transform, false);
+                //pieceCake.transform.position = new Vector3(movePiece.transform.position.x, 
+                //                                           pieceCake.transform.position.y,
+                //                                           movePiece.transform.position.z);
+
+                ////esto lo agrega a la lista de torta correspondiente. 
+                //movePiece.cakeItemList[j]._allCake.Add(pieceCake);
+
+                ////si le instancias, tenes que sumarle.
+                //movePiece.cakeItemList[j]._pieceCount++;
 
                 //libera la celda, si la porcion de torta se completa.
                 CellRelease(movePiece, destroyPiece, gameobjectDish, j); //release=liberar                                
 
-                //destruir la porcion de torta movida.
+                ////destruir la porcion de torta movida.
                 DestroyCakePiece(destroyPiece, i);
 
                 //if (destroyDish) //si se destruyo el plato, no seguir corroborando vecinos.
@@ -360,12 +513,12 @@ public class Dish : MonoBehaviour
             }
             else //si en un plato, se completo la torta, aunque tenga otro vecino. hay que destruir esa torta completa
             {
-                for (int i = 0; i < movePiece.cakeItemList[j]._allCake.Count; i++)
-                {
-                    //destruye la porcion de la torta del vecino
-                    GameObject npc = movePiece.cakeItemList[j]._allCake[i].transform.gameObject;
-                    Destroy(npc, 0.5f);
-                }
+                //for (int i = 0; i < movePiece.cakeItemList[j]._allCake.Count; i++)
+                //{
+                //    //destruye la porcion de la torta del vecino
+                //    GameObject npc = movePiece.cakeItemList[j]._allCake[i].transform.gameObject;
+                //    Destroy(npc, 0.5f);
+                //}
 
                 //lo remueve de la lista de porcion de tortas del vecino.
                 movePiece.cakeItemList.RemoveAt(j);
@@ -378,8 +531,8 @@ public class Dish : MonoBehaviour
         int numPieceCake = destroyPiece.cakeItemList[j]._allCake.Count - 1;
 
         //destruye la porcion de la torta del vecino
-        GameObject npc = destroyPiece.cakeItemList[j]._allCake[numPieceCake].transform.gameObject;
-        Destroy(npc, 0.5f);
+        //GameObject npc = destroyPiece.cakeItemList[j]._allCake[numPieceCake].transform.gameObject;
+        //Destroy(npc, 0.5f);
 
         //lo remueve de la lista de porcion de tortas del vecino.
         destroyPiece.cakeItemList[j]._allCake.RemoveAt(numPieceCake);
@@ -401,7 +554,7 @@ public class Dish : MonoBehaviour
     }
 
     //------------
-    //1° cosa que se crea.
+    //1° cosa que se crea, que la movi a Cake
     public void CreatedCake() //crea el postre.
     {
         //lista de porciones de torta.
@@ -513,7 +666,7 @@ public class Dish : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        Debug.Log(other.gameObject);
+        //Debug.Log(other.gameObject);
 
         if (other.gameObject.layer == 10)
         {
