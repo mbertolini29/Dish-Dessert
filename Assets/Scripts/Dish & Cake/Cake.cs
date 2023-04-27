@@ -20,11 +20,14 @@ public enum PuntuacionPiece
     Cupcake = 100, Donut = 125, Cinnamon = 150, Apple = 200
 }
 
+
+
 public class Cake : MonoBehaviour
 {
     //todo esto ya esta completo.
     public string nameCake;
     public int piecesCount;
+    public GameObject fullPiece;
     public List<GameObject> piece; //lista de porciones del postre 
 
     [Header("Table 16")]
@@ -43,7 +46,7 @@ public class Cake : MonoBehaviour
     //public List<CakeItem> cakeItemList = new List<CakeItem>();
 
     //item que tiene una torta.
-    CakeItem cakeItem;
+    public CakeItem cakeItem;
 
     bool firstNum = true;
 

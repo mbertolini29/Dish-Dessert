@@ -45,6 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameCake: Apple Pie
   piecesCount: 6
+  fullPiece: {fileID: 5707265763282630156, guid: a18ade85e7efeb84185d846f20469ad0, type: 3}
   piece:
   - {fileID: 3681973627088954394, guid: 05cc0924bb84759429c8d69cab594e2a, type: 3}
   - {fileID: 1486520223687615072, guid: e03cad0afc994e4449b656f9cc4cbf30, type: 3}
@@ -82,3 +83,8 @@ MonoBehaviour:
   - {x: -0.208, y: -0.357, z: -2}
   - {x: 0.235, y: -0.311, z: -2}
   scaleBottom: {x: 0.45, y: 0.45, z: 0.45}
+  cakeItem:
+    _allCake: []
+    _countCake: 0
+    _numCake: 0
+    _pieceCount: 0

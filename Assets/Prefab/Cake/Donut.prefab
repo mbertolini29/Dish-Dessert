@@ -45,6 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameCake: Donut
   piecesCount: 3
+  fullPiece: {fileID: 6653933477329817325, guid: 71316598315d4fe43b82c4a9cfcf4d51, type: 3}
   piece:
   - {fileID: 8939712997683660441, guid: 27e3e472b5eeb3c4fa5f1760a0627907, type: 3}
   - {fileID: 7956213845997484780, guid: 8339582b450e26841be9522d445d356a, type: 3}
@@ -67,3 +68,8 @@ MonoBehaviour:
   - {x: -0.215, y: -0.41, z: -2}
   - {x: 0.245, y: -0.365, z: -2}
   scaleBottom: {x: 0.2, y: 0.2, z: 0.2}
+  cakeItem:
+    _allCake: []
+    _countCake: 0
+    _numCake: 0
+    _pieceCount: 0

@@ -157,11 +157,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80beaa01dfec76b4f8a1c26b6ab61191, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particle: {fileID: 7840031765657123630, guid: f11aea56aea24894ab3e07e878872827, type: 3}
+  particleExplosion: {fileID: 2455488494117642579, guid: 71260b4c7729335459b2ef7dba0e2fd0, type: 3}
+  particleSmoke: {fileID: 5452053254313346552, guid: 6dffa444c4955784994b6fe3f95d1c3a, type: 3}
   dishConection:
   - {fileID: 8056791895029796652, guid: 7c60ec4994e3f244c92549beac2581ef, type: 3}
   - {fileID: 6110704306650279382, guid: 0a05c468cdfd90c4280074596ff14e9b, type: 3}
   - {fileID: 7342218359943351728, guid: 5a9c2848c550a9d4b8c07f0e78727770, type: 3}
   - {fileID: 903280284615933759, guid: e9fa66a62a9fb8f4c910c5210d83185b, type: 3}
+  isNeighbor: 0
   positionCount: 5
   positionBusy: 
   cakeItemList: []

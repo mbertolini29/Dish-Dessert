@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2527429521201854216}
   m_Layer: 0
   m_Name: Apple Pie 3(Clone)
-  m_TagString: Untagged
+  m_TagString: Apple
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
