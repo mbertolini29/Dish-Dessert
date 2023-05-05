@@ -1,26 +1,24 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable] //esto llevarlo a cake desp....
-public class CakeItem
-{
-    public List<GameObject> _allCake;
-    public int _countCake; //cant de tortas.
-    public int _numCake; //Num de postre.
-    public int _pieceCount; //Cant de piezas del postre.
-}
-
 public class Dish : MonoBehaviour
 {
+    [Header("Particle")]
     public GameObject particle;
-    public GameObject particleExplosion;
+    public GameObject particleWave;
     public GameObject particleSmoke;
+
+    [Header("Material")] //para cambiar a apple
+    public Mesh mesh;
+    
+    [Header("Estrella Puntuación")] //para cambiar a apple
+    public GameObject estrella;
+    public GameObject background;
 
     //se scala a mayor
     Vector3 startingScale = new Vector3(1f, 1f, 1f);
-    Vector3 endingScale = new Vector3(1.2f, 1.2f, 1.2f);
+    Vector3 endingScale = new Vector3(1.1f, 1.1f, 1.1f);
 
     public GameObject[] dishConection;
     GameObject connection;
@@ -79,6 +77,12 @@ public class Dish : MonoBehaviour
 
         //ponemos las 5 posiciones ocupada.
         positionBusy = new bool[positionCount];
+
+        particle = GameObject.Find("Particle");
+        particleWave = GameObject.Find("Wake");
+        particleSmoke = GameObject.Find("Smoke");
+
+        //Instantiate(background);
     }
 
     private void OnMouseDown()
@@ -132,17 +136,6 @@ public class Dish : MonoBehaviour
 
             UIManager.instance.PlaySoundDish();
 
-            //var part = GetComponent<ParticleSystem>();
-            //particle.Play();
-            //Destroy(gameObject, particle.main.duration);
-
-            //primero, cuando el plato se pone en la mesa, sale la particula de onda expansiva y la de particulas
-            Instantiate(particle, this.gameObject.transform.position, Quaternion.identity);
-            Destroy(particle, 2.0f);
-
-            Instantiate(particleExplosion, this.gameObject.transform.position, Quaternion.identity);
-            Destroy(particleExplosion, 2.0f);
-
             //ocupas la celda donde se instancio el plato.
             currentCell.isBusy = true;
 
@@ -150,11 +143,23 @@ public class Dish : MonoBehaviour
             transform.rotation = Quaternion.Euler(new Vector3(-90f, 0f, 0f));
             //transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
 
-            //util, busca al hijo de un objeto.            
-            //GameObject game = transform.GetChild(0).gameObject;
-            //game.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
-
+            //haces hijo de la celda al plato.
             transform.SetParent(currentCell.gameObject.transform, false);
+
+            //particulas
+            particleWave.transform.parent = this.gameObject.transform;
+            particleWave.transform.position = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y, particleWave.transform.position.z);
+            particleWave.GetComponent<ParticleSystem>().Play();
+
+            GameObject background2 = GameObject.Find("Background 2");
+            particleWave.transform.parent = background2.transform;
+
+            particle.transform.parent = this.gameObject.transform;
+            particle.transform.position = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y, particle.transform.position.z);
+            particle.GetComponent<ParticleSystem>().Play();
+
+            background2 = GameObject.Find("Background 2");
+            particle.transform.parent = background2.transform;
 
             //una vez que ocupa la celda. Busca si las porciones de tortas coinciden.
             CanSwipe();
@@ -204,30 +209,33 @@ public class Dish : MonoBehaviour
                         {
                             //esto funciona solo con uno a uno
                             MovePiece(previousSelected, neighborDish, this.gameObject, aux, num); 
-
-                            //return;
                         }
 
-                        //una vez que se movio la porcion de torta.
-                        if(this.cakeItemList[num]._allCake.Count >= cakePrefab[this.cakeItemList[num]._numCake].piece.Count)
-                        { 
-                            //suceden estas funciones:
+                        //una vez que se movio la porcion de torta, y se completo el plato
+                        if (this.cakeItemList[num]._allCake.Count >= cakePrefab[this.cakeItemList[num]._numCake].piece.Count)
+                        {
+                            //se escala el plato.. (la otra es escalar el postre nomas)
+                            StartCoroutine(ScaleDish(previousSelected.gameObject, startingScale, endingScale, 0.5f));
 
-                            //se escala el plato..
-                            StartCoroutine(ScaleDish(previousSelected.gameObject, startingScale, endingScale, 1f));
+                            //y volver el plato a la normalidad.
+                            StartCoroutine(ScaleDessert(previousSelected.gameObject, endingScale, startingScale, 0.5f));
 
-                            //todo lo de rotar para apple & donut
-                            if (previousSelected.cakeItemList[num]._numCake == 1 || previousSelected.cakeItemList[num]._numCake == 3)
+                            //ir destruyendo las porciones de torta,
+                            StartCoroutine(DestroyPieceDessert());
+
+                            //giras el plato
+                            //StartCoroutine(RotateDessert(0.5f));
+                            if (this.cakeItemList[num]._numCake == 1 || this.cakeItemList[num]._numCake == 3)
                             {
-                                //giras el plato
-                                StartCoroutine(RotateDessert(0.5f, num));
                                 //instanciar la pieza completa
                                 StartCoroutine(FullDessert(previousSelected, num));
-                                //y volver el plato a la normalidad.
-                                StartCoroutine(ScaleDish(previousSelected.gameObject, endingScale, startingScale, 1f));
-                                //ir destruyendo las porciones de torta,
-                                StartCoroutine(DestroyPieceDessert());
                             }
+
+                            //particulas
+                            StartCoroutine(ParticleTime());
+
+                            //
+                            CellRelease(previousSelected, neighborDish, this.gameObject, num);
                         }
                     }
                     num++;
@@ -236,6 +244,171 @@ public class Dish : MonoBehaviour
             sideNum++;
         }
     }
+
+    void CellRelease(Dish movePiece, Dish destroyPiece, GameObject gameobjectDish, int num) //liberar celda, si se completo..
+    {
+        if (movePiece.cakeItemList[num]._allCake.Count >= cakePrefab[movePiece.cakeItemList[num]._numCake].piece.Count)
+        {
+            //sumar puntos!
+            GameManager.instance.Score += ReturnScore(movePiece.cakeItemList[num]._numCake);
+
+            //sonido de torta completa.
+            UIManager.instance.PlaySoundFullCake();
+
+            //destruis el plato, una vez que se quedo sin porciones.
+            if (movePiece.cakeItemList.Count <= 1)
+            {
+                //liberas la celda seleccionada, si es que se completo.
+                gameobjectDish.transform.parent.GetComponent<Cell>().isBusy = false;
+
+                //faltaria que aparezca la estrella, y 
+                //GameObject estrellaVisual = Instantiate(estrella);
+                ////estrellaVisual.transform.SetParent(gameobjectDish.transform, false);
+                //estrellaVisual.transform.parent = gameobjectDish.transform;
+                //estrellaVisual.transform.localPosition = estrella.transform.localPosition;
+
+
+                StartCoroutine(EstrellaTime(gameobjectDish, 15f));
+
+                Destroy(movePiece.gameObject, 2f);
+            }
+            else //si en un plato, se completo la torta, aunque tenga otro vecino. hay que destruir esa torta completa
+            {
+                //lo remueve de la lista de porcion de tortas del vecino.
+                movePiece.cakeItemList.RemoveAt(num);
+            }
+        }
+    }
+
+    IEnumerator EstrellaTime(GameObject gameobjectDish, float duration)
+    {
+        yield return new WaitForSeconds(0.5f);
+        //faltaria que aparezca la estrella, y 
+        GameObject estrellaVisual = Instantiate(estrella);
+        //estrellaVisual.transform.SetParent(gameobjectDish.transform, false);
+        estrellaVisual.transform.parent = gameobjectDish.transform;
+        estrellaVisual.transform.localPosition = estrella.transform.localPosition;
+
+        //GameObject background2 = Instantiate(background);
+        GameObject background2 = GameObject.Find("Background 2");
+        estrellaVisual.transform.parent = background2.transform;
+
+        yield return new WaitForSeconds(0.5f);
+        float currentTime = 0.0f;
+        do
+        {
+            estrellaVisual.transform.position = Vector3.Lerp(estrellaVisual.transform.position,
+                                                                new Vector3(1.741f, 8f, -5.4f),
+                                                                currentTime / duration);
+            currentTime += Time.deltaTime;
+            yield return null;
+        } while (currentTime <= duration);
+    }
+
+    IEnumerator ParticleTime()
+    {
+        yield return new WaitForSeconds(0.5f);
+        particleWave.transform.parent = this.gameObject.transform;
+        particleWave.transform.position = new Vector3(this.gameObject.transform.position.x,
+                                                      this.gameObject.transform.position.y,
+                                                      particleWave.transform.position.z);
+        particleWave.GetComponent<ParticleSystem>().Play();
+
+        GameObject background2 = GameObject.Find("Background 2");
+        particleWave.transform.parent = background2.transform;
+
+        particleSmoke.transform.parent = this.gameObject.transform;
+        particleSmoke.transform.position = new Vector3(this.gameObject.transform.position.x,
+                                                       this.gameObject.transform.position.y,
+                                                       particle.transform.position.z);
+        particleSmoke.GetComponent<ParticleSystem>().Play();
+
+        background2 = GameObject.Find("Background 2");
+        particleSmoke.transform.parent = background2.transform;
+    }
+
+    IEnumerator FullDessert(Dish movePiece, int num)
+    {
+        yield return new WaitForSeconds(0.5f);
+        GameObject GO = cakePrefab[movePiece.cakeItemList[num]._numCake].fullPiece;
+        GameObject fullPiece = Instantiate(cakePrefab[movePiece.cakeItemList[num]._numCake].fullPiece);
+        fullPiece.transform.parent = this.gameObject.transform;
+        fullPiece.transform.localPosition = GO.transform.localPosition;
+        fullPiece.transform.localScale = GO.transform.localScale;
+    }
+
+    IEnumerator ScaleDessert(GameObject dish, Vector3 startingScale, Vector3 endingScale, float duration)
+    {
+        yield return new WaitForSeconds(0.5f);
+        float currentTime = 0.0f;
+        do
+        {
+            dish.transform.localScale = Vector3.Lerp(startingScale, endingScale, currentTime / duration);
+            currentTime += Time.deltaTime;
+            //yield return null;
+        } while (currentTime <= duration);
+    }
+
+    IEnumerator DestroyPieceDessert()
+    {
+        yield return new WaitForSeconds(0.8f);
+        //yield return new WaitForSecond(1f);
+        int numChild = previousSelected.transform.childCount;
+        for (int i = 0; i < numChild; i++)
+        {
+            //necesito algo que encuentre todos los hijos de un prefab..
+            if (previousSelected.transform.GetChild(i).gameObject.tag == "Donut" ||
+                previousSelected.transform.GetChild(i).gameObject.tag == "Apple")
+            {
+                //encuentra al hijo del plato
+                GameObject piece = previousSelected.transform.GetChild(i).gameObject;
+                StartCoroutine(NotScaleDish(piece, 
+                                            previousSelected.transform.GetChild(i).gameObject.transform.localScale,
+                                            new Vector3(0f, 0f, 0f), 0.25f));
+                Destroy(piece); //destruye las porciones.
+            }
+        }
+    }
+    IEnumerator NotScaleDish(GameObject dish, Vector3 startingScale, Vector3 endingScale, float duration)
+    {
+        float currentTime = 0.0f;
+        dish.transform.localPosition = new Vector3(dish.transform.localPosition.x, dish.transform.localPosition.y, -0.5f);
+
+        do
+        {
+            dish.transform.localScale = Vector3.Lerp(startingScale, endingScale, currentTime / duration);
+            currentTime += Time.deltaTime;
+            yield return null;
+        } while (currentTime <= duration);
+    }
+
+    void DestroyCakePiece(Dish destroyPiece, int j)
+    {
+        int numPieceCake = destroyPiece.cakeItemList[j]._allCake.Count - 1;
+
+        //lo remueve de la lista de porcion de tortas del vecino.
+        destroyPiece.cakeItemList[j]._allCake.RemoveAt(numPieceCake);
+        destroyPiece.cakeItemList[j]._pieceCount--;
+
+        if (destroyPiece.cakeItemList[j]._allCake.Count < 1)
+        {
+            destroyPiece.cakeItemList.RemoveAt(j);
+        }
+
+        //esto destruye al vecino si se queda sin porcion.
+        if (destroyPiece.cakeItemList.Count == 0)
+        {
+            //liberas la celda del vecino. si se quedo sin porciones.
+            destroyPiece.transform.parent.GetComponent<Cell>().isBusy = false;
+
+            Vector3 startingScale = new Vector3(1.3f, 1.3f, 1.3f);
+            Vector3 endingScale = new Vector3(0f, 0f, 1.3f);
+            //destruye el plato que se quedo sin porcion, porque se movio.
+            StartCoroutine(ScaleDish(destroyPiece.gameObject, startingScale, endingScale, 0.5f));
+            Destroy(destroyPiece.gameObject, 0.9f);
+        }
+    }
+
 
     IEnumerator ScaleRotateDish(GameObject dish, Vector3 startingScale, Vector3 endingScale, float duration)
     {
@@ -439,6 +612,8 @@ public class Dish : MonoBehaviour
     
     IEnumerator RotateObject(GameObject gameObjectToMove, Quaternion currentRot, Quaternion newRot, float duration)
     {
+        //gameObjectToMove.transform.localRotation = Quaternion.Euler(Vector3.zero);
+
         float counter = 0;
         while (counter < duration)
         {
@@ -466,6 +641,10 @@ public class Dish : MonoBehaviour
                                           cakePrefab[movePiece.cakeItemList[num]._numCake].posOriginal[k],
                                           0.35f));
 
+                if(movePiece.cakeItemList[num]._numCake == 3)
+                {
+                    piece.gameObject.GetComponent<MeshFilter>().sharedMesh = mesh;
+                }
 
                 //todo lo de rotar para apple
                 if (movePiece.cakeItemList[num]._numCake == 1 || movePiece.cakeItemList[num]._numCake == 3)
@@ -486,11 +665,11 @@ public class Dish : MonoBehaviour
                 //si le instancias, tenes que sumarle.
                 movePiece.cakeItemList[num]._pieceCount++;
 
-                movePiece.positionBusy[num] = true;
+                movePiece.positionBusy[k] = true;
             }
 
             //libera la celda, si la porcion de torta se completa.
-            //CellRelease(movePiece, destroyPiece, gameobjectDish, num); //release=liberar                                
+            //CellRelease(movePiece, destroyPiece, gameobjectDish, num); //release=liberar        
 
             //destruir la porcion de torta movida.
             DestroyCakePiece(destroyPiece, num);
@@ -502,151 +681,7 @@ public class Dish : MonoBehaviour
                 break;
             }
         }
-    }
-
-    void CellRelease(Dish movePiece, Dish destroyPiece, GameObject gameobjectDish, int num) //liberar celda, si se completo..
-    {
-        if (movePiece.cakeItemList[num]._allCake.Count >= cakePrefab[movePiece.cakeItemList[num]._numCake].piece.Count)
-        {
-            //sumar puntos!
-            GameManager.instance.Score += ReturnScore(movePiece.cakeItemList[num]._numCake);
-
-            //sonido de torta completa.
-            UIManager.instance.PlaySoundFullCake();
-
-            //destruis el plato, una vez que se quedo sin porciones.
-            if (movePiece.cakeItemList.Count <= 1)
-            {
-                //liberas la celda seleccionada, si es que se completo.
-                gameobjectDish.transform.parent.GetComponent<Cell>().isBusy = false;
-
-                //funciones:
-                ////se scala a mayor
-                Vector3 startingScale = new Vector3(1f, 1f, 1f);
-                Vector3 endingScale = new Vector3(1.2f, 1.2f, 1.2f);
-
-                StartCoroutine(ScaleDish(movePiece.gameObject, startingScale, endingScale, 1f));
-
-                //primero poner la torta completa.
-                //todo lo de rotar para apple
-                if (movePiece.cakeItemList[num]._numCake == 1 || movePiece.cakeItemList[num]._numCake == 3)
-                {
-                    //StartCoroutine(RotateDessert(1f));
-
-                    //int numChild = movePiece.transform.childCount;
-                    //for (int i = 0; i < numChild; i++)
-                    //{
-                    //    //necesito algo que encuentre todos los hijos de un prefab..
-                    //    if (movePiece.transform.GetChild(i).gameObject.tag == "Donut" ||
-                    //        movePiece.transform.GetChild(i).gameObject.tag == "Apple")
-                    //    {
-
-                    //        //encuentra al hijo del plato
-                    //        GameObject piece = movePiece.transform.GetChild(i).gameObject;
-                    //        StartCoroutine(ScaleDish(piece, startingScale, new Vector3(0f, 0f, 0f), 1.5f));
-                    //        //Destroy(piece, 2f); //destruye las porciones.
-
-
-                    //    }
-                    //}
-
-                    //StartCoroutine(ScaleDish(movePiece.gameObject, endingScale, startingScale, 1f));
-                    //StartCoroutine(FullDessert(movePiece, num));
-                }
-            }
-            else //si en un plato, se completo la torta, aunque tenga otro vecino. hay que destruir esa torta completa
-            {
-                //lo remueve de la lista de porcion de tortas del vecino.
-                movePiece.cakeItemList.RemoveAt(num);
-            }
-        }
-    }
-
-    IEnumerator RotateDessert(float duration, int num)
-    {
-        yield return new WaitForSeconds(0.5f);
-
-        float currentTime = 0.0f;
-
-        Vector3 rotation = transform.localEulerAngles;
-
-        do
-        {    
-            //mientras gira el plato, estaria bueno
-            rotation.z += Time.deltaTime * 360f;
-            transform.localEulerAngles = rotation;
-            currentTime += Time.deltaTime;       
-            yield return null;
-
-        } while (currentTime <= duration);
-    }
-
-    IEnumerator FullDessert(Dish movePiece, int num)
-    {
-        yield return new WaitForSeconds(0.5f);
-        GameObject fullPiece = Instantiate(cakePrefab[movePiece.cakeItemList[num]._numCake].fullPiece);
-        fullPiece.transform.parent = this.gameObject.transform;
-        fullPiece.transform.localPosition = new Vector3(0f, 0f, -0.85f);
-        //fullPiece.transform.localScale = new Vector3(1.05f, 1.05f, 1.05f);
-    }
-
-    IEnumerator DestroyPieceDessert()
-    {
-        yield return new WaitForSeconds(1f);
-
-        int numChild = previousSelected.transform.childCount;
-        for (int i = 0; i < numChild; i++)
-        {
-            //necesito algo que encuentre todos los hijos de un prefab..
-            if (previousSelected.transform.GetChild(i).gameObject.tag == "Donut" ||
-                previousSelected.transform.GetChild(i).gameObject.tag == "Apple")
-            {
-                //encuentra al hijo del plato
-                GameObject piece = previousSelected.transform.GetChild(i).gameObject;
-                StartCoroutine(NotScaleDish(piece, previousSelected.transform.GetChild(i).gameObject.transform.localScale, new Vector3(0f, 0f, 0f), 0.25f));
-                Destroy(piece, 2f); //destruye las porciones.
-            }
-        }
-    }
-    IEnumerator NotScaleDish(GameObject dish, Vector3 startingScale, Vector3 endingScale, float duration)
-    {
-        float currentTime = 0.0f;
-        dish.transform.localPosition = new Vector3(dish.transform.localPosition.x, dish.transform.localPosition.y, -0.5f);
-
-        do
-        {
-            dish.transform.localScale = Vector3.Lerp(startingScale, endingScale, currentTime / duration);
-            currentTime += Time.deltaTime;
-            yield return null;
-        } while (currentTime <= duration);
-    }
-
-    void DestroyCakePiece(Dish destroyPiece, int j)
-    {
-        int numPieceCake = destroyPiece.cakeItemList[j]._allCake.Count - 1;
-
-        //lo remueve de la lista de porcion de tortas del vecino.
-        destroyPiece.cakeItemList[j]._allCake.RemoveAt(numPieceCake);
-        destroyPiece.cakeItemList[j]._pieceCount--;
-
-        if(destroyPiece.cakeItemList[j]._allCake.Count < 1)
-        {
-            destroyPiece.cakeItemList.RemoveAt(j);
-        }
-
-        //esto destruye al vecino si se queda sin porcion.
-        if (destroyPiece.cakeItemList.Count == 0)
-        {
-            //liberas la celda del vecino. si se quedo sin porciones.
-            destroyPiece.transform.parent.GetComponent<Cell>().isBusy = false;
-
-            Vector3 startingScale = new Vector3(1.3f, 1.3f, 1.3f);
-            Vector3 endingScale = new Vector3(0f, 0f, 1.3f);
-            //destruye el plato que se quedo sin porcion, porque se movio.
-            StartCoroutine(ScaleDish(destroyPiece.gameObject, startingScale, endingScale, 0.5f));
-            Destroy(destroyPiece.gameObject, 1.0f);
-        }
-    }
+    }   
 
     IEnumerator ScaleDish(GameObject dish, Vector3 startingScale, Vector3 endingScale, float duration)
     {

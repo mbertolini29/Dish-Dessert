@@ -47,17 +47,17 @@ MonoBehaviour:
   piecesCount: 3
   fullPiece: {fileID: 6653933477329817325, guid: 71316598315d4fe43b82c4a9cfcf4d51, type: 3}
   piece:
-  - {fileID: 8939712997683660441, guid: 27e3e472b5eeb3c4fa5f1760a0627907, type: 3}
-  - {fileID: 7956213845997484780, guid: 8339582b450e26841be9522d445d356a, type: 3}
-  - {fileID: 6387109604496084742, guid: db890641e7cfaa24f87223eb17e43669, type: 3}
+  - {fileID: 1663968008180382935, guid: ecd89c14979f1a049887bcfd4884d03b, type: 3}
+  - {fileID: 1306273215480441402, guid: f7072715d2f661f40bb2c83e5b54137b, type: 3}
+  - {fileID: 347721769881537466, guid: e2bbd123a00424e4db4483080ec54c00, type: 3}
   posOriginal:
-  - {x: -0.055, y: 0.371, z: -0.833}
-  - {x: -0.34, y: -0.228, z: -0.833}
-  - {x: 0.272, y: -0.223, z: -0.833}
+  - {x: 0.007, y: -0.077, z: -0.833}
+  - {x: -0.006, y: -0.047, z: -0.833}
+  - {x: -0.029, y: -0.077, z: -0.833}
   rotOriginal:
-  - {x: 180, y: 0, z: 5}
-  - {x: 180, y: 0, z: -122}
-  - {x: 180, y: 0, z: 136}
+  - {x: 180, y: 0, z: -156}
+  - {x: 180, y: 0, z: 83.9}
+  - {x: 180, y: 0, z: -35.29}
   quatOriginal: []
   scaleOriginal: {x: 0.25, y: 0.25, z: 0.25}
   posBottom:

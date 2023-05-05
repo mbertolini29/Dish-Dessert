@@ -9,6 +9,9 @@ TagManager:
   - Canela
   - Apple
   - Donut
+  - Particle
+  - ParticleSmoke
+  - ParticleOnda
   layers:
   - Default
   - TransparentFX

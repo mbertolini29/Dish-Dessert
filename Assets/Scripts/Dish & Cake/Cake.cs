@@ -3,25 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum TypeCake
-{
-    Cupcake = 2, Donut = 3, Cinnamon = 4, Apple = 6
-}
-
-public enum AmountPiece
-{ 
-    //aca hay que poner el num maximo de porciones por torta que quieras que salgan.
-    //cinnon diria que salgan 2 porciones y apple 3
-    Cupcake = 2, Donut = 2, Cinnamon = 3, Apple = 4
-}
-
-public enum PuntuacionPiece
-{
-    Cupcake = 100, Donut = 125, Cinnamon = 150, Apple = 200
-}
-
-
-
 public class Cake : MonoBehaviour
 {
     //todo esto ya esta completo.
@@ -153,7 +134,7 @@ public class Cake : MonoBehaviour
     {
         //esto hay q ver si queres que sea parte del plato o de la torta.
         GameObject piece = FindObjectOfType<Dish>().cakePrefab[numCake].piece[i]; //sos todas las tortas disponibles.
-
+    
         //instanciar cada postre en su plato
         //Instantiate(piece);
         GameObject pieceCake = Instantiate<GameObject>(piece);
@@ -170,7 +151,5 @@ public class Cake : MonoBehaviour
         return pieceCake;
         //cakeItem._allCake.Add(pieceCake);
     }
-
-
 
 }

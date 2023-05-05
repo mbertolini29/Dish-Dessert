@@ -158,8 +158,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particle: {fileID: 7840031765657123630, guid: f11aea56aea24894ab3e07e878872827, type: 3}
-  particleExplosion: {fileID: 2455488494117642579, guid: 71260b4c7729335459b2ef7dba0e2fd0, type: 3}
+  particleWave: {fileID: 2455488494117642579, guid: 71260b4c7729335459b2ef7dba0e2fd0, type: 3}
   particleSmoke: {fileID: 5452053254313346552, guid: 6dffa444c4955784994b6fe3f95d1c3a, type: 3}
+  mesh: {fileID: -5963320831737268634, guid: 28f0a115eecc2204abee0888920eb968, type: 3}
+  estrella: {fileID: 3205653254675193814, guid: 3cc9d6627ed1a27468d9e5c9b9044bed, type: 3}
+  background: {fileID: 0}
   dishConection:
   - {fileID: 8056791895029796652, guid: 7c60ec4994e3f244c92549beac2581ef, type: 3}
   - {fileID: 6110704306650279382, guid: 0a05c468cdfd90c4280074596ff14e9b, type: 3}
