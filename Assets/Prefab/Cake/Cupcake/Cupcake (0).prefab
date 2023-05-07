@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5844295321292399208}
   m_Layer: 0
   m_Name: Cupcake (0)
-  m_TagString: Untagged
+  m_TagString: Cupcake
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,11 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba2d7aa36672ef344afa4b13bf8bc2d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cinnamon:
-  - 
-  - 
-  - 
-  - 
 --- !u!1 &7271694079168955012
 GameObject:
   m_ObjectHideFlags: 0

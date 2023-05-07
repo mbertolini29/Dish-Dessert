@@ -14,6 +14,7 @@ public class Dish : MonoBehaviour
     
     [Header("Estrella Puntuación")] //para cambiar a apple
     public GameObject estrella;
+    public Transform starPos;
     public GameObject background;
 
     //se scala a mayor
@@ -158,7 +159,7 @@ public class Dish : MonoBehaviour
             particle.transform.position = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y, particle.transform.position.z);
             particle.GetComponent<ParticleSystem>().Play();
 
-            background2 = GameObject.Find("Background 2");
+            background2 = GameObject.Find("Background 2");            
             particle.transform.parent = background2.transform;
 
             //una vez que ocupa la celda. Busca si las porciones de tortas coinciden.
@@ -261,16 +262,9 @@ public class Dish : MonoBehaviour
                 //liberas la celda seleccionada, si es que se completo.
                 gameobjectDish.transform.parent.GetComponent<Cell>().isBusy = false;
 
-                //faltaria que aparezca la estrella, y 
-                //GameObject estrellaVisual = Instantiate(estrella);
-                ////estrellaVisual.transform.SetParent(gameobjectDish.transform, false);
-                //estrellaVisual.transform.parent = gameobjectDish.transform;
-                //estrellaVisual.transform.localPosition = estrella.transform.localPosition;
+                StartCoroutine(EstrellaTime(gameobjectDish, 60f));
 
-
-                StartCoroutine(EstrellaTime(gameobjectDish, 15f));
-
-                Destroy(movePiece.gameObject, 2f);
+                //Destroy(movePiece.gameObject, 2f);
             }
             else //si en un plato, se completo la torta, aunque tenga otro vecino. hay que destruir esa torta completa
             {
@@ -283,23 +277,23 @@ public class Dish : MonoBehaviour
     IEnumerator EstrellaTime(GameObject gameobjectDish, float duration)
     {
         yield return new WaitForSeconds(0.5f);
-        //faltaria que aparezca la estrella, y 
+
         GameObject estrellaVisual = Instantiate(estrella);
-        //estrellaVisual.transform.SetParent(gameobjectDish.transform, false);
-        estrellaVisual.transform.parent = gameobjectDish.transform;
-        estrellaVisual.transform.localPosition = estrella.transform.localPosition;
-
-        //GameObject background2 = Instantiate(background);
         GameObject background2 = GameObject.Find("Background 2");
+        starPos = GameObject.Find("ImageScore").transform;
         estrellaVisual.transform.parent = background2.transform;
+        estrellaVisual.transform.localPosition = previousSelected.transform.position;
 
-        yield return new WaitForSeconds(0.5f);
         float currentTime = 0.0f;
         do
         {
-            estrellaVisual.transform.position = Vector3.Lerp(estrellaVisual.transform.position,
-                                                                new Vector3(1.741f, 8f, -5.4f),
-                                                                currentTime / duration);
+            estrellaVisual.transform.localPosition= Vector3.Lerp(estrellaVisual.transform.localPosition,
+                                                                 starPos.position, 
+                                                                 currentTime / duration);
+
+            //estrellaVisual.transform.localScale = Vector3.Lerp(estrellaVisual.transform.localScale,
+            //                                                    Vector3.zero, currentTime / duration);
+
             currentTime += Time.deltaTime;
             yield return null;
         } while (currentTime <= duration);
@@ -641,7 +635,7 @@ public class Dish : MonoBehaviour
                                           cakePrefab[movePiece.cakeItemList[num]._numCake].posOriginal[k],
                                           0.35f));
 
-                if(movePiece.cakeItemList[num]._numCake == 3)
+                if (movePiece.cakeItemList[num]._numCake == 3)
                 {
                     piece.gameObject.GetComponent<MeshFilter>().sharedMesh = mesh;
                 }
