@@ -9,6 +9,8 @@ public class DishManager : MonoBehaviour
 
     [SerializeField] Dish dishPrefab;
 
+    //Dish dish;
+
     //lista total de platos instanciados.
     public List<Dish> dishes;
 
@@ -62,12 +64,26 @@ public class DishManager : MonoBehaviour
             //instancias cada plato
             Dish dish = Instantiate<Dish>(dishPrefab);
 
+
+            //sonido de intanciar los platos en la mesa.
+            UIManager.instance.PlaySoundInstance();
+
+
+            //animacion de entrada del plato.
+            StartCoroutine(MoveDish(dish.gameObject,
+                                    dish.gameObject.transform.position,
+                                    posDishes[i].position,
+                                    0.5f));
+
+            //sonido.            
+
             //los haces hijo para mejor orden
             dish.transform.SetParent(transform, false);
-            
+
             //posicion del plato
-            dish.transform.position = posDishes[i].position;
-            dish.posInicial = dish.transform.position;
+            //dish.transform.position = posDishes[i].position;
+            //dish.posInicial = dish.transform.position;
+            dish.posInicial = posDishes[i].position; 
 
             //
             //dish.CreatedCake();
@@ -81,4 +97,20 @@ public class DishManager : MonoBehaviour
             dishes.Add(dish);
         }
     }
+
+    IEnumerator MoveDish(GameObject dish, Vector3 currentPos, Vector3 targetPos, float duration)
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        //dish.transform.position = Vector3.zero;
+        float timeElapsed = 0;
+        while (timeElapsed < duration)
+        {
+            dish.transform.position = Vector3.Lerp(currentPos, targetPos, timeElapsed / duration);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+
+    }
 }
+

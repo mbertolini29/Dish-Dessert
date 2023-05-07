@@ -31,8 +31,10 @@ public class UIManager : MonoBehaviour
     public AudioSource music;
     public AudioSource fxSound;
     public AudioClip clickDish;
+    public AudioClip changePiece;
     public AudioClip clickButton;
     public AudioClip soundFullCake;
+    public AudioClip soundDessertInstance;
 
     [SerializeField] bool fxSoundOn = true;
     [SerializeField] bool musicOn = true;
@@ -63,9 +65,19 @@ public class UIManager : MonoBehaviour
         fxSound.PlayOneShot(clickDish);
     }
 
+    public void PlaySoundChangePiece()
+    {
+        fxSound.PlayOneShot(changePiece);
+    }
+
     public void PlaySoundButton()
     {
         fxSound.PlayOneShot(clickButton);
+    }
+
+    public void PlaySoundInstance()
+    {
+        fxSound.PlayOneShot(soundDessertInstance);
     }
 
     public void MusicVolume()

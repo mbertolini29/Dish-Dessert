@@ -235,7 +235,7 @@ public class Dish : MonoBehaviour
                             //particulas
                             StartCoroutine(ParticleTime());
 
-                            //
+                            //Liberar de celda
                             CellRelease(previousSelected, neighborDish, this.gameObject, num);
                         }
                     }
@@ -244,6 +244,11 @@ public class Dish : MonoBehaviour
             }
             sideNum++;
         }
+    }
+
+    public void OnVibrate()
+    {
+        Vibration.Vibrate(55);
     }
 
     void CellRelease(Dish movePiece, Dish destroyPiece, GameObject gameobjectDish, int num) //liberar celda, si se completo..
@@ -262,9 +267,12 @@ public class Dish : MonoBehaviour
                 //liberas la celda seleccionada, si es que se completo.
                 gameobjectDish.transform.parent.GetComponent<Cell>().isBusy = false;
 
-                StartCoroutine(EstrellaTime(gameobjectDish, 60f));
-
+                //StartCoroutine(EstrellaTime(gameobjectDish, 60f));
                 //Destroy(movePiece.gameObject, 2f);
+                Destroy(movePiece.gameObject, 1f);
+
+                //estaría bueno que vibre el celular.
+                OnVibrate();
             }
             else //si en un plato, se completo la torta, aunque tenga otro vecino. hay que destruir esa torta completa
             {
@@ -278,11 +286,13 @@ public class Dish : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
 
-        GameObject estrellaVisual = Instantiate(estrella);
+        //GameObject estrellaVisual = Instantiate(estrella);
+        GameObject estrellaVisual = GameObject.Find("Estrella");
         GameObject background2 = GameObject.Find("Background 2");
         starPos = GameObject.Find("ImageScore").transform;
         estrellaVisual.transform.parent = background2.transform;
-        estrellaVisual.transform.localPosition = previousSelected.transform.position;
+        //estrellaVisual.transform.position = previousSelected.transform.position;
+        estrellaVisual.transform.position = previousSelected.transform.position;
 
         float currentTime = 0.0f;
         do
@@ -634,6 +644,9 @@ public class Dish : MonoBehaviour
                                           piece.transform.localPosition,
                                           cakePrefab[movePiece.cakeItemList[num]._numCake].posOriginal[k],
                                           0.35f));
+
+                //sonido para cambiar de plato
+                UIManager.instance.PlaySoundChangePiece();
 
                 if (movePiece.cakeItemList[num]._numCake == 3)
                 {

@@ -108,7 +108,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4919979557911533253}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 9.14, y: -6.85, z: 0.23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4629429043580856291}
@@ -162,6 +162,7 @@ MonoBehaviour:
   particleSmoke: {fileID: 5452053254313346552, guid: 6dffa444c4955784994b6fe3f95d1c3a, type: 3}
   mesh: {fileID: -5963320831737268634, guid: 28f0a115eecc2204abee0888920eb968, type: 3}
   estrella: {fileID: 3205653254675193814, guid: 3cc9d6627ed1a27468d9e5c9b9044bed, type: 3}
+  starPos: {fileID: 0}
   background: {fileID: 0}
   dishConection:
   - {fileID: 8056791895029796652, guid: 7c60ec4994e3f244c92549beac2581ef, type: 3}
