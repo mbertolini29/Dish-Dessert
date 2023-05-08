@@ -11,8 +11,9 @@ public class Dish : MonoBehaviour
 
     [Header("Material")] //para cambiar a apple
     public Mesh mesh;
-    
+
     [Header("Estrella Puntuación")] //para cambiar a apple
+    public Estrella star;    
     public GameObject estrella;
     public Transform starPos;
     public GameObject background;
@@ -89,6 +90,8 @@ public class Dish : MonoBehaviour
     private void OnMouseDown()
     {
         UIManager.instance.PlaySoundDish();
+
+        OnVibrate(55);
 
         mousePos = Input.mousePosition - GetMousePos();
     }
@@ -283,9 +286,9 @@ public class Dish : MonoBehaviour
         */
     }
 
-    public void OnVibrate()
+    public void OnVibrate(int num)
     {
-        Vibration.Vibrate(55);
+        Vibration.Vibrate(num);
     }
 
     void CellRelease(Dish movePiece, Dish destroyPiece, GameObject gameobjectDish, int num) //liberar celda, si se completo..
@@ -304,12 +307,14 @@ public class Dish : MonoBehaviour
                 //liberas la celda seleccionada, si es que se completo.
                 gameobjectDish.transform.parent.GetComponent<Cell>().isBusy = false;
 
-                //StartCoroutine(EstrellaTime(gameobjectDish, 60f));
-                //Destroy(movePiece.gameObject, 2f);
+                //movimiento de la estrella
+                star = FindObjectOfType<Estrella>();
+                star.StartStarMove(gameobjectDish.transform.position);
+
                 Destroy(movePiece.gameObject, 1f);
 
                 //estaría bueno que vibre el celular.
-                OnVibrate();
+                OnVibrate(110);
             }
             else //si en un plato, se completo la torta, aunque tenga otro vecino. hay que destruir esa torta completa
             {
@@ -317,33 +322,6 @@ public class Dish : MonoBehaviour
                 movePiece.cakeItemList.RemoveAt(num);
             }
         }
-    }
-
-    IEnumerator EstrellaTime(GameObject gameobjectDish, float duration)
-    {
-        yield return new WaitForSeconds(0.5f);
-
-        //GameObject estrellaVisual = Instantiate(estrella);
-        GameObject estrellaVisual = GameObject.Find("Estrella");
-        GameObject background2 = GameObject.Find("Background 2");
-        starPos = GameObject.Find("ImageScore").transform;
-        estrellaVisual.transform.parent = background2.transform;
-        //estrellaVisual.transform.position = previousSelected.transform.position;
-        estrellaVisual.transform.position = previousSelected.transform.position;
-
-        float currentTime = 0.0f;
-        do
-        {
-            estrellaVisual.transform.localPosition= Vector3.Lerp(estrellaVisual.transform.localPosition,
-                                                                 starPos.position, 
-                                                                 currentTime / duration);
-
-            //estrellaVisual.transform.localScale = Vector3.Lerp(estrellaVisual.transform.localScale,
-            //                                                    Vector3.zero, currentTime / duration);
-
-            currentTime += Time.deltaTime;
-            yield return null;
-        } while (currentTime <= duration);
     }
 
     IEnumerator ParticleTime()
@@ -608,7 +586,7 @@ public class Dish : MonoBehaviour
                         if (this.cakeItemList[i]._allCake.Count <= cakePrefab[this.cakeItemList[i]._numCake].piece.Count)
                         {
                             //esto funciona solo con uno a uno
-                            MovePiece(previousSelected, neighborDish, this.gameObject, aux, i);
+                            MovePiece(previousSelected, neighborDish, aux, i);
                         }
 
                         //una vez que se movio la porcion de torta, y se completo el plato
@@ -634,7 +612,7 @@ public class Dish : MonoBehaviour
                             //particulas
                             StartCoroutine(ParticleTime());
 
-                            //Liberar de celda
+                            //Liberar la celda
                             CellRelease(previousSelected, neighborDish, this.gameObject, i);
                         }
                     }
@@ -684,7 +662,7 @@ public class Dish : MonoBehaviour
         }
     }
 
-    void MovePiece(Dish movePiece, Dish destroyPiece, GameObject gameobjectDish, int aux, int num)
+    void MovePiece(Dish movePiece, Dish destroyPiece, int aux, int num)
     {
         //llenar torta seleccionada.
         for (int k = movePiece.cakeItemList[num]._pieceCount; k < aux; k++)
