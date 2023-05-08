@@ -32,6 +32,7 @@ public class UIManager : MonoBehaviour
     public AudioSource fxSound;
     public AudioClip clickDish;
     public AudioClip changePiece;
+    public AudioClip busyPos;
     public AudioClip clickButton;
     public AudioClip soundFullCake;
     public AudioClip soundDessertInstance;
@@ -68,6 +69,11 @@ public class UIManager : MonoBehaviour
     public void PlaySoundChangePiece()
     {
         fxSound.PlayOneShot(changePiece);
+    }
+
+    public void PlaySoundBusyPos()
+    {
+        fxSound.PlayOneShot(busyPos);
     }
 
     public void PlaySoundButton()

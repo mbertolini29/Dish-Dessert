@@ -147,7 +147,7 @@ public class Dish : MonoBehaviour
             //haces hijo de la celda al plato.
             transform.SetParent(currentCell.gameObject.transform, false);
 
-            //particulas
+            //particula onda
             particleWave.transform.parent = this.gameObject.transform;
             particleWave.transform.position = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y, particleWave.transform.position.z);
             particleWave.GetComponent<ParticleSystem>().Play();
@@ -155,6 +155,7 @@ public class Dish : MonoBehaviour
             GameObject background2 = GameObject.Find("Background 2");
             particleWave.transform.parent = background2.transform;
 
+            //particula
             particle.transform.parent = this.gameObject.transform;
             particle.transform.position = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y, particle.transform.position.z);
             particle.GetComponent<ParticleSystem>().Play();
@@ -170,8 +171,12 @@ public class Dish : MonoBehaviour
         }
         else
         {
+            //sonido para cambiar de plato
+            UIManager.instance.PlaySoundBusyPos();
+
             //sino vuelve a la posicion inicial.
             transform.position = posInicial;
+
         }
     }
 
@@ -183,67 +188,99 @@ public class Dish : MonoBehaviour
         //return GetAllNeighbors().Contains(previousSelected.gameObject);
         neighbors = GetAllNeighbors();
 
-        foreach (GameObject item in neighbors)
+        /*        
+
+        int _num = 0;
+        GameObject item = neighbors.Find(x => x != null);
+
+        if (item != null)
         {
-            if(item != null)
+            neighborDish = item.gameObject.GetComponent<Dish>();
+            previousSelected = this.gameObject.GetComponent<Dish>();
+
+            int num = 0;
+
+            foreach (var itemCake in neighborDish.cakeItemList)
             {
-                neighborDish = item.gameObject.GetComponent<Dish>();
-                previousSelected = this.gameObject.GetComponent<Dish>();
-
-                int num = 0;
-
-                foreach (var itemCake in neighborDish.cakeItemList)
+                if (itemCake._numCake == this.cakeItemList[num]._numCake)
                 {
-                    if(itemCake._numCake == this.cakeItemList[num]._numCake)
+                    DishConnection(sideNum);
+
+                    //cantidad de piezas entre cada torta.
+                    int aux = itemCake._pieceCount + this.cakeItemList[num]._pieceCount;
+
+                    //if(itemCake._pieceCount > this.cakeItemList[num]._pieceCount)
+                    //{
+
+                    //}
+                    //chequea que los vecinos sean iguales
+                    //if (neighborDish.cakeItemList.Count == 1 && this.cakeItemList.Count == 1)
+                    //si es asi, cual de los dos tiene mas porciones.
+                    //y para ese plato vas
+
+                    if (this.cakeItemList[num]._allCake.Count <= cakePrefab[this.cakeItemList[num]._numCake].piece.Count)
                     {
-                        DishConnection(sideNum);
-
-                        //cantidad de piezas entre cada torta.
-                        int aux = itemCake._pieceCount + this.cakeItemList[num]._pieceCount;
-
-                        //chequea que los vecinos sean iguales
-                        //if (neighborDish.cakeItemList.Count == 1 && this.cakeItemList.Count == 1)
-                            //si es asi, cual de los dos tiene mas porciones.
-                            //y para ese plato vas
-
-                        if (this.cakeItemList[num]._allCake.Count <= cakePrefab[this.cakeItemList[num]._numCake].piece.Count)
-                        {
-                            //esto funciona solo con uno a uno
-                            MovePiece(previousSelected, neighborDish, this.gameObject, aux, num); 
-                        }
-
-                        //una vez que se movio la porcion de torta, y se completo el plato
-                        if (this.cakeItemList[num]._allCake.Count >= cakePrefab[this.cakeItemList[num]._numCake].piece.Count)
-                        {
-                            //se escala el plato.. (la otra es escalar el postre nomas)
-                            StartCoroutine(ScaleDish(previousSelected.gameObject, startingScale, endingScale, 0.5f));
-
-                            //y volver el plato a la normalidad.
-                            StartCoroutine(ScaleDessert(previousSelected.gameObject, endingScale, startingScale, 0.5f));
-
-                            //ir destruyendo las porciones de torta,
-                            StartCoroutine(DestroyPieceDessert());
-
-                            //giras el plato
-                            //StartCoroutine(RotateDessert(0.5f));
-                            if (this.cakeItemList[num]._numCake == 1 || this.cakeItemList[num]._numCake == 3)
-                            {
-                                //instanciar la pieza completa
-                                StartCoroutine(FullDessert(previousSelected, num));
-                            }
-
-                            //particulas
-                            StartCoroutine(ParticleTime());
-
-                            //Liberar de celda
-                            CellRelease(previousSelected, neighborDish, this.gameObject, num);
-                        }
+                        //esto funciona solo con uno a uno
+                        MovePiece(previousSelected, neighborDish, this.gameObject, aux, num);
                     }
-                    num++;
+
+                    //una vez que se movio la porcion de torta, y se completo el plato
+                    if (this.cakeItemList[num]._allCake.Count >= cakePrefab[this.cakeItemList[num]._numCake].piece.Count)
+                    {
+                        //se escala el plato.. (la otra es escalar el postre nomas)
+                        StartCoroutine(ScaleDish(previousSelected.gameObject, startingScale, endingScale, 0.5f));
+
+                        //y volver el plato a la normalidad.
+                        StartCoroutine(ScaleDessert(previousSelected.gameObject, endingScale, startingScale, 0.5f));
+
+                        //ir destruyendo las porciones de torta,
+                        StartCoroutine(DestroyPieceDessert());
+
+                        //giras el plato
+                        //StartCoroutine(RotateDessert(0.5f));
+                        if (this.cakeItemList[num]._numCake == 1 || this.cakeItemList[num]._numCake == 3)
+                        {
+                            //instanciar la pieza completa
+                            StartCoroutine(FullDessert(previousSelected, num));
+                        }
+
+                        //particulas
+                        StartCoroutine(ParticleTime());
+
+                        //Liberar de celda
+                        CellRelease(previousSelected, neighborDish, this.gameObject, num);
+                    }
                 }
+                //num++;
             }
-            sideNum++;
         }
+        sideNum++;
+
+        _num++;
+
+        ////neighbors.Find(x => x.gameObject.GetComponent<Dish>().cakeItemList.Contains(x => this.cakeItemList[num]._numCake));
+
+        //if(_item != null)
+        //{
+        //    Debug.Log("hay vecinos.");
+
+        //    neighborDish = _item.gameObject.GetComponent<Dish>();
+        //    previousSelected = this.gameObject.GetComponent<Dish>();
+
+        //    int numDessert = 0;
+        //    bool deverdad = neighborDish.cakeItemList.Contains(this.cakeItemList[numDessert]);
+        //    if (deverdad)
+        //    {
+        //        if(neighborDish.cakeItemList[numDessert]._numCake == this.cakeItemList[numDessert]._numCake)
+        //        {
+
+        //        }
+        //    }
+
+        //    numDessert++;
+        //}
+
+        */
     }
 
     public void OnVibrate()
@@ -491,7 +528,7 @@ public class Dish : MonoBehaviour
         {
             //vecino que encontraste 
             neighborDish = hit.collider.gameObject.GetComponent<Dish>();
-            GameObject neighbor = hit.collider.gameObject; //esto para poder eliminarlo. 
+            //GameObject neighbor = hit.collider.gameObject; //esto para poder eliminarlo. 
 
             if (neighborDish.currentCell != this.currentCell)
             {
@@ -499,7 +536,7 @@ public class Dish : MonoBehaviour
                 //CheckSeveralNeighbors(neighborDish, neighbor);
 
                 //chequea vecinos que uno de ambos tenga una porcion de torta.
-                //NeighborCheck(neighborDish, neighbor);
+                NeighborCheck(neighborDish);
 
                 return hit.collider.gameObject;
             }
@@ -545,7 +582,7 @@ public class Dish : MonoBehaviour
     //                    //ir del vecino hacia la torta que pusiste
     //                    Dish dish = this.gameObject.GetComponent<Dish>();
     //                    Dish destroyPiece = neighborDish;
-                        
+
     //                    MovePiece(destroyPiece, dish, neighbor, aux, i, j);
     //                }
     //            }
@@ -553,54 +590,74 @@ public class Dish : MonoBehaviour
     //    }
     //}
 
-    //void NeighborCheck(Dish neighborDish, GameObject neighbor)
-    //{
-    //    //primero te chequeas al seleccionado.
-    //    for (int i = 0; i < this.cakeItemList.Count; i++)
-    //    {
-    //        for (int j = 0; j < neighborDish.cakeItemList.Count; j++)
-    //        {
-    //            //chequeas si el vecinoo tiene un porcion igual.
-    //            if (this.cakeItemList[i]._numCake == neighborDish.cakeItemList[j]._numCake)
-    //            {
-    //                isNeighbor = true;
+    void NeighborCheck(Dish neighborDish)
+    {
+        //primero te chequeas al seleccionado.
+        for (int i = 0; i < this.cakeItemList.Count; i++)
+        {
+            for (int j = 0; j < neighborDish.cakeItemList.Count; j++)
+            {
+                //chequeas si el vecinoo tiene un porcion igual.
+                if (this.cakeItemList[i]._numCake == neighborDish.cakeItemList[j]._numCake)
+                {
+                    //cant de piezas del objeto seleccionado y el vecino.
+                    int aux = this.cakeItemList[i]._pieceCount + neighborDish.cakeItemList[j]._pieceCount;
 
-    //                if(neighborDish.cakeItemList.Count == 0 || this.cakeItemList.Count == 0)
-    //                {
-    //                    return; //si uno de los 2 esta vacio. No seguir.
-    //                }
+                    if (neighborDish.cakeItemList.Count == 1 && this.cakeItemList.Count == 1)
+                    {
+                        if (this.cakeItemList[i]._allCake.Count <= cakePrefab[this.cakeItemList[i]._numCake].piece.Count)
+                        {
+                            //esto funciona solo con uno a uno
+                            MovePiece(previousSelected, neighborDish, this.gameObject, aux, i);
+                        }
 
-    //                //cant de piezas del objeto seleccionado y el vecino.
-    //                int aux = this.cakeItemList[i]._pieceCount + neighborDish.cakeItemList[j]._pieceCount;
+                        //una vez que se movio la porcion de torta, y se completo el plato
+                        if (this.cakeItemList[i]._allCake.Count >= cakePrefab[this.cakeItemList[i]._numCake].piece.Count)
+                        {
+                            //se escala el plato.. (la otra es escalar el postre nomas)
+                            StartCoroutine(ScaleDish(previousSelected.gameObject, startingScale, endingScale, 0.5f));
 
-    //                if (neighborDish.cakeItemList.Count == 1 && this.cakeItemList.Count == 1)
-    //                {
-    //                    //Del vecino hacia la torta que pusiste
-    //                    Dish dish = this.gameObject.GetComponent<Dish>();
-    //                    Dish destroyPiece = neighborDish;
+                            //y volver el plato a la normalidad.
+                            StartCoroutine(ScaleDessert(previousSelected.gameObject, endingScale, startingScale, 0.5f));
 
-    //                    MovePiece(dish, destroyPiece, this.gameObject, aux, i, j);
-    //                }
-    //                else if (neighborDish.cakeItemList.Count == 1 && this.cakeItemList.Count >= 2)
-    //                { 
-    //                    //Desde el seleccionado al vecino.
-    //                    Dish dish = neighborDish;
-    //                    Dish destroyPiece = this.gameObject.GetComponent<Dish>();
+                            //ir destruyendo las porciones de torta,
+                            StartCoroutine(DestroyPieceDessert());
 
-    //                    MovePiece(dish, destroyPiece, neighbor, aux, i, j);                               
-    //                }
-    //                else if(neighborDish.cakeItemList.Count >= 2 && this.cakeItemList.Count == 1)
-    //                {
-    //                    //Del vecino hacia la torta que pusiste
-    //                    Dish dish = this.gameObject.GetComponent<Dish>();
-    //                    Dish destroyPiece = neighborDish;
-                        
-    //                    MovePiece(dish, destroyPiece, this.gameObject, aux, j, i);
-    //                }
-    //            }
-    //        }
-    //    }   
-    //}
+                            //giras el plato
+                            //StartCoroutine(RotateDessert(0.5f));
+                            if (this.cakeItemList[i]._numCake == 1 || this.cakeItemList[i]._numCake == 3)
+                            {
+                                //instanciar la pieza completa
+                                StartCoroutine(FullDessert(previousSelected, i));
+                            }
+
+                            //particulas
+                            StartCoroutine(ParticleTime());
+
+                            //Liberar de celda
+                            CellRelease(previousSelected, neighborDish, this.gameObject, i);
+                        }
+                    }
+                    //else if (neighborDish.cakeItemList.Count == 1 && this.cakeItemList.Count >= 2)
+                    //{
+                    //    //Desde el seleccionado al vecino.
+                    //    Dish dish = neighborDish;
+                    //    Dish destroyPiece = this.gameObject.GetComponent<Dish>();
+
+                    //    MovePiece(dish, destroyPiece, neighbor, aux, i, j);
+                    //}
+                    //else if (neighborDish.cakeItemList.Count >= 2 && this.cakeItemList.Count == 1)
+                    //{
+                    //    //Del vecino hacia la torta que pusiste
+                    //    Dish dish = this.gameObject.GetComponent<Dish>();
+                    //    Dish destroyPiece = neighborDish;
+
+                    //    MovePiece(dish, destroyPiece, this.gameObject, aux, j, i);
+                    //}
+                }
+            }
+        }
+    }
 
     IEnumerator MoveObject(GameObject piece, Vector3 currentPos, Vector3 targetPos, float duration)
     {

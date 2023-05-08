@@ -787,6 +787,8 @@ MonoBehaviour:
   music: {fileID: 316304811}
   fxSound: {fileID: 1902919649}
   clickDish: {fileID: 8300000, guid: 5ea8a439ba815894682470f541c84df4, type: 3}
+  changePiece: {fileID: 8300000, guid: 25b378d900faef248a4118736623e123, type: 3}
+  busyPos: {fileID: 8300000, guid: 1ff24042adcf50c4a8720b86f4a487b1, type: 3}
   clickButton: {fileID: 8300000, guid: 1876eb3890ac3f945aec3812bb199429, type: 3}
   soundFullCake: {fileID: 8300000, guid: 666ee55da20a82b46a71ccba7d336580, type: 3}
   soundDessertInstance: {fileID: 8300000, guid: 3859faeadfb5ee44bb961090128d34af, type: 3}
@@ -2907,7 +2909,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: -5326088980975320933, guid: 684c8cbee9369624f820d3e4eec88982, type: 2}
   m_audioClip: {fileID: 8300000, guid: 3533994249e6b0d47b780598b398c835, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -6058,7 +6060,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6066,12 +6068,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 45c0886028b182641881276d120bdbc2, type: 3}
+    m_Font: {fileID: 12800000, guid: c92ac69038df5fd49adb9782d3000aec, type: 3}
     m_FontSize: 35
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 3
-    m_MaxSize: 40
+    m_MaxSize: 50
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -6087,7 +6089,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4208205943303530202}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -2.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4208205942841523999}
@@ -6095,7 +6097,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -100, y: 0}
+  m_AnchoredPosition: {x: -120, y: -4}
   m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4208205943303530183
