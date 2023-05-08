@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,7 +20,7 @@ public class Estrella : MonoBehaviour
         }
     }
 
-    public void StartStarMove(Vector3 _intial)
+    public void StartStarMove(Vector3 _intial, Action onComplete)
     {
         //Vector3 intialPos = cam.ScreenToWorldPoint(new Vector3(intial.position.x, intial.position.y, cam.transform.position.z * -1));
         Vector3 targetPos = cam.ScreenToWorldPoint(new Vector3(target.position.x, target.position.y, cam.transform.position.z * -1));
@@ -29,11 +30,11 @@ public class Estrella : MonoBehaviour
         GameObject estrellaVisual = GameObject.Find("Estrella");
 
         //estrellaVisual.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-        StartCoroutine(MoveStar(estrellaVisual.transform, _intial, targetPos));
+        StartCoroutine(MoveStar(estrellaVisual.transform, _intial, targetPos, onComplete));
         StartCoroutine(RotateStar(estrellaVisual.transform));
     }
 
-    IEnumerator MoveStar(Transform obj, Vector3 startPos, Vector3 endPos)
+    IEnumerator MoveStar(Transform obj, Vector3 startPos, Vector3 endPos, Action onComplete)
     {
         yield return new WaitForSeconds(0.5f);
 
@@ -46,7 +47,8 @@ public class Estrella : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
-        yield return null;
+        //yield return null;
+        onComplete.Invoke();
     }
 
     IEnumerator RotateStar(Transform obj)

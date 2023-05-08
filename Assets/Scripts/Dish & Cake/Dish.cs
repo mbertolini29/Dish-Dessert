@@ -294,12 +294,7 @@ public class Dish : MonoBehaviour
     void CellRelease(Dish movePiece, Dish destroyPiece, GameObject gameobjectDish, int num) //liberar celda, si se completo..
     {
         if (movePiece.cakeItemList[num]._allCake.Count >= cakePrefab[movePiece.cakeItemList[num]._numCake].piece.Count)
-        {
-            //sumar puntos!
-            GameManager.instance.Score += ReturnScore(movePiece.cakeItemList[num]._numCake);
-
-            //sonido de torta completa.
-            UIManager.instance.PlaySoundFullCake();
+        {            
 
             //destruis el plato, una vez que se quedo sin porciones.
             if (movePiece.cakeItemList.Count <= 1)
@@ -309,7 +304,14 @@ public class Dish : MonoBehaviour
 
                 //movimiento de la estrella
                 star = FindObjectOfType<Estrella>();
-                star.StartStarMove(gameobjectDish.transform.position);
+                star.StartStarMove(gameobjectDish.transform.position, ()=>
+                {
+                    //sumar puntos!
+                    GameManager.instance.Score += ReturnScore(movePiece.cakeItemList[num]._numCake);
+
+                    //sonido de torta completa.
+                    UIManager.instance.PlaySoundFullCake();
+                });
 
                 Destroy(movePiece.gameObject, 1f);
 
