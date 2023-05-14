@@ -158,7 +158,11 @@ public class UIManager : MonoBehaviour
         PlaySoundButton();
 
         //SceneManager.LoadScene(changeScene);
-        SceneManager.LoadScene("Menu");
+        //SceneManager.LoadScene("Menu");
+
+        Scene scene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(scene.name);
+
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex-1);
     }
 

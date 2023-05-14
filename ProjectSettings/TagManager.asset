@@ -14,6 +14,7 @@ TagManager:
   - ParticleOnda
   - Cinnamon
   - Cupcake
+  - Dish
   layers:
   - Default
   - TransparentFX

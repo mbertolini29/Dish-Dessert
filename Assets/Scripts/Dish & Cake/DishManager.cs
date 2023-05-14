@@ -7,12 +7,11 @@ public class DishManager : MonoBehaviour
 {
     public static DishManager instance;
 
-    [SerializeField] Dish dishPrefab;
-
     //Dish dish;
+    [SerializeField] DishSelect dishPrefab;
 
     //lista total de platos instanciados.
-    public List<Dish> dishes;
+    public List<DishSelect> dishes;
 
     //es buena que las tortas que se pueden instanciar, esten aca.
     //cake prefab ?
@@ -62,7 +61,7 @@ public class DishManager : MonoBehaviour
             amountDish++;
 
             //instancias cada plato
-            Dish dish = Instantiate<Dish>(dishPrefab);
+            DishSelect dish = Instantiate<DishSelect>(dishPrefab);
 
 
             //sonido de intanciar los platos en la mesa.

@@ -25,7 +25,7 @@ public class Estrella : MonoBehaviour
         //Vector3 intialPos = cam.ScreenToWorldPoint(new Vector3(intial.position.x, intial.position.y, cam.transform.position.z * -1));
         Vector3 targetPos = cam.ScreenToWorldPoint(new Vector3(target.position.x, target.position.y, cam.transform.position.z * -1));
         //targetPos = new Vector3(targetPos.x - 0.365f, targetPos.y - 0.4f, targetPos.z); //cam 9.9
-        targetPos = new Vector3(targetPos.x - 0.6f, targetPos.y - 0.6f, targetPos.z); //cam 12
+        targetPos = new Vector3(targetPos.x - 0.55f, targetPos.y - 0.6f, targetPos.z); //cam 12
         //targetPos = new Vector3(1.613f, 8.193f, targetPos.z); //cam 12 (2.7, 8.7)
         GameObject estrellaVisual = GameObject.Find("Estrella");
 
@@ -59,10 +59,10 @@ public class Estrella : MonoBehaviour
 
         float time = 0;
 
-        while(time < 1)
+        while(time < 2)
         {
             time += speed * Time.deltaTime;
-            obj.localScale = Vector3.Lerp(obj.localScale, Vector3.zero, time/280); //480
+            obj.localScale = Vector3.Lerp(obj.localScale, Vector3.zero, time/240); //480
             yield return new WaitForEndOfFrame();
         }
 

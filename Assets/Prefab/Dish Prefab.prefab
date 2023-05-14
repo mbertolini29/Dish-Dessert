@@ -93,9 +93,10 @@ GameObject:
   - component: {fileID: 311295324}
   - component: {fileID: 311295326}
   - component: {fileID: 311295325}
+  - component: {fileID: -4574601035075365425}
   m_Layer: 6
   m_Name: Dish Prefab
-  m_TagString: Untagged
+  m_TagString: Dish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -142,9 +143,9 @@ CapsuleCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.87
-  m_Height: 3.2
+  m_Height: 5.155637
   m_Direction: 2
-  m_Center: {x: 0, y: 0, z: 0.6}
+  m_Center: {x: 0, y: 0, z: -0.3778181}
 --- !u!114 &311295325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -161,32 +162,50 @@ MonoBehaviour:
   particleWave: {fileID: 2455488494117642579, guid: 71260b4c7729335459b2ef7dba0e2fd0, type: 3}
   particleSmoke: {fileID: 5452053254313346552, guid: 6dffa444c4955784994b6fe3f95d1c3a, type: 3}
   mesh: {fileID: -5963320831737268634, guid: 28f0a115eecc2204abee0888920eb968, type: 3}
-  estrella: {fileID: 3205653254675193814, guid: 3cc9d6627ed1a27468d9e5c9b9044bed, type: 3}
-  starPos: {fileID: 0}
-  background: {fileID: 0}
+  star: {fileID: 0}
   dishConection:
   - {fileID: 8056791895029796652, guid: 7c60ec4994e3f244c92549beac2581ef, type: 3}
   - {fileID: 6110704306650279382, guid: 0a05c468cdfd90c4280074596ff14e9b, type: 3}
   - {fileID: 7342218359943351728, guid: 5a9c2848c550a9d4b8c07f0e78727770, type: 3}
   - {fileID: 903280284615933759, guid: e9fa66a62a9fb8f4c910c5210d83185b, type: 3}
   isNeighbor: 0
-  positionCount: 5
-  positionBusy: 
-  cakeItemList: []
-  createdCake: []
   cakePrefab:
   - {fileID: 8576633777291455994, guid: 6feec338a66bb664db3e0ce8bd30e594, type: 3}
   - {fileID: 3801945460454351840, guid: 22b22367bdd4b2c42adbf0b797a33e78, type: 3}
   - {fileID: 1465250746486655655, guid: 573522da822f615419fb5e5bb8e80eae, type: 3}
   - {fileID: 5017457782943279557, guid: fc8cd7b3221bf8045a8155dbb17cfcee, type: 3}
+--- !u!114 &-4574601035075365425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4919979557911533253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f408843c0fd666e499d0af1b85cba134, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   neighbors: []
+  positionCount: 5
+  positionBusy: 
+  cakePrefab:
+  - {fileID: 8576633777291455994, guid: 6feec338a66bb664db3e0ce8bd30e594, type: 3}
+  - {fileID: 3801945460454351840, guid: 22b22367bdd4b2c42adbf0b797a33e78, type: 3}
+  - {fileID: 1465250746486655655, guid: 573522da822f615419fb5e5bb8e80eae, type: 3}
+  - {fileID: 5017457782943279557, guid: fc8cd7b3221bf8045a8155dbb17cfcee, type: 3}
+  cakeItemList: []
+  layerToHit:
+    serializedVersion: 2
+    m_Bits: 64
   posInicial: {x: 0, y: 0, z: 0}
   isSelected: 0
   isTouchingDish: 0
   onCell: 0
+  timer: 0
+  timeBetweenClicking: 1
+  canClick: 1
   currentCell: {fileID: 0}
-  hitObject: []
-  collision: {x: 0, y: 0, z: 0}
-  layerToHit:
-    serializedVersion: 2
-    m_Bits: 64
+  particle: {fileID: 0}
+  particleWave: {fileID: 0}
+  particleSmoke: {fileID: 0}

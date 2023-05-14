@@ -7,6 +7,7 @@ public class Grid : MonoBehaviour
     public static Grid instance;
 
     [Header("Grid Construction")]
+    //[SerializeField] List<Cell> _cells = new List<Cell>(); //conjunto de celdas
     [SerializeField] Cell[] cells; //conjunto de celdas
     public Cell cellPrefab; //celda individual
     public int height = 4; //x = columna
@@ -67,6 +68,8 @@ public class Grid : MonoBehaviour
         //si se vacia, que reste.
         //y cuando llega al cells.count >= variable .. llame al gameover..
         numBusyCell = 0;
+
+        //if(cells.TrueForAll(x => x.transform.GetComponentInChildren<Cell>().isBusy))
 
         foreach (var item in cells)
         {

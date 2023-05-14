@@ -104,7 +104,7 @@ public class Cake : MonoBehaviour
         cakeItem._numCake = NumCake();
         cakeItem._pieceCount = PieceCount(cakeItem._numCake);
 
-        Dish dish = FindObjectOfType<Dish>();
+        DishSelect dish = FindObjectOfType<DishSelect>();
         dish.positionCount = cakeItem._pieceCount;
 
         int num = dish.cakePrefab[cakeItem._numCake].piece.Count;
@@ -118,7 +118,8 @@ public class Cake : MonoBehaviour
             //instanciar porcion de torta del vecino al seleccionado.
             createdCake.Add(InstantiateCakePiece(i, cakeItem._numCake));
 
-            FindObjectOfType<Dish>().positionBusy[i] = true;
+            dish.positionBusy[i] = true;
+            //FindObjectOfType<DishSelect>().positionBusy[i] = true;
             //dish = FindObjectOfType<Dish>();
             //dish.positionBusy[i] = true;
         }
@@ -127,19 +128,20 @@ public class Cake : MonoBehaviour
         cakeItem._allCake = createdCake;
 
         //guardas la torta
-        FindObjectOfType<Dish>().cakeItemList.Add(cakeItem);
+        dish.cakeItemList.Add(cakeItem);
+        //FindObjectOfType<DishSelect>().cakeItemList.Add(cakeItem);
     }
 
     public GameObject InstantiateCakePiece(int i, int numCake)
     {
         //esto hay q ver si queres que sea parte del plato o de la torta.
-        GameObject piece = FindObjectOfType<Dish>().cakePrefab[numCake].piece[i]; //sos todas las tortas disponibles.
+        GameObject piece = FindObjectOfType<DishSelect>().cakePrefab[numCake].piece[i]; //sos todas las tortas disponibles.
     
         //instanciar cada postre en su plato
         //Instantiate(piece);
         GameObject pieceCake = Instantiate<GameObject>(piece);
 
-        Dish dish = FindObjectOfType<Dish>();
+        DishSelect dish = FindObjectOfType<DishSelect>();
 
         pieceCake.transform.SetParent(dish.gameObject.transform, false);
 
