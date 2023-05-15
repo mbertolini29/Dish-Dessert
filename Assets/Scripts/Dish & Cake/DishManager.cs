@@ -19,6 +19,8 @@ public class DishManager : MonoBehaviour
     //posicion de platos de la parte inferior
     public Transform[] posDishes;
 
+    int dishCount = 2;
+
     [SerializeField] int amountDish = 0;
 
     public int AmountDish
@@ -30,6 +32,13 @@ public class DishManager : MonoBehaviour
 
             if(amountDish <= 0)
             {
+                //ver como agregar el siguiente paso..
+                //agregar 3 platos.. y donas junto con cupcake..
+                //if(dishCount <= 4)
+                //{
+                //    dishCount++;
+                //}
+
                 CreateDish();
             }
         }            
@@ -50,12 +59,56 @@ public class DishManager : MonoBehaviour
 
     private void Start()
     {
+        //tutorial
+
+
+        //arrancar con 2 platos, y 2 cupcake.
+        CreateTutorial();
+
+        FindObjectOfType<TutorialManager>().LoadTutorial();
+
         //tenes que instanciar 4 platos
-        CreateDish();    
+        //CreateDish();    
+    }
+
+    void CreateTutorial()
+    {
+        //solo 2 platos para arrancar..
+        for (int i = 1; i < 3; i++)
+        {
+            amountDish++;
+
+            //instancias cada plato
+            DishSelect dish = Instantiate<DishSelect>(dishPrefab);
+
+            dish.name = string.Format("Dish {0}", i);
+
+            //sonido de intanciar los platos en la mesa.
+            UIManager.instance.PlaySoundInstance();
+
+            //animacion de entrada del plato.
+            StartCoroutine(MoveDish(dish.gameObject,
+                                    dish.gameObject.transform.position,
+                                    posDishes[i].position,
+                                    0.5f));
+
+            //los haces hijo para mejor orden
+            dish.transform.SetParent(transform, false);
+
+            //posicion del plato
+            dish.posInicial = posDishes[i].position;
+
+            Cake cake = new Cake();
+            cake.CreateTutorial();
+
+            //guardas el plato con el postre.
+            dishes.Add(dish);
+        }
     }
 
     void CreateDish()
     {
+        //for (int i = 0; i < dishCount; i++)
         for (int i = 0; i < posDishes.Length; i++)
         {
             amountDish++;

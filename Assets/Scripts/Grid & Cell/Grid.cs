@@ -54,9 +54,18 @@ public class Grid : MonoBehaviour
         cell.transform.localPosition = position;
         //cell.posCell = transform.position;
 
-        //como centramos la grilla?
+        //inician todas las celdas ocupadas.
+        cell.isBusy = true;
 
         cell.name = string.Format("Dish[{0}][{1}]", x, y);
+    }
+
+    public void Releasecells() //liberar todas las celdas.
+    {
+        foreach (var item in cells)
+        {
+            item.transform.GetComponentInChildren<Cell>().isBusy = false;
+        }
     }
 
     //llamar cada vez que instanciamos un plato en la grilla.

@@ -34,11 +34,6 @@ public class DishSelect : MonoBehaviour
     public bool isTouchingDish = false;
     public bool onCell = false;
 
-    [Header("Time Click")]
-    public float timer;
-    public float timeBetweenClicking = 1f;
-    public bool canClick = true;
-
     [Header("Celda donde esta el plato.")]
     public Cell currentCell;
 
@@ -46,6 +41,11 @@ public class DishSelect : MonoBehaviour
     public GameObject particle;
     public GameObject particleWave;
     public GameObject particleSmoke;
+
+    [Header("Time Click")]
+    public float timer;
+    public float timeBetweenClicking = 1f;
+    public bool canClick = true;
 
     private void Awake()
     {
@@ -142,13 +142,19 @@ public class DishSelect : MonoBehaviour
             //particulas para instanciarlo.
             DishParticles();
 
+            //desactivar tutorial.
+            if (TutorialManager.instance.ReturnNumTutorial() == 2)
+            {
+                TutorialManager.instance.LoadTutorial();
+            }
+
             //Una vez que ocupa la celda. Busca si las porciones de tortas coinciden.
             //CanSwipe();
             //FindObjectOfType<Dish>().CanSwipe();
             neighbors = GetAllNeighbors();
 
             //desp de buscar coincidencia, si todos los platos estan ocupados. GameOver
-            Grid.instance.CheckBusyCell();
+            //Grid.instance.CheckBusyCell();
         }
         else if(!this.onCell)
         {
@@ -157,6 +163,15 @@ public class DishSelect : MonoBehaviour
 
             //sino vuelve a la posicion inicial.
             transform.position = posInicial;
+        }
+
+        if (TutorialManager.instance.tutorial)
+        {
+            if(currentCell.gameObject == TutorialManager.instance.targetCell1.gameObject)
+            {
+                TutorialManager.instance.numTutorial++;
+                TutorialManager.instance.DesactiveHandle();
+            }
         }
     }
 
@@ -180,9 +195,6 @@ public class DishSelect : MonoBehaviour
         //y para cada direccion consulta el vecino, y lo agrega a la lista de todos los vecinos. 
         foreach (Vector3 direction in adjecentDirections)
         {
-            //ray = new Ray(previousSelected.transform.position, direction);
-            //Debug.DrawRay(previousSelected.transform.position, direction, Color.blue);
-            //Debug.DrawRay(previousSelected.transform.position, direction);
             neighbors.Add(GetNeighbor(direction));
         }
 
@@ -193,7 +205,7 @@ public class DishSelect : MonoBehaviour
     {
         //Ray ray;
         ray = new Ray(previousSelected.transform.position, direction);      
-        Debug.DrawRay(ray.origin, ray.direction * 10);
+        //Debug.DrawRay(ray.origin, ray.direction * 10);
         //Gizmos.DrawRay(ray);
 
         RaycastHit[] hits;
@@ -223,6 +235,9 @@ public class DishSelect : MonoBehaviour
 
                                     //chequea vecinos que uno de ambos tenga una porcion de torta.
                                     //NeighborCheck(neighborDish);
+
+                                    //desactivar el tutorial..
+
 
                                     //esto encuentra un vecino con un tipo de torta - 1 vs 1 
                                     FindObjectOfType<Dish>().NeighborCheck(previousSelected, neighborDish, i, j);

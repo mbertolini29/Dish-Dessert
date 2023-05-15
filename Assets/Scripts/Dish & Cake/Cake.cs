@@ -26,6 +26,18 @@ public class Cake : MonoBehaviour
     //esta lista deberia ser del plato
     //public List<CakeItem> cakeItemList = new List<CakeItem>();
 
+    //cantidad de postres por nivel..
+    int numCurrentCake = 1;
+
+    public int NumCurrentCake
+    {
+        get { return numCurrentCake; }
+        set
+        {
+            numCurrentCake = value;
+        }
+    }
+
     //item que tiene una torta.
     public CakeItem cakeItem;
 
@@ -39,7 +51,8 @@ public class Cake : MonoBehaviour
 
     private void Start()
     {
-        Create();
+        numCurrentCake = 1;
+        //Create();
     }
 
     public void GetPiece()
@@ -52,14 +65,19 @@ public class Cake : MonoBehaviour
         if(firstNum)
         {
             firstNum = !firstNum;
+
+            numCurrentCake++;
+
             //Elije el postre q quiere instanciar, al azar
-            //UnityEngine.Random.Range(0, 2);
-            int numCake = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TypeCake)).Length);
+            //int numCake = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TypeCake)).Length);
+            int numCake = UnityEngine.Random.Range(0, numCurrentCake);
+
             return numCake;
         }
         else
         {
             //lanzas un numero random con posibilidad de que no salga torta.
+            //int numCake = UnityEngine.Random.Range(-1, Enum.GetValues(typeof(TypeCake)).Length);
             int numCake = UnityEngine.Random.Range(-1, Enum.GetValues(typeof(TypeCake)).Length);
             return numCake;
         }
@@ -93,7 +111,38 @@ public class Cake : MonoBehaviour
         return pieceCount;
     }
 
-    public void Create()
+    public void CreateTutorial()
+    {
+        cakeItem = new CakeItem();
+
+        cakeItem._numCake = 0; //solo cupcake.
+        cakeItem._pieceCount = PieceCount(cakeItem._numCake);
+
+        DishSelect dish = FindObjectOfType<DishSelect>();
+        dish.positionCount = cakeItem._pieceCount;
+
+        int num = dish.cakePrefab[cakeItem._numCake].piece.Count;
+
+        dish.positionBusy = new bool[num];
+
+        //lista de porciones de torta.
+        List<GameObject> createdCake = new List<GameObject>();
+        for (int i = 0; i < cakeItem._pieceCount; i++)
+        {
+            //instanciar porcion de torta del vecino al seleccionado.
+            createdCake.Add(InstantiateCakePiece(i, cakeItem._numCake));
+
+            dish.positionBusy[i] = true;
+        }
+
+        //guardas cada porcion de torta
+        cakeItem._allCake = createdCake;
+
+        //guardas la torta
+        dish.cakeItemList.Add(cakeItem);
+    }
+
+    public void Create() //crear 3 platos, y 2 tipos de tortas.
     {
         //lista de porciones de torta.
         //FindObjectOfType<Dish>().createdCake = new List<GameObject>();
