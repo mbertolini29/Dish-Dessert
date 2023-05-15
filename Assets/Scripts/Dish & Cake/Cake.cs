@@ -78,7 +78,7 @@ public class Cake : MonoBehaviour
         {
             //lanzas un numero random con posibilidad de que no salga torta.
             //int numCake = UnityEngine.Random.Range(-1, Enum.GetValues(typeof(TypeCake)).Length);
-            int numCake = UnityEngine.Random.Range(-1, Enum.GetValues(typeof(TypeCake)).Length);
+            int numCake = UnityEngine.Random.Range(-1, numCurrentCake);            
             return numCake;
         }
     }

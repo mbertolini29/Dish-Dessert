@@ -147,7 +147,6 @@ public class Dish : MonoBehaviour
         }
     }
 
-
     IEnumerator ScaleRotateDish(GameObject dish, Vector3 startingScale, Vector3 endingScale, float duration)
     {
         Vector3 rotation = transform.localEulerAngles;
@@ -184,7 +183,8 @@ public class Dish : MonoBehaviour
         return numScore;
     }
 
-    void DishConnection(int num)
+    //esto funcionaba, pero no active las conexiones de los platos todavía
+    void DishConnection(int num) 
     {
         connection = Instantiate(dishConection[num]);
         connection.transform.parent = this.gameObject.transform;
@@ -193,6 +193,7 @@ public class Dish : MonoBehaviour
         Destroy(connection.gameObject, 0.5f);
     }
 
+    //cuando haya 2 tipos de torta en cada plato, usaría esta funcion.
     //void CheckSeveralNeighbors(Dish neighborDish, GameObject neighbor)
     //{
     //    for (int i = 0; i < this.cakeItemList.Count; i++)
@@ -263,6 +264,7 @@ public class Dish : MonoBehaviour
                 CellRelease(previousSelect, neighborDish, previousSelect.gameObject, i);
             }
         }
+        //para encontrar mas de un tipo de torta.
         //else if (neighborDish.cakeItemList.Count == 1 && this.cakeItemList.Count >= 2)
         //{
         //    //Desde el seleccionado al vecino.
@@ -294,9 +296,10 @@ public class Dish : MonoBehaviour
                 //sonido de torta completa.
                 UIManager.instance.PlaySoundFullCake();
 
+                //una vez completo elimina el plato.
                 Destroy(movePiece.gameObject, 1f);
 
-                //estaría bueno que vibre el celular.
+                //Vibra el celular.
                 OnVibrate(110);
 
                 //movimiento de la estrella

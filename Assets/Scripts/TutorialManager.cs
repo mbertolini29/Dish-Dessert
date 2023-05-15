@@ -123,6 +123,10 @@ public class TutorialManager : MonoBehaviour
         else if (popUpIndex == 2)
         {
             tutorial = false;
+
+            //liberar todas las celdas.
+            Grid.instance.Releasecells();
+
             //change text
             tutorialText.text = "Now dishes may come with 2 types of dessert in one dish";
             DesactiveHandle();

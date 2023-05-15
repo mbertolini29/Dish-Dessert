@@ -69,6 +69,7 @@ public class Grid : MonoBehaviour
     }
 
     //llamar cada vez que instanciamos un plato en la grilla.
+    //para controlar si todos los lugares estan ocupado.
     public void CheckBusyCell() 
     {
         //esto funciona, pero deberia ser mejor,
