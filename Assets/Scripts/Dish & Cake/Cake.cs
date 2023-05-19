@@ -11,7 +11,11 @@ public class Cake : MonoBehaviour
     public GameObject fullPiece;
     public List<GameObject> piece; //lista de porciones del postre 
 
+    public int positionCount;
+    public bool[] positionBusy;
+
     [Header("Table 16")]
+    public Vector3[] posInicial;
     public Vector3[] posOriginal;
     public Vector3[] rotOriginal;
     public Quaternion[] quatOriginal;
@@ -46,7 +50,7 @@ public class Cake : MonoBehaviour
     private void Awake()
     {
         //aca deberia guardar la posicion y la scala.
-
+        positionBusy = new bool[positionCount];
     }
 
     private void Start()
@@ -100,12 +104,15 @@ public class Cake : MonoBehaviour
                 break;
             case 1:
                 pieceCount = UnityEngine.Random.Range(1, (int)AmountPiece.Donut);
+                //pieceCount = UnityEngine.Random.Range(1, (int)AmountPiece.Donut);
                 break;
             case 2:
-                pieceCount = UnityEngine.Random.Range(1, (int)AmountPiece.Cinnamon);
+                pieceCount = UnityEngine.Random.Range(1, (int)AmountPiece.Donut);
+                //pieceCount = UnityEngine.Random.Range(1, (int)AmountPiece.Cinnamon);
                 break;
             case 3:
-                pieceCount = UnityEngine.Random.Range(1, (int)AmountPiece.Apple);
+                pieceCount = UnityEngine.Random.Range(1, (int)AmountPiece.Donut);
+                //pieceCount = UnityEngine.Random.Range(1, (int)AmountPiece.Apple);
                 break;
         }
         return pieceCount;
@@ -121,9 +128,8 @@ public class Cake : MonoBehaviour
         DishSelect dish = FindObjectOfType<DishSelect>();
         dish.positionCount = cakeItem._pieceCount;
 
-        int num = dish.cakePrefab[cakeItem._numCake].piece.Count;
-
-        dish.positionBusy = new bool[num];
+        //int num = dish.cakePrefab[cakeItem._numCake].piece.Count;
+        //dish.positionBusy = new bool[num];
 
         //lista de porciones de torta.
         List<GameObject> createdCake = new List<GameObject>();
@@ -144,33 +150,27 @@ public class Cake : MonoBehaviour
 
     public void Create() //crear 3 platos, y 2 tipos de tortas.
     {
-        //lista de porciones de torta.
-        //FindObjectOfType<Dish>().createdCake = new List<GameObject>();
+        int amountDessert = 0;
+        int aux; //para guardar el num de torta que salio primero.
+        
+        /* primer tipo de torta */
 
         //item que tiene una torta.
-        cakeItem = new CakeItem();
-
-        cakeItem._numCake = NumCake();
-        cakeItem._pieceCount = PieceCount(cakeItem._numCake);
+        cakeItem = new CakeItem(); //nueva torta
+        cakeItem._numCake = aux = NumCake(); //num de torta
+        cakeItem._pieceCount = PieceCount(cakeItem._numCake); //cant de piezas por torta.
 
         DishSelect dish = FindObjectOfType<DishSelect>();
-        dish.positionCount = cakeItem._pieceCount;
-
-        int num = dish.cakePrefab[cakeItem._numCake].piece.Count;
-
-        dish.positionBusy = new bool[num];
 
         //lista de porciones de torta.
         List<GameObject> createdCake = new List<GameObject>();
         for (int i = 0; i < cakeItem._pieceCount; i++)
         {
             //instanciar porcion de torta del vecino al seleccionado.
-            createdCake.Add(InstantiateCakePiece(i, cakeItem._numCake));
+            createdCake.Add(InstantiateCakePiece(amountDessert, cakeItem._numCake));
 
+            //primer vuelta, esta bien, porque no hay nada ocupado, pero el problema es la siguiente porcion si sale
             dish.positionBusy[i] = true;
-            //FindObjectOfType<DishSelect>().positionBusy[i] = true;
-            //dish = FindObjectOfType<Dish>();
-            //dish.positionBusy[i] = true;
         }
 
         //guardas cada porcion de torta
@@ -178,7 +178,34 @@ public class Cake : MonoBehaviour
 
         //guardas la torta
         dish.cakeItemList.Add(cakeItem);
-        //FindObjectOfType<DishSelect>().cakeItemList.Add(cakeItem);
+
+        /* segunda tipo de torta */
+
+        amountDessert++;
+        cakeItem = new CakeItem(); //nueva torta
+        cakeItem._numCake = NumCake(); //num de torta
+        if (cakeItem._numCake != -1 && cakeItem._numCake != aux)
+        {
+            //cant de piezas por torta.
+            cakeItem._pieceCount = PieceCount(cakeItem._numCake);
+
+            //lsita de porciones de torta
+            createdCake = new List<GameObject>();
+            for (int i = aux; i < aux+cakeItem._pieceCount; i++)
+            {
+                //instanciar porcion de torta del vecino al seleccionado.
+                createdCake.Add(InstantiateCakePiece(amountDessert, cakeItem._numCake));
+
+                //primer vuelta, esta bien, porque no hay nada ocupado, pero el problema es la siguiente porcion si sale
+                dish.positionBusy[amountDessert] = true;
+            }
+
+            //guardas cada porcion de torta
+            cakeItem._allCake = createdCake;
+
+            //guardas la torta
+            dish.cakeItemList.Add(cakeItem);
+        }
     }
 
     public GameObject InstantiateCakePiece(int i, int numCake)
@@ -193,11 +220,11 @@ public class Cake : MonoBehaviour
         DishSelect dish = FindObjectOfType<DishSelect>();
 
         pieceCake.transform.SetParent(dish.gameObject.transform, false);
-
-        //pieceCake.transform.position = posOriginal[i];
-        //pieceCake.transform.position = new Vector3(dish.transform.position.x,
-        //                                           dish.transform.position.y,
-        //                                           dish.transform.position.z);
+        
+        pieceCake.transform.localPosition = FindObjectOfType<DishSelect>().cakePrefab[numCake].posInicial[i];
+        
+        Quaternion quat = Quaternion.Euler(dish.rotOriginal[i]);
+        pieceCake.transform.localRotation = quat;
 
         return pieceCake;
         //cakeItem._allCake.Add(pieceCake);

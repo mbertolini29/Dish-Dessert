@@ -53,6 +53,9 @@ MonoBehaviour:
   - {fileID: 8111693702548764548, guid: 69b5c27eef2b5f1459e65883b6afd9d3, type: 3}
   - {fileID: 1844851785515090823, guid: b44a14062d6b30841acc6f7aea86a568, type: 3}
   - {fileID: 3504878815665195418, guid: b9b2f96a9133cda4fb9f2314f60abfcc, type: 3}
+  positionCount: 6
+  positionBusy: 
+  posInicial: []
   posOriginal:
   - {x: 0.017, y: -0.059, z: -1.15}
   - {x: 0.026, y: -0.059, z: -1.15}
@@ -83,8 +86,4 @@ MonoBehaviour:
   - {x: -0.208, y: -0.357, z: -2}
   - {x: 0.235, y: -0.311, z: -2}
   scaleBottom: {x: 0.45, y: 0.45, z: 0.45}
-  cakeItem:
-    _allCake: []
-    _countCake: 0
-    _numCake: 0
-    _pieceCount: 0
+  cakeItem: {fileID: 0}

@@ -717,6 +717,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1503191014}
+  - {fileID: 2177690164490380778}
   m_Father: {fileID: 1844230469}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2227,6 +2228,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c40dcda85f90bc64aa0ccc6b5d317bce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  numLevel: 0
+  numCupcakes: 0
+  numDonut: 0
   score: 0
   highScore: 0
   gameOver: 0
@@ -2275,6 +2279,7 @@ MonoBehaviour:
   popUps: []
   popUpIndex: 0
   tutorial: 1
+  tutorialGame: 1
   numTutorial: 0
   tutorial1: 0
   tutorial2: 0
@@ -2286,6 +2291,11 @@ MonoBehaviour:
   hand: {fileID: 1447511599}
   animator: {fileID: 0}
   tutorialText: {fileID: 1503191015}
+  LevelText:
+  - Now dishes may come with 2 types of dessert in one dish
+  - 'Completed: 3 cupcakes and 3 donuts'
+  - Cinnamon roll is added
+  - Clear 5 different orders
 --- !u!1 &1436785899
 GameObject:
   m_ObjectHideFlags: 0
@@ -3703,6 +3713,87 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!33 &2177690164490380698
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2177690164490380751}
+  m_Mesh: {fileID: -7278241458972871928, guid: 4701c5c665e85b9409d9c4534609f4fd, type: 3}
+--- !u!1 &2177690164490380751
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2177690164490380778}
+  - component: {fileID: 2177690164490380698}
+  - component: {fileID: 2177690164490380791}
+  m_Layer: 5
+  m_Name: ImageCupcake
+  m_TagString: Cupcake
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2177690164490380778
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2177690164490380751}
+  m_LocalRotation: {x: 1, y: -0, z: -0, w: 0}
+  m_LocalPosition: {x: -0.03701, y: -0.1093, z: -14.5}
+  m_LocalScale: {x: 26.800827, y: 26.800827, z: 26.800827}
+  m_Children: []
+  m_Father: {fileID: 414973746}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 180, y: 0, z: 0}
+--- !u!23 &2177690164490380791
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2177690164490380751}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 54a16584630fcb249ab387ffdb3d2158, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &2306702871883258089
 GameObject:
   m_ObjectHideFlags: 0

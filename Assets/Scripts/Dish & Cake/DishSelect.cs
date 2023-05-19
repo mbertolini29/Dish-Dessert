@@ -13,8 +13,12 @@ public class DishSelect : MonoBehaviour
 
     //cada plato tiene 5 posiciones mixta,
     //si el plato solo tiene apple, cambia a 6, sino 4 o 2
-    public int positionCount = 5;
+    //
+    // 3 posiciones para iniciar el plato, xq mas no entran.
+    public int positionCount = 6; 
     public bool[] positionBusy;
+    public Vector3[] posOriginal;
+    public Vector3[] rotOriginal;
 
     [Header("Tipos de postres")]
     public Cake[] cakePrefab;
@@ -52,6 +56,8 @@ public class DishSelect : MonoBehaviour
         particle = GameObject.Find("Particle");
         particleWave = GameObject.Find("Wake");
         particleSmoke = GameObject.Find("Smoke");
+
+        positionBusy = new bool[positionCount];
     }
 
     //private void Update()
@@ -167,10 +173,13 @@ public class DishSelect : MonoBehaviour
 
         if (TutorialManager.instance.tutorial)
         {
-            if(currentCell.gameObject == TutorialManager.instance.targetCell1.gameObject)
+            if(currentCell != null)
             {
-                TutorialManager.instance.numTutorial++;
-                TutorialManager.instance.DesactiveHandle();
+                if(currentCell.gameObject == TutorialManager.instance.targetCell1.gameObject)
+                {
+                    TutorialManager.instance.numTutorial++;
+                    TutorialManager.instance.DesactiveHandle();
+                }
             }
         }
     }
@@ -238,11 +247,31 @@ public class DishSelect : MonoBehaviour
 
                                     //desactivar el tutorial..
 
+                                    if (this.cakeItemList.Count == 0 || neighborDish.cakeItemList.Count == 0)
+                                    {
+                                        // deberia salir..
+                                    }
 
-                                    //esto encuentra un vecino con un tipo de torta - 1 vs 1 
-                                    FindObjectOfType<Dish>().NeighborCheck(previousSelected, neighborDish, i, j);
+                                    //cant de piezas del objeto seleccionado y el vecino.
+                                    int aux = this.cakeItemList[i]._pieceCount + neighborDish.cakeItemList[j]._pieceCount;
 
-                                    //
+                                    if (this.cakeItemList.Count == 1 && neighborDish.cakeItemList.Count == 1)
+                                    {
+                                        //esto encuentra un vecino con un tipo de torta (1 vs 1)
+                                        //FindObjectOfType<Dish>().NeighborCheck(previousSelected, neighborDish, i, j);
+                                        FindObjectOfType<Dish>().NeighborCheck(previousSelected, neighborDish, aux, i, j);
+                                    }
+                                    else if (this.cakeItemList.Count == 1 && neighborDish.cakeItemList.Count >= 2)
+                                    {
+                                        //Del vecino al seleccionado.
+                                        FindObjectOfType<Dish>().NeighborCheck(previousSelected, neighborDish, aux, i, j);
+                                    }
+                                    else if (this.cakeItemList.Count >= 2 && neighborDish.cakeItemList.Count == 1)
+                                    {
+                                        //Del vecino al seleccionado.
+                                        FindObjectOfType<Dish>().NeighborCheck(neighborDish, previousSelected, aux, j, i);
+                                    }
+
                                     return obj.collider.gameObject;
                                 }
                             }

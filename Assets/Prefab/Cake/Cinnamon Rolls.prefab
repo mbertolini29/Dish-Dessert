@@ -51,6 +51,9 @@ MonoBehaviour:
   - {fileID: 8101163896696414891, guid: 98fca671277b7a5438272d05a6c17f42, type: 3}
   - {fileID: 7663824633961596255, guid: d7ca2543359755a429be36082df0f74c, type: 3}
   - {fileID: 2468480290513041441, guid: 3d1c2670d98300c47858d09db4cc457a, type: 3}
+  positionCount: 4
+  positionBusy: 
+  posInicial: []
   posOriginal:
   - {x: 0.51, y: 0.2, z: -0.729}
   - {x: -0.245, y: 0.419, z: -0.729}

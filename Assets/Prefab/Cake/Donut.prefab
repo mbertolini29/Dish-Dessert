@@ -50,14 +50,20 @@ MonoBehaviour:
   - {fileID: 1663968008180382935, guid: ecd89c14979f1a049887bcfd4884d03b, type: 3}
   - {fileID: 1306273215480441402, guid: f7072715d2f661f40bb2c83e5b54137b, type: 3}
   - {fileID: 347721769881537466, guid: e2bbd123a00424e4db4483080ec54c00, type: 3}
+  positionCount: 3
+  positionBusy: 
+  posInicial:
+  - {x: 0, y: 0, z: -0.833}
+  - {x: 0, y: 0.1, z: -0.833}
+  - {x: 0, y: 0, z: -0.833}
   posOriginal:
   - {x: 0.007, y: -0.077, z: -0.833}
-  - {x: -0.006, y: -0.047, z: -0.833}
-  - {x: -0.029, y: -0.077, z: -0.833}
+  - {x: 0, y: -0.038, z: -0.833}
+  - {x: 0.048, y: 0.06, z: -0.833}
   rotOriginal:
   - {x: 180, y: 0, z: -156}
-  - {x: 180, y: 0, z: 83.9}
-  - {x: 180, y: 0, z: -35.29}
+  - {x: 180, y: 0, z: 37.807}
+  - {x: 180, y: 0, z: -100.851}
   quatOriginal: []
   scaleOriginal: {x: 0.25, y: 0.25, z: 0.25}
   posBottom:
@@ -68,8 +74,4 @@ MonoBehaviour:
   - {x: -0.215, y: -0.41, z: -2}
   - {x: 0.245, y: -0.365, z: -2}
   scaleBottom: {x: 0.2, y: 0.2, z: 0.2}
-  cakeItem:
-    _allCake: []
-    _countCake: 0
-    _numCake: 0
-    _pieceCount: 0
+  cakeItem: {fileID: 0}

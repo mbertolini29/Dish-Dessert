@@ -187,8 +187,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   neighbors: []
-  positionCount: 5
+  positionCount: 6
   positionBusy: 
+  posOriginal:
+  - {x: 0, y: 0, z: -1.3}
+  - {x: -0.48, y: -0.18, z: -1.3}
+  - {x: 0.05, y: -0.03, z: -1.3}
+  rotOriginal:
+  - {x: -180, y: 0, z: -200}
+  - {x: 180, y: 0, z: 0}
+  - {x: 180, y: -0.14, z: -110}
   cakePrefab:
   - {fileID: 8576633777291455994, guid: 6feec338a66bb664db3e0ce8bd30e594, type: 3}
   - {fileID: 3801945460454351840, guid: 22b22367bdd4b2c42adbf0b797a33e78, type: 3}
@@ -202,10 +210,10 @@ MonoBehaviour:
   isSelected: 0
   isTouchingDish: 0
   onCell: 0
-  timer: 0
-  timeBetweenClicking: 1
-  canClick: 1
   currentCell: {fileID: 0}
   particle: {fileID: 0}
   particleWave: {fileID: 0}
   particleSmoke: {fileID: 0}
+  timer: 0
+  timeBetweenClicking: 1
+  canClick: 1

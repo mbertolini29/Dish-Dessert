@@ -12,6 +12,7 @@ public class TutorialManager : MonoBehaviour
 
     [Header("Tutorial")]
     public bool tutorial = true;
+    public bool tutorialGame = true; //para evitar el tutorial en el juego.
     public int numTutorial = 0;
     public bool tutorial1 = false;
     public bool tutorial2 = false;
@@ -28,6 +29,7 @@ public class TutorialManager : MonoBehaviour
     public GameObject hand;
     public Animator animator;
     public Text tutorialText; //Drag the dish and drop it in the shown place!
+    public string[] LevelText; //Drag the dish and drop it in the shown place!
 
     private void Awake()
     {
@@ -120,7 +122,7 @@ public class TutorialManager : MonoBehaviour
 
             StartCoroutine(TwoTutorial());
         }
-        else if (popUpIndex == 2)
+        else if (popUpIndex == 2 && tutorial)
         {
             tutorial = false;
 
@@ -129,6 +131,7 @@ public class TutorialManager : MonoBehaviour
 
             //change text
             tutorialText.text = "Now dishes may come with 2 types of dessert in one dish";
+
             DesactiveHandle();
         }
     }
@@ -157,5 +160,11 @@ public class TutorialManager : MonoBehaviour
 
         //activar la animacion.
         animator.SetBool("Handle 2", true);
+    }
+
+    public void ChangeTextLevel(int numLevel)
+    {
+        //change text
+        tutorialText.text = LevelText[numLevel];
     }
 }
