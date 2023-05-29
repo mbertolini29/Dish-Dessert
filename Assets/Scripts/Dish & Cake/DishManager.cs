@@ -62,12 +62,12 @@ public class DishManager : MonoBehaviour
         //tutorial
 
         //arrancar con 2 platos, y 2 cupcake.
-        CreateDishTutorial();
+        //CreateDishTutorial();
 
-        FindObjectOfType<TutorialManager>().LoadTutorial();
+        //FindObjectOfType<TutorialManager>().LoadTutorial();
 
         //tenes que instanciar 4 platos
-        //CreateDish();    
+        CreateDish();    
     }
 
     void CreateDishTutorial()

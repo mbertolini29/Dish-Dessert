@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
             numLevel = value;
 
             //llamar a tutorial, para cambiar el nombre y objetivo?
-            TutorialManager.instance.ChangeTextLevel(numLevel);
+            //TutorialManager.instance.ChangeTextLevel(numLevel);
         }
     }
 
@@ -72,6 +72,8 @@ public class GameManager : MonoBehaviour
     {
         //primero objetivo 
         //llegar a completar 3 cupcakes y 3 donas.
+        TutorialManager.instance.numText1.text = numCupcakes.ToString();
+        TutorialManager.instance.numText2.text = numDonut.ToString();
 
         //como almaceno eso? 
 

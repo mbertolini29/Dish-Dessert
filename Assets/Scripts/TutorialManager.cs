@@ -29,7 +29,13 @@ public class TutorialManager : MonoBehaviour
     public GameObject hand;
     public Animator animator;
     public Text tutorialText; //Drag the dish and drop it in the shown place!
+
+    [Header("Level Stage")]
     public string[] LevelText; //Drag the dish and drop it in the shown place!
+    public Text numText1;
+    public GameObject ImageDessert1;
+    public Text numText2;
+    public GameObject ImageDessert2;
 
     private void Awake()
     {
@@ -48,32 +54,32 @@ public class TutorialManager : MonoBehaviour
 
     private void Update()
     {
-        if(numTutorial == 0)
-        {
-            numTutorial++;
+        //if(numTutorial == 0)
+        //{
+        //    numTutorial++;
 
-            //desactivar la animacion.
-            animator.SetBool("Handle 1", false);
+        //    //desactivar la animacion.
+        //    animator.SetBool("Handle 1", false);
 
-            dish2 = GameObject.Find("Dish 2");
-            dish2.gameObject.GetComponent<CapsuleCollider>().enabled = false;
+        //    dish2 = GameObject.Find("Dish 2");
+        //    dish2.gameObject.GetComponent<CapsuleCollider>().enabled = false;
 
-            LoadTutorial();
+        //    LoadTutorial();
 
-            popUpIndex++;
-        }
-        else if(numTutorial == 2)
-        {
-            numTutorial++;
+        //    popUpIndex++;
+        //}
+        //else if(numTutorial == 2)
+        //{
+        //    numTutorial++;
 
-            //desactivar la animacion.
-            animator.SetBool("Handle 1", false);
-            animator.SetBool("Handle 2", false);
+        //    //desactivar la animacion.
+        //    animator.SetBool("Handle 1", false);
+        //    animator.SetBool("Handle 2", false);
 
-            LoadTutorial();
+        //    LoadTutorial();
 
-            popUpIndex++;
-        }
+        //    popUpIndex++;
+        //}
     }
 
     public void DesactiveHandle()
@@ -166,5 +172,27 @@ public class TutorialManager : MonoBehaviour
     {
         //change text
         tutorialText.text = LevelText[numLevel];
+
+        StartCoroutine(Gameplay());
+    }
+
+    IEnumerator Gameplay()
+    {
+        yield return new WaitForSeconds(1f);
+
+        tutorialText.enabled = false;
+
+        ImageDessert1.SetActive(true);
+        numText1.enabled = true;
+        numText1.text = GameManager.instance.numCupcakes.ToString();
+
+        ImageDessert2.SetActive(true);
+        numText2.enabled = true;
+        numText2.text = GameManager.instance.numDonut.ToString();
+    }
+
+    public void UpdateNumCake()
+    {
+
     }
 }

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1465250746486655655}
   m_Layer: 0
   m_Name: Cinnamon Rolls
-  m_TagString: Untagged
+  m_TagString: Cinnamon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,14 +44,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nameCake: Cinnamon Rolls
-  piecesCount: 4
-  fullPiece: {fileID: 0}
-  piece:
-  - {fileID: 5487196181261650995, guid: 900f7dfb244e7da4095e84eef2a11be5, type: 3}
-  - {fileID: 8101163896696414891, guid: 98fca671277b7a5438272d05a6c17f42, type: 3}
-  - {fileID: 7663824633961596255, guid: d7ca2543359755a429be36082df0f74c, type: 3}
-  - {fileID: 2468480290513041441, guid: 3d1c2670d98300c47858d09db4cc457a, type: 3}
-  positionCount: 4
+  piecesCount: 8
+  piece: {fileID: 8981771298115168007, guid: 763ee8eeb929ae54cae1b775992d4287, type: 3}
+  fullPiece: {fileID: 17629807234240487, guid: a08529d74bdecad47815c4cdf4ec9809, type: 3}
+  positionCount: 8
   positionBusy: 
   posInicial: []
   posOriginal:

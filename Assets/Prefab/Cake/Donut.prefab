@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3801945460454351840}
   m_Layer: 0
   m_Name: Donut
-  m_TagString: Untagged
+  m_TagString: Donut
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,13 +44,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nameCake: Donut
-  piecesCount: 3
+  piecesCount: 4
+  piece: {fileID: 7079990307609503417, guid: c97311bee2dd6364ab6d09f90ee80ab3, type: 3}
   fullPiece: {fileID: 6653933477329817325, guid: 71316598315d4fe43b82c4a9cfcf4d51, type: 3}
-  piece:
-  - {fileID: 1663968008180382935, guid: ecd89c14979f1a049887bcfd4884d03b, type: 3}
-  - {fileID: 1306273215480441402, guid: f7072715d2f661f40bb2c83e5b54137b, type: 3}
-  - {fileID: 347721769881537466, guid: e2bbd123a00424e4db4483080ec54c00, type: 3}
-  positionCount: 3
+  positionCount: 4
   positionBusy: 
   posInicial:
   - {x: 0, y: 0, z: -0.833}

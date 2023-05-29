@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5017457782943279557}
   m_Layer: 0
   m_Name: Apple Pie
-  m_TagString: Untagged
+  m_TagString: Apple
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,15 +44,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nameCake: Apple Pie
-  piecesCount: 6
+  piecesCount: 8
+  piece: {fileID: 0}
   fullPiece: {fileID: 5707265763282630156, guid: a18ade85e7efeb84185d846f20469ad0, type: 3}
-  piece:
-  - {fileID: 387626176042906134, guid: cc89abf467900f54c9156d4a1f275d3d, type: 3}
-  - {fileID: 7430584863085554698, guid: f0a68015889ee684a913954c21aed422, type: 3}
-  - {fileID: 4992235455482522388, guid: a259dd29f2ac99d4d883d8aa236db927, type: 3}
-  - {fileID: 8111693702548764548, guid: 69b5c27eef2b5f1459e65883b6afd9d3, type: 3}
-  - {fileID: 1844851785515090823, guid: b44a14062d6b30841acc6f7aea86a568, type: 3}
-  - {fileID: 3504878815665195418, guid: b9b2f96a9133cda4fb9f2314f60abfcc, type: 3}
   positionCount: 6
   positionBusy: 
   posInicial: []

@@ -15,7 +15,8 @@ public class DishSelect : MonoBehaviour
     //si el plato solo tiene apple, cambia a 6, sino 4 o 2
     //
     // 3 posiciones para iniciar el plato, xq mas no entran.
-    public int positionCount = 6; 
+    public GameObject[] posRotPiece;
+    public int positionCount = 8; 
     public bool[] positionBusy;
     public Vector3[] posOriginal;
     public Vector3[] rotOriginal;
@@ -58,6 +59,8 @@ public class DishSelect : MonoBehaviour
         particleSmoke = GameObject.Find("Smoke");
 
         positionBusy = new bool[positionCount];
+        
+
     }
 
     //private void Update()
@@ -79,7 +82,10 @@ public class DishSelect : MonoBehaviour
 
         UIManager.instance.PlaySoundDish();
 
-        OnVibrate(55);
+        if (!onCell)
+        {
+            OnVibrate(55);
+        }
     }
 
     public void OnVibrate(int num)
@@ -151,7 +157,7 @@ public class DishSelect : MonoBehaviour
             //desactivar tutorial.
             if (TutorialManager.instance.ReturnNumTutorial() == 2)
             {
-                TutorialManager.instance.LoadTutorial();
+                //TutorialManager.instance.LoadTutorial();
             }
 
             //Una vez que ocupa la celda. Busca si las porciones de tortas coinciden.
@@ -173,14 +179,14 @@ public class DishSelect : MonoBehaviour
 
         if (TutorialManager.instance.tutorial)
         {
-            if(currentCell != null)
-            {
-                if(currentCell.gameObject == TutorialManager.instance.targetCell1.gameObject)
-                {
-                    TutorialManager.instance.numTutorial++;
-                    TutorialManager.instance.DesactiveHandle();
-                }
-            }
+            //if(currentCell != null)
+            //{
+            //    if(currentCell.gameObject == TutorialManager.instance.targetCell1.gameObject)
+            //    {
+            //        TutorialManager.instance.numTutorial++;
+            //        TutorialManager.instance.DesactiveHandle();
+            //    }
+            //}
         }
     }
 

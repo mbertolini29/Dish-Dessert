@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8576633777291455994}
   m_Layer: 0
   m_Name: Cupcake
-  m_TagString: Untagged
+  m_TagString: Cupcake
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -45,10 +45,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameCake: Cupcake
   piecesCount: 2
-  fullPiece: {fileID: 0}
-  piece:
-  - {fileID: 6696454155349287096, guid: 35549b34a690e9e499f63cce68a6dd54, type: 3}
-  - {fileID: 6696454155349287096, guid: 35549b34a690e9e499f63cce68a6dd54, type: 3}
+  piece: {fileID: 3609799829752325679, guid: f01bdbdbb15e8f14895e7018255ce15f, type: 3}
+  fullPiece: {fileID: 6696454155349287096, guid: 35549b34a690e9e499f63cce68a6dd54, type: 3}
   positionCount: 2
   positionBusy: 
   posInicial:

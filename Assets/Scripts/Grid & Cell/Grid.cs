@@ -55,7 +55,7 @@ public class Grid : MonoBehaviour
         //cell.posCell = transform.position;
 
         //inician todas las celdas ocupadas.
-        cell.isBusy = true;
+        //cell.isBusy = true;
 
         cell.name = string.Format("Dish[{0}][{1}]", x, y);
     }
