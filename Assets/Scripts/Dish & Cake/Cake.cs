@@ -98,6 +98,7 @@ public class Cake : MonoBehaviour
         switch (numCake)
         {
             case 0:
+                //name = "Cupcake";
                 pieceCount = UnityEngine.Random.Range(1, (int)AmountPiece.Cupcake);
                 break;
             case 1:

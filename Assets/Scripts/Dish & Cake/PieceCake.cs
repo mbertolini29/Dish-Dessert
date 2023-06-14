@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum NameCake
+{
+    Cupcake, Donut, Cinnamon
+}
+
 public enum TypeCake
 {
     //Cupcake = 2, Donut = 3, Cinnamon = 4, Bagel = 5, Apple = 6/*, Rainbow = 7*/

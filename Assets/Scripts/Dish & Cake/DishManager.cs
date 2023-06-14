@@ -115,10 +115,8 @@ public class DishManager : MonoBehaviour
             //instancias cada plato
             DishSelect dish = Instantiate<DishSelect>(dishPrefab);
 
-
             //sonido de intanciar los platos en la mesa.
             UIManager.instance.PlaySoundInstance();
-
 
             //animacion de entrada del plato.
             StartCoroutine(MoveDish(dish.gameObject,
