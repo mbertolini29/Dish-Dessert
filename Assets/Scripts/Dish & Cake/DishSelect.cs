@@ -295,15 +295,15 @@ public class DishSelect : MonoBehaviour
                 neighbors = GetAllNeighbors();
                 //si hay mas de un vecino. hace lo mismo.
                 sameNeighbors = CheckMoreOneEqualNeighbor(neighbors);
-                if (sameNeighbors != null && sameNeighbors.Count > 1)
-                {
-                    CheckNeighborMoreDessert(sameNeighbors);
-                }
-                else //chequea si hay algun vecino..
-                {
-                    //antes de moverlo, tengo que acomodarlo en el plato.
-                    StartCoroutine(WaitMoveDessert());
-                }
+                //if (sameNeighbors != null && sameNeighbors.Count > 1)
+                //{
+                //    CheckNeighborMoreDessert(sameNeighbors);
+                //}
+                //else //chequea si hay algun vecino..
+                //{
+                //    //antes de moverlo, tengo que acomodarlo en el plato.
+                //    StartCoroutine(WaitMoveDessert());
+                //}
             }
             else //si hay menos de 1 vecino, hace esto.
             {

@@ -121,7 +121,7 @@ public class DishManager : MonoBehaviour
             //animacion de entrada del plato.
             StartCoroutine(MoveDish(dish.gameObject,
                                     dish.gameObject.transform.position,
-                                    posDishes[i].position,
+                                    posDishes[i].localPosition,
                                     0.5f));
 
             //sonido.            
@@ -132,7 +132,7 @@ public class DishManager : MonoBehaviour
             //posicion del plato
             //dish.transform.position = posDishes[i].position;
             //dish.posInicial = dish.transform.position;
-            dish.posInicial = posDishes[i].position; 
+            dish.posInicial = posDishes[i].localPosition; 
 
             //
             //dish.CreatedCake();

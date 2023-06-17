@@ -10,7 +10,8 @@ public class Cake : MonoBehaviour
     public int piecesCount;
     public GameObject piece;
     public GameObject fullPiece;
-
+    public Vector3 rotation;
+    
     //public List<GameObject> listPiece; //lista de porciones del postre 
 
     public int positionCount;

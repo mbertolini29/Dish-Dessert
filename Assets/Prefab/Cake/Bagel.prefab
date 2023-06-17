@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3801945460454351841}
   - component: {fileID: 3801945460454351840}
   m_Layer: 0
-  m_Name: Donut
+  m_Name: Bagel
   m_TagString: Donut
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,10 +43,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ede45f712477d841bb83ca53a937c04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameCake: Donut
+  nameCake: Bagel
   piecesCount: 4
-  piece: {fileID: 7079990307609503417, guid: c97311bee2dd6364ab6d09f90ee80ab3, type: 3}
-  fullPiece: {fileID: 6653933477329817325, guid: 71316598315d4fe43b82c4a9cfcf4d51, type: 3}
+  piece: {fileID: 80129547861065814, guid: 801dc933785633948af18d77190712c2, type: 3}
+  fullPiece: {fileID: 470585121258812526, guid: 2635afa7768bbba4b8382a2cf4536d19, type: 3}
+  rotation: {x: -45, y: -90, z: 90}
   positionCount: 4
   positionBusy: 
   posInicial:
@@ -59,8 +60,6 @@ MonoBehaviour:
   - {x: 0.048, y: 0.06, z: -0.833}
   rotOriginal:
   - {x: 180, y: 0, z: -156}
-  - {x: 180, y: 0, z: 37.807}
-  - {x: 180, y: 0, z: -100.851}
   quatOriginal: []
   scaleOriginal: {x: 0.25, y: 0.25, z: 0.25}
   posBottom:

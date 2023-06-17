@@ -560,6 +560,7 @@ public class Dish : MonoBehaviour
         piece.transform.localPosition = Vector3.zero;
         //neighborDish.transform.localRotation = Quaternion.Euler(Vector3.zero);
 
+
     }
 
     IEnumerator RotateObject(GameObject gameObjectToMove, Quaternion currentRot, Quaternion newRot, float duration)
@@ -574,7 +575,7 @@ public class Dish : MonoBehaviour
             yield return null;
         }
 
-        gameObjectToMove.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        //gameObjectToMove.transform.localRotation = Quaternion.Euler(Vector3.zero);
     }
 
     void MovePiece(DishSelect previousSelect, DishSelect neighborDish, int aux, int i, int j)
@@ -637,11 +638,16 @@ public class Dish : MonoBehaviour
                                               Vector3.zero,
                                               0.35f));
 
-                    //tengo que poner la rotacion de Z en cero
+                    //if(numTorta == 2)
+                    //{
+                    //    neighborPiece.transform.localPosition = new Vector3(0f, 0f, 0.4f);
+                    //}
+
+                    //rotacion.
                     Quaternion quat1 = neighborPiece.transform.localRotation;
 
-                    Vector3 rot2 = new Vector3(neighborPiece.transform.localRotation.z, 0, 0); //creo que solo z
-                    Quaternion quat2 = Quaternion.Euler(rot2);
+                    int numTorta = NumSameNeighbor(namePiece);
+                    Quaternion quat2 = Quaternion.Euler(neighborDish.cakePrefab[numTorta].rotation);
 
                     StartCoroutine(RotateObject(neighborPiece, quat1, quat2, 0.5f));
 
@@ -799,10 +805,21 @@ public class Dish : MonoBehaviour
                                               0.35f));
 
                     //tengo que poner la rotacion de Z en cero
+                    //Quaternion quat1 = neighborPiece.transform.localRotation
+
+                    //Vector3 rot2 = new Vector3(neighborPiece.transform.localRotation.z, 0, 0); //creo que solo z
+                    //Quaternion quat2 = Quaternion.Euler(rot2);
+
+                    //if (numTorta == 2)
+                    //{
+                    //    neighborPiece.transform.localPosition = new Vector3(0f, 0f, 0.4f);
+                    //}
+
+                    //rotacion.
                     Quaternion quat1 = neighborPiece.transform.localRotation;
 
-                    Vector3 rot2 = new Vector3(neighborPiece.transform.localRotation.z, 0, 0); //creo que solo z
-                    Quaternion quat2 = Quaternion.Euler(rot2);
+                    int numTorta = NumSameNeighbor(namePiece);
+                    Quaternion quat2 = Quaternion.Euler(destroyPiece.cakePrefab[numTorta].rotation);
 
                     StartCoroutine(RotateObject(neighborPiece, quat1, quat2, 0.5f));
                 }

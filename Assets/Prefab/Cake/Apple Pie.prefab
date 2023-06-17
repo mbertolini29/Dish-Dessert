@@ -45,8 +45,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameCake: Apple Pie
   piecesCount: 8
-  piece: {fileID: 0}
-  fullPiece: {fileID: 5707265763282630156, guid: a18ade85e7efeb84185d846f20469ad0, type: 3}
+  piece: {fileID: 7819182668842652988, guid: 87f9eec65215e984f84aee5df5fe4cc9, type: 3}
+  fullPiece: {fileID: 675448230802370687, guid: 05061484a3f191941b360d9da8c64e21, type: 3}
+  rotation: {x: -90, y: 0, z: 0}
   positionCount: 6
   positionBusy: 
   posInicial: []

@@ -45,8 +45,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameCake: Cupcake
   piecesCount: 2
-  piece: {fileID: 3609799829752325679, guid: f01bdbdbb15e8f14895e7018255ce15f, type: 3}
-  fullPiece: {fileID: 6696454155349287096, guid: 35549b34a690e9e499f63cce68a6dd54, type: 3}
+  piece: {fileID: 4982021221787371461, guid: 3e069695402bf0e46a1dc1f46b870107, type: 3}
+  fullPiece: {fileID: 2566088066514356855, guid: 0712926898966bb459d6d8f0d22311de, type: 3}
+  rotation: {x: -90, y: 0, z: 0}
   positionCount: 2
   positionBusy: 
   posInicial:
